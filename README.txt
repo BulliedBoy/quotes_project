@@ -1,1 +1,1 @@
-Léeme, kudasai.
+Proyecto de cotizaciones para PayDay
