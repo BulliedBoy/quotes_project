@@ -13,4 +13,12 @@
     <None Remove="wwwroot\NewFolder\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Models\Interface.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Login.aspx" />
+  </ItemGroup>
+
 </Project>
