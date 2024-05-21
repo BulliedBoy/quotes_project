@@ -8,15 +8,73 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.input:focus{
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #0072ff;
+    color:#000000;
+}
+
+.form-check-input:focus {
+    border: 0.25rem #0072ff;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    --color-error: #ff0000;
+    --color-primary: #009579;
+    --color-success: #009579;
+    --margin-bottom: 60px;
+    --border-radius: 4px;
+    margin: 0;
+    font-size: 18px;
+    background-color: #d6dce4
+}
+.form-input-group {
+    margin-bottom:10px;
+}
+.input-username{
+    margin-bottom: 15px;
+}
+.input-password{
+    margin-bottom: 15px;
+}
+.form-check-remember {
+    margin-bottom:2rem;
+}
+.form-message-error {
+    top:3px;
+    bottom:7px;
+    color: var(--color-error)
+}
+.center {
+    width: 350px;
+    max-width: 350px;
+    position: relative;
+    left: 47%;
+    top: 80px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 20px;
+    margin-left: -137px;
+    background: #ffffff7b;
+    border-radius: 5px;
+}
+.btn-primary {
+    width: 100%;
+    padding: 1rem 2rem;
+    font-weight: bold;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #0d6efd;
+}
+.btn-primary:hover {
+    background: #000dff;
 }
