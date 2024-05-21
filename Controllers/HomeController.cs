@@ -22,7 +22,6 @@ namespace quotes_project.Controllers
             return View();
         }
 
-
         // Acción para la página Main
         public IActionResult Main()
         {

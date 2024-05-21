@@ -7,9 +7,24 @@ namespace quotes_project.Controllers
         // Método para validar el usuario y contraseña
         private bool ValidateUser(string username, string password)
         {
-            // Ejemplo de validación estática; reemplazar con lógica real
-            return username == "admin" && password == "admin";
+            // Reemplazar con la lógica real para validar las credenciales contra una lista de usuarios almacenada en algún lugar (base de datos, archivo, etc.)
+            return Users.Any(u => u.Username == username && u.Password == password);
         }
+
+        // Clase de ejemplo para representar un usuario
+        public class User
+        {
+            public string Username { get; set; }
+            public string Password { get; set; }
+        }
+
+        // Lista de usuarios (esto es solo un ejemplo, en la práctica deberías obtener los usuarios de una fuente de datos externa)
+        private List<User> Users = new List<User>
+        {
+            new User { Username = "admin", Password = "admin" },
+            new User { Username = "user1", Password = "password1" },
+            new User { Username = "user2", Password = "password2" }
+        };
 
         // Acción para manejar el POST del formulario de inicio de sesión
         [HttpPost]
@@ -17,14 +32,15 @@ namespace quotes_project.Controllers
         {
             if (ValidateUser(username, password))
             {
-                // Si la validación es correcta, redirige a la página Main
+                // Establecer la sesión cuando el usuario inicie sesión exitosamente
+                HttpContext.Session.SetString("IsAuthenticated", "true");
                 return RedirectToAction("Main", "Home");
             }
             else
             {
                 // Si la validación falla, establece un mensaje de error
                 TempData["ErrorMessage"] = "Usuario o contraseña incorrectos.";
-                // Redirige a la acción Index del controlador Home
+                // Redirige a la acción Login del controlador Account
                 return RedirectToAction("Index", "Home");
             }
         }
@@ -34,6 +50,15 @@ namespace quotes_project.Controllers
         public IActionResult Login()
         {
             return View();
+        }
+
+        // Acción para manejar el cierre de sesión
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            // Limpiar la sesión
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
