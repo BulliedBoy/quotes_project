@@ -1,15 +1,20 @@
 ﻿@{
-    ViewData["Title"] = "Welcome";
+    ViewData["Title"] = "Log In";
 }
 
 <div class="text-center">
-    <h1 class="display-4" style="padding-top: 335px;">Cotizaciones PayDay</h1>
+    <h1 class="display-4" style="padding-top: 65px;">Cotizaciones PayDay</h1>
 </div>
 
-<!--
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
 
-    <form class="center" id="login" asp-controller="Account" asp-action="Login" method="post">
-    <h1 class="form-title">Inicio de Sesión</h1>
+<form class="center" id="login" asp-controller="Account" asp-action="Login" method="post">
+    <h1 class="form-title" style="text-align:center">Inicio de Sesión</h1>
     <div class="form-input-group">
         <div class="input input-username">
             <input type="text" class="form-control" id="InputUser" autofocus placeholder="Usuario" name="username">
@@ -20,5 +25,3 @@
     </div>
     <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
 </form>
-
--->
