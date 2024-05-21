@@ -18,6 +18,12 @@ namespace quotes_project.Controllers
             return View();
         }
 
+        // Acción para la página Main
+        public IActionResult Main()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

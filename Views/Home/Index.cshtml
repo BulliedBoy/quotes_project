@@ -6,25 +6,19 @@
     <h1 class="display-4">Cotizaciones PayDay</h1>
 </div>
 
-<form class="center" id="login">
+<form asp-action="Login" method="post" class="center" id="login">
     <h1 class="form-title">Inicio de Sesión</h1>
-    <div class="form-message-error">Usuario/Contraseña incorrecto.</div>
+    @if (ViewData["ErrorMessage"] != null)
+    {
+        <div class="form-message-error">@ViewData["ErrorMessage"]</div>
+    }
     <div class="form-input-group">
-        <div class="input input-username"> 
-            <input type="text" class="form-control" id="InputUser" autofocus placeholder="Usuario">
+        <div class="input input-username">
+            <input type="text" class="form-control" name="username" id="InputUser" autofocus placeholder="Usuario" required>
         </div>
         <div class="input input-password">
-            <input type="password" class="form-control" id="InputPassword" placeholder="Contraseña">
-        </div>
-        <div class="form-check-remember">
-            <input type="checkbox" class="form-check-input" id="RememberUser">
-                <label class="form-check-label" for="RememberUser">No cerrar sesión</label>
+            <input type="password" class="form-control" name="password" id="InputPassword" placeholder="Contraseña" required>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary" onclick="Main.cshtml">Iniciar Sesión</button>
+    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
 </form>
-
-
-
-
-
