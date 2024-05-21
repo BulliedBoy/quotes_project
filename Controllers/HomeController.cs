@@ -28,6 +28,11 @@ namespace quotes_project.Controllers
             return View();
         }
 
+        public IActionResult Cotizaciones()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
