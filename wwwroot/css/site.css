@@ -9,7 +9,7 @@ html {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #0072ff;
 }
 
 html {
@@ -18,5 +18,35 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    --color-primary: #009579;
+    --color-success:#009579;
+    --margin-bottom: 60px;
+    --border-radius:4px;
+
+    margin:0;
+    font-size:18px;
+    background-color:#e5f2ff
+
+}
+.form-message-error {
+    top:3px;
+    bottom:5px;
+    color: #ff0000;
+}
+.center {
+    width: 350px;
+    max-width: 350px;
+    position: relative;
+    left: 47%;
+    top: 80px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 20px;
+    margin-left: -137px;
+    background: #ffffff7b;
+    border-radius: 5px;
 }
