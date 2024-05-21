@@ -1,23 +1,26 @@
 ﻿@{
-    ViewData["Title"] = "Login Page";
+    ViewData["Title"] = "Log In";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Cotizaciones PayDay</h1>
+    <h1 class="display-4" style="border-top-width: 0px;border-top-style: solid;margin-top: 80px;">Cotizaciones PayDay</h1>
 </div>
 
-<form asp-action="Login" method="post" class="center" id="login">
-    <h1 class="form-title">Inicio de Sesión</h1>
-    @if (ViewData["ErrorMessage"] != null)
-    {
-        <div class="form-message-error">@ViewData["ErrorMessage"]</div>
-    }
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+<form class="center" id="login" asp-controller="Account" asp-action="Login" method="post">
+    <h1 class="form-title" style="text-align:center">Inicio de Sesión</h1>
     <div class="form-input-group">
         <div class="input input-username">
-            <input type="text" class="form-control" name="username" id="InputUser" autofocus placeholder="Usuario" required>
+            <input type="text" class="form-control" id="InputUser" autofocus placeholder="Usuario" name="username">
         </div>
         <div class="input input-password">
-            <input type="password" class="form-control" name="password" id="InputPassword" placeholder="Contraseña" required>
+            <input type="password" class="form-control" id="InputPassword" placeholder="Contraseña" name="password">
         </div>
     </div>
     <button type="submit" class="btn btn-primary">Iniciar Sesión</button>

@@ -8,7 +8,7 @@ namespace quotes_project.Controllers
         private bool ValidateUser(string username, string password)
         {
             // Ejemplo de validación estática; reemplazar con lógica real
-            return username == "admin" && password == "password";
+            return username == "admin" && password == "admin";
         }
 
         // Acción para manejar el POST del formulario de inicio de sesión
@@ -22,9 +22,10 @@ namespace quotes_project.Controllers
             }
             else
             {
-                // Si la validación falla, muestra un mensaje de error
-                ViewData["ErrorMessage"] = "Usuario/Contraseña incorrecto.";
-                return View();
+                // Si la validación falla, establece un mensaje de error
+                TempData["ErrorMessage"] = "Usuario o contraseña incorrectos.";
+                // Redirige a la acción Index del controlador Home
+                return RedirectToAction("Index", "Home");
             }
         }
 

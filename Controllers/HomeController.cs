@@ -15,8 +15,13 @@ namespace quotes_project.Controllers
 
         public IActionResult Index()
         {
+            if (TempData["ErrorMessage"] != null)
+            {
+                ViewBag.ErrorMessage = TempData["ErrorMessage"];
+            }
             return View();
         }
+
 
         // Acción para la página Main
         public IActionResult Main()
