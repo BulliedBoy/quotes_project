@@ -33,7 +33,7 @@ namespace quotes_project.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Nuevo()
         {
             return View();
         }
