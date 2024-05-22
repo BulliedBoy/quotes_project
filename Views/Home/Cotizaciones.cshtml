@@ -1,102 +1,17 @@
-﻿@{
+﻿@page
+@model quotes_project.Views.Cotizaciones.CotizacionesModel
+@{
     ViewData["Title"] = "Cotizaciones";
 }
+<h1>Cotizaciones</h1>
 
-<!--<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/assets/logo_payday.png" alt="PayDay" width="35 rem" /></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
- </header> -->
-
-<div class="box box-primary">
-	<div class="box-header with-border">
-		<h3 class="box-title">Lista de Cotizaciones creadas</h3>
-
-	</div>
-
-	<!-- /.box-header -->
-	<!-- form start -->
-
-	<div class="box-body">
-		<table class="table table-striped" style="">
-			<thead>
-				<tr class="gridheader">
-					<th>No.Cotizacion</th>
-					<th>Código</th>
-					<th>Cliente</th>
-					<th>Tipo</th>
-					<th>Usuario</th>
-					<th>Bruto</th>
-					<th>Fecha</th>
-					<th> </th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>11613</td>
-					<td>1534</td>
-					<td>BWSC Panama S.A.</td>
-					<td>Remoto</td>
-					<td>Jose</td>
-					<td>B/.1,500.00</td>
-					<td>22/05/2024</td>
-					<td class="text-center"><a href="EditarRepVisita.rv?nvisita=11613" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"></i><span class="d-none d-ms-inline"> Editar</span></a> <a href="EnviarEmail.rv?nvisita=11613" class="btn btn-success btn-sm"><i class="fa fa-envelope-o"></i><span class="d-none d-ms-inline"> Email</span></a> <a href="VerPDF.rv?nvisita=11613" class="btn btn-info btn-sm"><i class="fa fa-file-pdf-o"></i> <span class="d-none d-ms-inline">PDF</span></a></td>
-				</tr>
-				<tr class="gridalternate">
-					<td>11612</td>
-					<td>11673</td>
-					<td>TODO A DOLLAR</td>
-					<td>Remoto</td>
-					<td>Daniel</td>
-					<td>B/.315.00</td>
-					<td>21/05/2024</td>
-					<td class="text-center"><a href="EditarRepVisita.rv?nvisita=11612" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"></i><span class="d-none d-ms-inline"> Editar</span></a> <a href="EnviarEmail.rv?nvisita=11612" class="btn btn-success btn-sm"><i class="fa fa-envelope-o"></i><span class="d-none d-ms-inline"> Email</span></a> <a href="VerPDF.rv?nvisita=11612" class="btn btn-info btn-sm"><i class="fa fa-file-pdf-o"></i> <span class="d-none d-ms-inline">PDF</span></a></td>
-				</tr>
-				<tr>
-					<td>11611</td>
-					<td>3502</td>
-					<td>CERRO PUNTA</td>
-					<td>Remoto</td>
-					<td>Rainier</td>
-					<td>B/.595.00</td>
-					<td>21/05/2024</td>
-					<td class="text-center"><a href="EditarRepVisita.rv?nvisita=11611" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"></i><span class="d-none d-ms-inline"> Editar</span></a> <a href="EnviarEmail.rv?nvisita=11611" class="btn btn-success btn-sm"><i class="fa fa-envelope-o"></i><span class="d-none d-ms-inline"> Email</span></a> <a href="VerPDF.rv?nvisita=11611" class="btn btn-info btn-sm"><i class="fa fa-file-pdf-o"></i> <span class="d-none d-ms-inline">PDF</span></a></td>
-				</tr>
-				<tr class="gridalternate">
-					<td>11610</td>
-					<td>3815</td>
-					<td>CLINICAS MINIMED</td>
-					<td>Remoto</td>
-					<td>Lourin</td>
-					<td>B/.2,650.00</td>
-					<td>21/05/2024</td>
-					<td class="text-center"><a href="EditarRepVisita.rv?nvisita=11610" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"></i><span class="d-none d-ms-inline"> Editar</span></a> <a href="EnviarEmail.rv?nvisita=11610" class="btn btn-success btn-sm"><i class="fa fa-envelope-o"></i><span class="d-none d-ms-inline"> Email</span></a> <a href="VerPDF.rv?nvisita=11610" class="btn btn-info btn-sm"><i class="fa fa-file-pdf-o"></i> <span class="d-none d-ms-inline">PDF</span></a></td>
-				</tr>
-			</tbody>
-		</table>
-		<nav id="_CtrlPager">
-			<ul class="pagination">
-				<li class="active page-item"><a class="page-link" href="javascript:{}">1</a></li>
-			</ul>
-		</nav>
-		<input type="hidden" name="_Pager" id="_Pager" value="1">
-
-	</div>
-
+<div>
+    @if (ViewData["HtmlTable"] != null)
+    {
+        @Html.Raw(ViewData["HtmlTable"])
+    }
+    else
+    {
+        <p>No data available to display.</p>
+    }
 </div>

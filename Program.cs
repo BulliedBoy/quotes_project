@@ -37,4 +37,8 @@ app.MapControllerRoute(
     name: "account",
     pattern: "{controller=Account}/{action=Login}/{id?}");
 
+app.MapControllerRoute(
+    name: "Cotizaciones",
+    pattern: "{controller=Home}/{action=Cotizaciones}/{id?}");
+
 app.Run();
