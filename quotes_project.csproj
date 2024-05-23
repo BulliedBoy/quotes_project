@@ -22,6 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Views\Home\Data\Cotizaciones_SQL.xlsx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.102.2" />
     <PackageReference Include="CsvHelper" Version="32.0.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
