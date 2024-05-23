@@ -1,86 +1,63 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ClosedXML.Excel;
-using System;
 using System.Data;
 using System.Text;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System.Diagnostics; // Para depuración
 
-namespace quotes_project.Views.Cotizaciones
+namespace quotes_project.Pages.Cotizaciones
 {
     public class CotizacionesModel : PageModel
     {
+        public string HtmlTable { get; set; } = string.Empty;
+
         public void OnGet()
         {
-            Console.WriteLine("OnGet method called"); // Línea de depuración
-            try
-            {
-                // Ruta al archivo Excel
-                var xlPath = "E:\\Source\\Cotizaciones_SQL.xlsx";
-                Console.WriteLine($"Leyendo archivo Excel en: {xlPath}");
-                var xlQuotes = new ExcelQuotes();
-                var dataTable = xlQuotes.ReadExcel(xlPath);
+            string connectionString = "YourConnectionStringHere"; // Actualiza con tu cadena de conexión
+            string query = "SELECT * FROM YourTableNameHere"; // Actualiza con tu consulta
 
-                var htmlTableGenerator = new HtmlTableGenerator();
-                var htmlTable = htmlTableGenerator.GenerateHtmlTable(dataTable);
+            SqlReader sqlReader = new SqlReader();
+            DataTable dataTable = sqlReader.ReadFromDatabase(connectionString, query);
 
-                // Asignar la tabla HTML a ViewData
-                ViewData["HtmlTable"] = htmlTable;
+            HTMLQuoteTable htmlQuoteTable = new HTMLQuoteTable();
+            HtmlTable = htmlQuoteTable.GenerateHTMLTable(dataTable);
 
-                // Depuración: imprimir el HTML generado
-                Console.WriteLine("HTML Table Generated:");
-                Console.WriteLine(htmlTable);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error: " + ex.Message); // Para depuración
-                Console.WriteLine("Stack Trace: " + ex.StackTrace); // Más detalles
-                ViewData["HtmlTable"] = "<p>Error generating table.</p>";
-            }
+            // Imprimir para depuración
+            Debug.WriteLine(HtmlTable);
         }
-
     }
 
-    public class ExcelQuotes
+    public class SqlReader
     {
-        public DataTable ReadExcel(string filePath)
+        public DataTable ReadFromDatabase(string connectionString, string query)
         {
-            using (var workbook = new XLWorkbook(filePath))
+            var dataTable = new DataTable();
+            using (var connection = new SqlConnection(connectionString))
             {
-                var worksheet = workbook.Worksheet(1);
-                var dataTable = new DataTable();
-
-                // Añadir columnas al DataTable
-                foreach (var headerCell in worksheet.Row(1).Cells())
+                using (var command = new SqlCommand(query, connection))
                 {
-                    dataTable.Columns.Add(headerCell.Value.ToString());
-                }
-
-                // Añadir filas al DataTable
-                foreach (var row in worksheet.RowsUsed().Skip(1)) // Omitir fila de títulos
-                {
-                    var dataRow = dataTable.NewRow();
-                    int i = 0;
-                    foreach (var cell in row.Cells())
+                    connection.Open();
+                    using (var reader = command.ExecuteReader())
                     {
-                        dataRow[i++] = cell.Value.ToString();
+                        dataTable.Load(reader);
                     }
-                    dataTable.Rows.Add(dataRow);
                 }
-                return dataTable;
             }
+            return dataTable;
         }
     }
 
-    public class HtmlTableGenerator
+    public class HTMLQuoteTable
     {
-        public string GenerateHtmlTable(DataTable dataTable)
+        public string GenerateHTMLTable(DataTable dataTable)
         {
-            var html = new StringBuilder();
+            if (dataTable == null || dataTable.Rows.Count == 0)
+            {
+                return "<p>No data available to display.</p>";
+            }
 
+            var html = new StringBuilder();
             html.Append("<table border='1'>");
 
-            // Fila de encabezado
+            // Header row
             html.Append("<tr>");
             foreach (DataColumn column in dataTable.Columns)
             {
@@ -88,7 +65,7 @@ namespace quotes_project.Views.Cotizaciones
             }
             html.Append("</tr>");
 
-            // Filas de datos
+            // Data rows
             foreach (DataRow row in dataTable.Rows)
             {
                 html.Append("<tr>");
