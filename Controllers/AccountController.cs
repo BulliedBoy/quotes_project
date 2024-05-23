@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace quotes_project.Controllers
 {
@@ -12,18 +14,18 @@ namespace quotes_project.Controllers
         }
 
         // Clase de ejemplo para representar un usuario
-        public class User
+        public class UserModel
         {
-            public string Username { get; set; }
-            public string Password { get; set; }
+            public string? Username { get; set; }
+            public string? Password { get; set; }
         }
 
         // Lista de usuarios (esto es solo un ejemplo, en la práctica deberías obtener los usuarios de una fuente de datos externa)
-        private List<User> Users = new List<User>
+        private List<UserModel> Users = new List<UserModel>
         {
-            new User { Username = "admin", Password = "admin" },
-            new User { Username = "user1", Password = "password1" },
-            new User { Username = "user2", Password = "password2" }
+            new UserModel { Username = "admin", Password = "admin" },
+            new UserModel { Username = "user1", Password = "password1" },
+            new UserModel { Username = "user2", Password = "password2" }
         };
 
         // Acción para manejar el POST del formulario de inicio de sesión
