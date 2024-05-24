@@ -3,5 +3,270 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4" style="padding-top: 335px;"></h1>
+    <h1>Cotizaciones</h1>
+</div>
+
+<style type="text/css">
+	#wrap {
+		width: 99%;
+		margin: 0 auto;
+		margin-bottom:200px;
+	}
+
+	#left_col {
+		float: left;
+		width: 45%;
+		margin-bottom: 200px;
+	}
+
+	#right_col {
+		float: right;
+		width: 45%;
+		margin-bottom: 200px;
+	}
+</style>
+
+<div id="wrap">
+	<form id="left_col" role="form" action="" method="POST" id="formsave">
+		<div class="box-body">
+			<!--********CLIENTE AGENDA********-->
+			<div class="form-group">
+				<label>Cliente Agenda</label>
+				<select id="cod_cliente" name="cod_cliente" size="1" class="form-control">
+					<option value="0">Seleccion de cliente</option>
+					<option value="3377">3GHINCADO, S. A.                                                                                    </option>
+					<option value="2453">ABDALA INTERNACIONAL, S.A.                                                                          </option>
+					<option value="14194">ABN MAINTENANCE CORP.                                                                               </option>
+					<option value="131">ABOLU, S.A.                                                                                         </option>
+					<option value="1523">ACADEMIA INTERAMERICANA DE PANAMA                                                                   </option>
+					<option value="14717">ACC GROUP, INC.                                                                                     </option>
+					<option value="3183">ACN, S.A. / GOLDEN LION CASINO                                                                      </option>
+					<option value="15409">ACTIVE RE(TALENTIA)                                                                                 </option>
+					<option value="3257">ADEN BUSINESS SCHOOL                                                                                </option>
+					<option value="1933">ADMINISTRACION EL DORADO  --- P.H. SUPERCENTRO EL DORADO                                            </option>
+					<option value="7217">ADMINISTRACION Y SUPERVISION DE OBRAS CIVILES (ASOCSA)                                              </option>
+					<option value="143">ADMINISTRADORA ABERDEEN, S.A.                                                                       </option>
+					<option value="2221">ADMINISTRATION AND MANAGEMENT SERVICES INC. (ADMS)                                                  </option>
+					<option value="3109">ADMIRALTY DEVELOPERS CORP                                                                           </option>
+					<option value="14740">ADUANA SANTOS                                                                                       </option>
+					<option value="11534">ADVERTISING AND PROMOTION DE PANAMÁ, S.A.                                                           </option>
+					<option value="3760">AGENCIA DE COLOCACION PANAMÁ                                                                        </option>
+					<option value="14429">AGENCIA DE SEGURIDAD URRACA, S.A.                                                                   </option>
+					<option value="2126">AGENCIA Y MERCADEO, S.A. (AGMER)                                                                    </option>
+				</select>
+
+			</div>
+			<!--********FIN CLIENTE AGENDA********-->
+			<!--*******NOMBRE CLIENTE********-->
+			<div class="form-group">
+				<!-- form-group 1 -->
+				<label for="nombre_cliente">Nombre</label>
+				<input id="nombre_cliente" name="nombre_cliente" type="text" class="form-control" style="text-transform:uppercase" placeholder="Nombre del Cliente" value="">
+			</div>
+			<!--*******FIN NOMBRE CLIENTE********-->
+			<div>
+				<label>
+					Tipo de Cotización
+				</label>
+
+			</div>
+			<!--********TIPO DE REPORTE********-->
+			<div class="form-group">
+				<div class="radio">
+					<label>
+						<input type="radio" name="ntipovisita" id="ntipovisita" value="1" checked="">
+						Licencia
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="ntipovisita" id="ntipovisita" value="2">
+						Cloud
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="ntipovisita" id="ntipovisita" value="3">
+						Producto
+					</label>
+				</div>
+			</div>
+			<!--********FIN TIPO DE REPORTE********-->
+
+			<!--********VERSION********-->
+			<div class="form-group">
+				<label>Versión</label>
+				<input type="text" class="form-control" id="cversion" name="cversion" placeholder="Versión" size="10" value="">
+			</div>
+			<!--********FIN VERSION********-->
+			<!--********TIENE CONTRATO********-->
+			<div>
+				<label>
+					Contrato de Mantenimiento
+				</label>
+			</div>
+
+			<div class="form-group">
+				<div class="radio">
+					<label>
+						<input type="radio" name="ncontrato" id="ncontrato" value="1" readonly="readonly">
+						Si
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="ncontrato" id="ncontrato" value="2" checked="" readonly="readonly">
+						No
+					</label>
+				</div>
+			</div>
+			<!--********FIN TIENE CONTRATO********-->
+			<!--********FECHA DEL REPORTE********-->
+			<div class="form-group">
+				<label>Fecha</label>
+
+				<div class="input-group date">
+					<div class="input-group-addon">
+						<i class="fa fa-calendar"></i>
+					</div>
+					<input type="text" class="form-control pull-right" id="fecha" name="fecha" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" value="">
+				</div>
+				<!-- /.input group -->
+			</div>
+			<!--********FIN FECHA DEL REPORTE********-->
+			<!--********HORA ENTRADA********-->
+			<div class="bootstrap-timepicker">
+				<div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a href="#" data-action="incrementHour"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="incrementMinute"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td class="meridian-column"><a href="#" data-action="toggleMeridian"><i class="glyphicon glyphicon-chevron-up"></i></a></td></tr><tr><td><span class="bootstrap-timepicker-hour">03</span></td> <td class="separator">:</td><td><span class="bootstrap-timepicker-minute">52</span></td> <td class="separator">&nbsp;</td><td><span class="bootstrap-timepicker-meridian">PM</span></td></tr><tr><td><a href="#" data-action="decrementHour"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator"></td><td><a href="#" data-action="decrementMinute"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="toggleMeridian"><i class="glyphicon glyphicon-chevron-down"></i></a></td></tr></tbody></table></div>
+				<div class="form-group">
+					<label>Hora de entrada</label>
+
+					<div class="input-group">
+						<input type="text" class="form-control timepicker" id="hentrada" name="hentrada" value="">
+
+						<div class="input-group-addon">
+							<i class="fa fa-clock-o"></i>
+						</div>
+					</div>
+					<!-- /.input group -->
+				</div>
+				<!-- /.form group -->
+			</div>
+			<!--********FIN HORA ENTRADA********-->
+			<!--********HORA SALIDA********-->
+			<div class="bootstrap-timepicker">
+				<div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a href="#" data-action="incrementHour"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="incrementMinute"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td class="meridian-column"><a href="#" data-action="toggleMeridian"><i class="glyphicon glyphicon-chevron-up"></i></a></td></tr><tr><td><span class="bootstrap-timepicker-hour">03</span></td> <td class="separator">:</td><td><span class="bootstrap-timepicker-minute">52</span></td> <td class="separator">&nbsp;</td><td><span class="bootstrap-timepicker-meridian">PM</span></td></tr><tr><td><a href="#" data-action="decrementHour"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator"></td><td><a href="#" data-action="decrementMinute"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="toggleMeridian"><i class="glyphicon glyphicon-chevron-down"></i></a></td></tr></tbody></table></div>
+				<div class="form-group">
+					<label>Hora de salida</label>
+
+					<div class="input-group">
+						<input type="text" class="form-control timepicker" id="hsalida" name="hsalida" value="">
+
+						<div class="input-group-addon">
+							<i class="fa fa-clock-o"></i>
+						</div>
+					</div>
+					<!-- /.input group -->
+				</div>
+				<!-- /.form group -->
+			</div>
+			<!--********FIN HORA SALIDA********-->
+			<!--********TIEMPO CARGADO********-->
+			<div class="form-group">
+				<label>Tiempo Cargado</label>
+
+				<div class="input-group">
+					<input type="text" id="tcargado" name="tcargado" class="form-control" data-inputmask="&quot;mask&quot;: &quot;99:99&quot;" data-mask="" value="">
+				</div>
+				<!-- /.input group -->
+			</div>
+			<!--********FIN TIEMPO CARGADO********-->
+			<!--********VISITADO POR********-->
+			<div class="form-group">
+				<!-- form-group 9 -->
+				<label>Cotizado por</label>
+				<div class="">
+					<div class="input-group">
+						<select id="visitado_por" name="visitado_por" size="1" class="form-control">
+							<option value="0">Seleccione Tecnico</option>
+							<option value="Alcides">Alcides R. Sánchez S.    </option>
+							<option value="Lourin">Lourine Troncoso         </option>
+							<option value="Ariadni">Ariadni Cerrud           </option>
+							<option value="Edwin">Edwin Delgado            </option>
+							<option value="Luz">Luz Elena Pedroza        </option>
+							<option value="Maritza">Maritza Bonilla          </option>
+							<option value="Massiel">Massiel Moreno           </option>
+							<option value="Ventas">Víctor del Cid           </option>
+							<option value="Utility">José Hernández           </option>
+							<option value="Erick">Erick W. Hernández       </option>
+							<option value="CVANEGAS">Christopher Vanegas      </option>
+							<option value="Daniel">Daniel Ortiz             </option>
+							<option value="Practicante1">Practicante1             </option>
+							<option value="Practicante2">Practicante2             </option>
+							<option value="Jose">José Hernández           </option>
+							<option value="Rainier">Rainier Rios             </option>
+							<option value="JoseS">Jose Sieiro              </option>
+						</select>
+
+					</div>
+				</div>
+			</div>
+			<!--********FIN VISITADO POR********-->
+			<!--********CARGADO A********-->
+			<div class="form-group">
+				<label>Cargado a</label>
+				<div>
+					<div class="input-group">
+						<select id="cargado_a" name="cargado_a" size="1" class="form-control">
+							<option value="0">Seleccion</option>
+							<option value="Horas Reunion">Horas Reunion</option>
+							<option value="Horas Implementacion">Horas Implementacion</option>
+							<option value="Horas Visita/Asesoria">Horas Visita/Asesoria</option>
+							<option value="Horas Entrenamiento">Horas Entrenamiento</option>
+							<option value="Horas Contrato">Horas Contrato</option>
+						</select>
+
+					</div>
+				</div>
+			</div>
+			<!--********FIN CARGADO A********-->
+			<!--********COMENTARIO********-->
+			<div class="form-group">
+				<!-- form-group 11 -->
+				<label>Descripción del trabajo Realizado</label>
+				<div>
+<textarea id="comentario" name="comentario" class="form-control" style="height: 54px; overflow: hidden; overflow-wrap: break-word; resize: horizontal;" placeholder="Descripción del trabajo Realizado"></textarea>
+				</div>
+			</div> <!-- form-group 11 -->
+			<!--********FIN COMENTARIO********-->
+			<!--********OBSERVACIONES********-->
+			<div class="form-group">
+				<label>Observaciones</label>
+				<div>
+<textarea id="observacion" name="observacion" class="form-control" style="height: 54px; overflow: hidden; overflow-wrap: break-word; resize: horizontal;" placeholder="Observaciones"></textarea>
+				</div>
+			</div> <!-- form-group 8 -->
+			<!--********FIN OBSERVACIONES********-->
+
+			<div class="box-footer">
+				<div class="row text-center">
+					<button type="submit" name="btnSubmit" id="btnSubmit" class="btn btn-primary"><i class="fa fa-plus"></i> Guardar</button>
+					<a href="ListadoRepVisitas.rv" class="btn btn-danger">
+						<i class="fa fa-times"></i> Cancelar
+					</a>
+				</div>
+			</div>
+
+		</div>
+	</form>
+<div id="right_col>
+	<table>
+    <tr>
+        <td colspan="2">Tester tester</td>
+	</tr>
+	<tr>
+		<td>Tester tester</td>
+		<td>Tester tester</td>
+	</tr>
+	</table>
+</div>
 </div>
