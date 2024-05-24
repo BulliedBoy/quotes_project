@@ -1,18 +1,12 @@
 ﻿@page
-@model CotizacionesModel
+@model quotes_project.Controllers.CotizacionesModel.CotizacionesModel
 @{
     ViewData["Title"] = "Cotizaciones";
 }
-
 <h1>Cotizaciones</h1>
 
 <div>
-    @if (Model.HtmlTable != null)
-    {
-        @Html.Raw(Model.HtmlTable)
-    }
-    else
-    {
-        <p>No se pudo generar la tabla HTML.</p>
-    }
+
+    @Html.Raw(Model.HtmlTable)
+
 </div>
