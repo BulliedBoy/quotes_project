@@ -43,7 +43,7 @@ namespace quotes_project.Controllers
                 // Si la validación falla, establece un mensaje de error
                 TempData["ErrorMessage"] = "Usuario o contraseña incorrectos.";
                 // Redirige a la acción Login del controlador Account
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Index", "Home");
             }
         }
 
