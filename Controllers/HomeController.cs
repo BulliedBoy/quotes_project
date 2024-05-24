@@ -28,12 +28,17 @@ namespace quotes_project.Controllers
             return View();
         }
 
-        public IActionResult Cotizaciones()
+        public IActionResult Listado()
         {
             return View();
         }
 
-        public IActionResult Nuevo()
+        public IActionResult Cotizador()
+        {
+            return View();
+        }
+
+        public IActionResult Privacy()
         {
             return View();
         }
