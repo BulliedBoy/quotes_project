@@ -24,8 +24,8 @@ namespace quotes_project.Controllers
         private List<UserModel> Users = new List<UserModel>
         {
             new UserModel { Username = "admin", Password = "admin" },
-            new UserModel { Username = "user1", Password = "password1" },
-            new UserModel { Username = "user2", Password = "password2" }
+            new UserModel { Username = "daniel", Password = "hola123" },
+            new UserModel { Username = "rainier", Password = "adios456" }
         };
 
         // Acción para manejar el POST del formulario de inicio de sesión
