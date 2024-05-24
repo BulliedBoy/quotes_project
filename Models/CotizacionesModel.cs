@@ -4,31 +4,36 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using ClosedXML.Excel;
-using System.Web;
 using System.Text;
+using System.Web;
 
-namespace quotes_project.Pages.Cotizaciones
+namespace quotes_project.Models
 {
     public class CotizacionesModel : PageModel
     {
-        public string? HtmlTable { get; private set; }
+        public string HtmlTable { get; private set; } = string.Empty;
 
         public void OnGet()
         {
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Cotizaciones.xlsx"); // Ruta relativa al archivo Excel
+            // Ruta del archivo Excel
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "Home", "Data", "Cotizaciones_SQL.xlsx");
 
+            // Verificar si el archivo existe
             if (!System.IO.File.Exists(filePath))
             {
+                // Si el archivo no existe, asignar un mensaje de error al HtmlTable y salir del método
                 HtmlTable = "<p>El archivo de Excel no se encontró.</p>";
                 return;
             }
 
+            // Leer los datos del archivo Excel
             DataTable dataTable = ReadFromExcel(filePath);
 
+            // Generar la tabla HTML a partir de los datos
             HTMLQuoteTable htmlQuoteTable = new HTMLQuoteTable();
             HtmlTable = htmlQuoteTable.GenerateHTMLTable(dataTable);
 
-            // Imprimir para depuración
+            // Registrar la tabla HTML en la consola para depuración
             Debug.WriteLine(HtmlTable);
         }
 
@@ -37,23 +42,21 @@ namespace quotes_project.Pages.Cotizaciones
             var dataTable = new DataTable();
             using (var workbook = new XLWorkbook(filePath))
             {
-                var worksheet = workbook.Worksheet(1); // Hoja de Excel a leer
+                var worksheet = workbook.Worksheet(1);
                 var range = worksheet.RangeUsed();
 
-                // Leer la primera fila como encabezados
                 foreach (var cell in range.FirstRow().CellsUsed())
                 {
-                    dataTable.Columns.Add(cell.Value.ToString());
+                    dataTable.Columns.Add(cell.GetString());
                 }
 
-                // Leer los datos de las filas restantes
                 foreach (var row in range.RowsUsed().Skip(1))
                 {
                     var dataRow = dataTable.NewRow();
                     int i = 0;
                     foreach (var cell in row.Cells())
                     {
-                        dataRow[i++] = cell.Value.ToString() ?? string.Empty; // Manejar posibles valores nulos
+                        dataRow[i++] = cell.GetString();
                     }
                     dataTable.Rows.Add(dataRow);
                 }
@@ -74,7 +77,6 @@ namespace quotes_project.Pages.Cotizaciones
             var html = new StringBuilder();
             html.Append("<table border='1'>");
 
-            // Header row
             html.Append("<tr>");
             foreach (DataColumn column in dataTable.Columns)
             {
@@ -82,13 +84,12 @@ namespace quotes_project.Pages.Cotizaciones
             }
             html.Append("</tr>");
 
-            // Data rows
             foreach (DataRow row in dataTable.Rows)
             {
                 html.Append("<tr>");
                 foreach (var cell in row.ItemArray)
                 {
-                    var cellValue = cell?.ToString() ?? string.Empty; // Manejar posibles valores nulos
+                    var cellValue = cell?.ToString() ?? string.Empty;
                     html.Append($"<td>{HttpUtility.HtmlEncode(cellValue)}</td>");
                 }
                 html.Append("</tr>");
