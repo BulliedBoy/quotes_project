@@ -29,6 +29,13 @@ namespace quotes_project.Models
             // Leer los datos del archivo Excel
             DataTable dataTable = ReadFromExcel(filePath);
 
+            if (dataTable == null || dataTable.Rows.Count == 0)
+            {
+                // Si no se pudo leer o no hay datos, asignar un mensaje de error al HtmlTable y salir del método
+                HtmlTable = "<p>No se pudieron leer los datos del archivo de Excel.</p>";
+                return;
+            }
+
             // Generar la tabla HTML a partir de los datos
             HTMLQuoteTable htmlQuoteTable = new HTMLQuoteTable();
             HtmlTable = htmlQuoteTable.GenerateHTMLTable(dataTable);
@@ -63,40 +70,40 @@ namespace quotes_project.Models
             }
             return dataTable;
         }
-    }
 
-    public class HTMLQuoteTable
-    {
-        public string GenerateHTMLTable(DataTable dataTable)
+        public class HTMLQuoteTable
         {
-            if (dataTable == null || dataTable.Rows.Count == 0)
+            public string GenerateHTMLTable(DataTable dataTable)
             {
-                return "<p>No data available to display.</p>";
-            }
-
-            var html = new StringBuilder();
-            html.Append("<table border='1'>");
-
-            html.Append("<tr>");
-            foreach (DataColumn column in dataTable.Columns)
-            {
-                html.Append($"<th>{HttpUtility.HtmlEncode(column.ColumnName)}</th>");
-            }
-            html.Append("</tr>");
-
-            foreach (DataRow row in dataTable.Rows)
-            {
-                html.Append("<tr>");
-                foreach (var cell in row.ItemArray)
+                if (dataTable == null || dataTable.Rows.Count == 0)
                 {
-                    var cellValue = cell?.ToString() ?? string.Empty;
-                    html.Append($"<td>{HttpUtility.HtmlEncode(cellValue)}</td>");
+                    return "<p>No data available to display.</p>";
+                }
+
+                var html = new StringBuilder();
+                html.Append("<table border='1'>");
+
+                html.Append("<tr>");
+                foreach (DataColumn column in dataTable.Columns)
+                {
+                    html.Append($"<th>{HttpUtility.HtmlEncode(column.ColumnName)}</th>");
                 }
                 html.Append("</tr>");
-            }
 
-            html.Append("</table>");
-            return html.ToString();
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    html.Append("<tr>");
+                    foreach (var cell in row.ItemArray)
+                    {
+                        var cellValue = cell?.ToString() ?? string.Empty;
+                        html.Append($"<td>{HttpUtility.HtmlEncode(cellValue)}</td>");
+                    }
+                    html.Append("</tr>");
+                }
+
+                html.Append("</table>");
+                return html.ToString();
+            }
         }
     }
 }

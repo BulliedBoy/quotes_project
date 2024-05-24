@@ -3,8 +3,16 @@
 @{
     ViewData["Title"] = "Cotizaciones";
 }
+
 <h1>Cotizaciones</h1>
 
 <div>
-    @Html.Raw(Model.HtmlTable)
+    @if (Model.HtmlTable != null)
+    {
+        @Html.Raw(Model.HtmlTable)
+    }
+    else
+    {
+        <p>No se pudo generar la tabla HTML.</p>
+    }
 </div>
