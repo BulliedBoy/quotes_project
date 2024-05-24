@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data;
-using System.Text;
 using System.Diagnostics;
-using System.IO; // Importar System.IO para trabajar con archivos
-using ClosedXML.Excel; // Importar la biblioteca ClosedXML
+using System.IO;
+using ClosedXML.Excel;
 using System.Web;
+using System.Text;
 
 namespace quotes_project.Pages.Cotizaciones
 {
@@ -31,7 +32,6 @@ namespace quotes_project.Pages.Cotizaciones
             Debug.WriteLine(HtmlTable);
         }
 
-
         public DataTable ReadFromExcel(string filePath)
         {
             var dataTable = new DataTable();
@@ -53,7 +53,7 @@ namespace quotes_project.Pages.Cotizaciones
                     int i = 0;
                     foreach (var cell in row.Cells())
                     {
-                        dataRow[i++] = cell.Value.ToString();
+                        dataRow[i++] = cell.Value.ToString() ?? string.Empty; // Manejar posibles valores nulos
                     }
                     dataTable.Rows.Add(dataRow);
                 }
@@ -62,7 +62,7 @@ namespace quotes_project.Pages.Cotizaciones
         }
     }
 
-public class HTMLQuoteTable
+    public class HTMLQuoteTable
     {
         public string GenerateHTMLTable(DataTable dataTable)
         {
@@ -88,7 +88,8 @@ public class HTMLQuoteTable
                 html.Append("<tr>");
                 foreach (var cell in row.ItemArray)
                 {
-                    html.Append($"<td>{HttpUtility.HtmlEncode(cell.ToString())}</td>");
+                    var cellValue = cell?.ToString() ?? string.Empty; // Manejar posibles valores nulos
+                    html.Append($"<td>{HttpUtility.HtmlEncode(cellValue)}</td>");
                 }
                 html.Append("</tr>");
             }
@@ -97,5 +98,4 @@ public class HTMLQuoteTable
             return html.ToString();
         }
     }
-
 }
