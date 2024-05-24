@@ -47,3 +47,8 @@ button.accept-policy {
   line-height: 60px;
   text-align:center;
 }
+.main-content {
+    max-height: calc(100vh - 150px); /* 150px es la altura estimada de la barra de navegación y el pie de página */
+    overflow-y: auto;
+    padding-bottom: 30px; /* Ajusta este valor según sea necesario para evitar que el contenido se oculte detrás del footer */
+}

@@ -13,12 +13,12 @@ var app = builder.Build();
 // Configurar el pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
+	app.UseDeveloperExceptionPage();
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
+	app.UseExceptionHandler("/Home/Error");
+	app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -30,15 +30,7 @@ app.UseAuthorization();
 app.UseSession(); // Usar sesión
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.MapControllerRoute(
-    name: "account",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
-
-app.MapControllerRoute(
-    name: "Cotizaciones",
-    pattern: "{controller=Home}/{action=Cotizaciones}/{id?}");
+	name: "default",
+	pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
@@ -9,11 +7,11 @@ using System.Web;
 
 namespace quotes_project.Models
 {
-    public class ListadoModel : PageModel
+    public class ListadoModel
     {
-        public string HtmlTable { get; private set; } = string.Empty;
+        public string HtmlTable { get; set; } = string.Empty;
 
-        public void OnGet()
+        public void LoadData()
         {
             // Ruta del archivo Excel
             string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "Home", "Data", "Cotizaciones_SQL.xlsx");
@@ -22,7 +20,7 @@ namespace quotes_project.Models
             if (!System.IO.File.Exists(filePath))
             {
                 // Si el archivo no existe, asignar un mensaje de error al HtmlTable y salir del método
-                HtmlTable = "<p>El archivo de Excel no se encontró.</p>";
+                HtmlTable = "<p>El archivo de Excel no se encontró o no cuenta con acceso.</p>";
                 return;
             }
 
@@ -52,9 +50,22 @@ namespace quotes_project.Models
                 var worksheet = workbook.Worksheet(1);
                 var range = worksheet.RangeUsed();
 
+                var columnNames = new HashSet<string>();
                 foreach (var cell in range.FirstRow().CellsUsed())
                 {
-                    dataTable.Columns.Add(cell.GetString());
+                    string columnName = cell.GetString();
+                    if (columnNames.Contains(columnName))
+                    {
+                        int suffix = 1;
+                        string uniqueName;
+                        do
+                        {
+                            uniqueName = $"{columnName}_{suffix++}";
+                        } while (columnNames.Contains(uniqueName));
+                        columnName = uniqueName;
+                    }
+                    columnNames.Add(columnName);
+                    dataTable.Columns.Add(columnName);
                 }
 
                 foreach (var row in range.RowsUsed().Skip(1))
@@ -81,7 +92,7 @@ namespace quotes_project.Models
                 }
 
                 var html = new StringBuilder();
-                html.Append("<table border='1'>");
+                html.Append("<table class='quote-list'>");
 
                 html.Append("<tr>");
                 foreach (DataColumn column in dataTable.Columns)

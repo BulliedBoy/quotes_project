@@ -1,12 +1,11 @@
-﻿@page
-@model ListadoModel
+﻿@model quotes_project.Models.ListadoModel
 @{
     ViewData["Title"] = "Listado";
 }
 
 <h1>Cotizaciones</h1>
 
-<div>
+<div class="table-container">
     @if (Model.HtmlTable != null)
     {
         @Html.Raw(Model.HtmlTable)

@@ -30,7 +30,10 @@ namespace quotes_project.Controllers
 
         public IActionResult Listado()
         {
-            return View();
+            var model = new ListadoModel();
+            model.LoadData();
+            ViewData["Title"] = "Listado";
+            return View(model);
         }
 
         public IActionResult Cotizador()

@@ -95,3 +95,59 @@ body {
 .btn-primary:hover {
     background: #000dff;
 }
+.quote-list {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+.quote-list th,
+.quote-list td {
+    padding: 12px 15px;
+}
+
+.quote-list tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.quote-list tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.quote-list tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.quote-list tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+.table-container {
+    max-height: 80%; /* Ajusta esta altura según sea necesario */
+    overflow-y: auto;
+    overflow-x: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-bottom:50px;
+    margin: 20px 0;
+}
+.main-content {
+    max-height: calc(100vh - 130px); /* 150px es la altura estimada de la barra de navegación y el pie de página */
+    overflow-y: auto;
+    padding-bottom: 30px; /* Ajusta este valor según sea necesario para evitar que el contenido se oculte detrás del footer */
+}
+.quote-table-container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+}
