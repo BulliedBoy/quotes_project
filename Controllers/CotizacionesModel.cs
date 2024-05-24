@@ -7,7 +7,7 @@ using ClosedXML.Excel;
 using System.Web;
 using System.Text;
 
-namespace quotes_project.Pages.Cotizaciones
+namespace quotes_project.Controllers.CotizacionesModel
 {
     public class CotizacionesModel : PageModel
     {
