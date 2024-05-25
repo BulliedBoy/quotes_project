@@ -27,8 +27,16 @@ namespace quotes_project.Controllers
 		public IActionResult Cotizador()
 		{
 			var cotizadorModel = new CotizadorModel();
-			cotizadorModel.CustList(); // Cargar la lista de clientes
+			cotizadorModel.ExcelList(); // Cargar la lista de clientes
 			return View(cotizadorModel);
+		}
+
+		public IActionResult CotizadorFromListado()
+		{
+			TempData["FromListado"] = true; // Indicador que se accedió desde Listado
+			var cotizadorModel = new CotizadorModel();
+			cotizadorModel.ExcelList(); // Cargar la lista de clientes
+			return View("Cotizador", cotizadorModel);
 		}
 
 		public IActionResult Privacy()

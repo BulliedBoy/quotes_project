@@ -111,7 +111,11 @@ namespace quotes_project.Models
                     {
                         var cellValue = cell?.ToString() ?? string.Empty;
                         // Comprueba si estamos en la columna 11 o posterior para la vista resumida
-                        if (columnIndex >= 10)
+                        if (columnIndex==4)
+                        {
+							html.Append($"<td><a href='/Home/Cotizador?id={HttpUtility.UrlEncode(cellValue)}'>{HttpUtility.HtmlEncode(cellValue)}</a></td>");
+						}
+						if (columnIndex >= 10)
                         {
                             // Si el texto es extenso, mostrar un resumen con botón "..."
                             if (cellValue.Length > 20) // Por ejemplo, si tiene más de 20 caracteres

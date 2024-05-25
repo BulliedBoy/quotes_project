@@ -2674,6 +2674,7 @@ textarea.form-control-lg {
   flex-wrap: wrap;
   align-items: stretch;
   width: 100%;
+  max-height:75%;
 }
 .input-group > .form-control,
 .input-group > .form-select {

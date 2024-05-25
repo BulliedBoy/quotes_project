@@ -7,12 +7,22 @@ html {
     font-size: 16px;
   }
 }
-
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+    max-height: 75%;
+}
 .input:focus{
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #0072ff;
     color:#000000;
 }
-
+.select-limit {
+    max-height: 200px !important; /* Limita la altura del selector */
+    overflow-y: auto !important; /* Agrega una barra de desplazamiento si es necesario */
+}
 .form-check-input:focus {
     border: 0.25rem #0072ff;
 }
@@ -91,6 +101,27 @@ body {
     outline: none;
     cursor: pointer;
     background: #0d6efd;
+    margin-bottom:10px;
+}
+.btn-guardar {
+    width: 100%;
+    padding: 1rem 2rem;
+    font-weight: bold;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #009879;
+    margin-bottom: 10px;
+}
+.btn-cancelar {
+    width: 100%;
+    padding: 1rem 2rem;
+    font-weight: bold;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #ff4747;
+    margin-bottom: 10px;
 }
 .btn-primary:hover {
     background: #000dff;

@@ -3,10 +3,15 @@
 	ViewData["Title"] = "Cotizador";
 }
 
-<h1>Cotizaciones</h1>
-
-<div class="text-center">
-    <h1>Cotizaciones</h1>
+<div style="margin-bottom:30px;">
+	@if (TempData["FromListado"] != null && (bool)TempData["FromListado"])
+	{
+		<h1>Cotización#</h1>
+	}
+	else
+	{
+		<h1>Nueva Cotización</h1>
+	}
 </div>
 
 <style type="text/css">
@@ -35,7 +40,7 @@
 			<!--********CLIENTE AGENDA********-->
 			<div class="form-group">
 				<label>Cliente Agenda</label>
-				<select id="cod_cliente" name="cod_cliente" size="1" class="form-control">
+				<select id="cod_cliente" name="cod_cliente" size="1" class="form-control select-limit">
 					<option value="0">Seleccion de cliente</option>
 					@foreach (var cliente in Model.Clientes)
 					{
@@ -63,20 +68,20 @@
 			<div class="form-group">
 				<div class="radio">
 					<label>
-						<input type="radio" name="ntipovisita" id="ntipovisita" value="1" checked="">
+						<input type="radio" name="ntipocot" id="ntipocot" value="1" checked="">
 						Licencia
 					</label>
 				</div>
 				<div class="radio">
 					<label>
-						<input type="radio" name="ntipovisita" id="ntipovisita" value="2">
+						<input type="radio" name="ntipocot" id="ntipocot" value="2">
 						Cloud
 					</label>
 				</div>
 				<div class="radio">
 					<label>
-						<input type="radio" name="ntipovisita" id="ntipovisita" value="3">
-						Producto
+						<input type="radio" name="ntipocot" id="ntipocot" value="3">
+						Característica
 					</label>
 				</div>
 			</div>
@@ -175,25 +180,12 @@
 				<label>Cotizado por</label>
 				<div class="">
 					<div class="input-group">
-						<select id="visitado_por" name="visitado_por" size="1" class="form-control">
-							<option value="0">Seleccione Tecnico</option>
-							<option value="Alcides">Alcides R. Sánchez S.    </option>
-							<option value="Lourin">Lourine Troncoso         </option>
-							<option value="Ariadni">Ariadni Cerrud           </option>
-							<option value="Edwin">Edwin Delgado            </option>
-							<option value="Luz">Luz Elena Pedroza        </option>
-							<option value="Maritza">Maritza Bonilla          </option>
-							<option value="Massiel">Massiel Moreno           </option>
-							<option value="Ventas">Víctor del Cid           </option>
-							<option value="Utility">José Hernández           </option>
-							<option value="Erick">Erick W. Hernández       </option>
-							<option value="CVANEGAS">Christopher Vanegas      </option>
-							<option value="Daniel">Daniel Ortiz             </option>
-							<option value="Practicante1">Practicante1             </option>
-							<option value="Practicante2">Practicante2             </option>
-							<option value="Jose">José Hernández           </option>
-							<option value="Rainier">Rainier Rios             </option>
-							<option value="JoseS">Jose Sieiro              </option>
+						<select id="visitado_por" name="visitado_por" size="1" class="form-control select-limit">
+							<option value="0">Seleccion de Usuario</option>
+							@foreach (var usuario in Model.Usuarios)
+							{
+								<option value="@usuario">@usuario</option>
+							}
 						</select>
 
 					</div>
@@ -231,7 +223,7 @@
 			<div class="form-group">
 				<label>Observaciones</label>
 				<div>
-<textarea id="observacion" name="observacion" class="form-control" style="height: 54px; overflow: hidden; overflow-wrap: break-word; resize: horizontal;" placeholder="Observaciones"></textarea>
+<textarea id="observacion" name="observacion" class="form-control" style="height: 54px; overflow: hidden; overflow-wrap: break-word; resize: horizontal; margin-bottom:15px;" placeholder="Observaciones"></textarea>
 				</div>
 			</div> <!-- form-group 8 -->
 			<!--********FIN OBSERVACIONES********-->
@@ -239,7 +231,7 @@
 			<div class="box-footer">
 				<div class="row text-center">
 					<button type="submit" name="btnSubmit" id="btnSubmit" class="btn btn-primary"><i class="fa fa-plus"></i> Guardar</button>
-					<a href="ListadoRepVisitas.rv" class="btn btn-danger">
+					<a href="Main" class="btn btn-cancelar">
 						<i class="fa fa-times"></i> Cancelar
 					</a>
 				</div>
