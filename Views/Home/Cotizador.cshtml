@@ -1,6 +1,9 @@
-﻿@{
-    ViewData["Title"] = "Cotizador";
+﻿@model quotes_project.Models.CotizadorModel
+@{
+	ViewData["Title"] = "Cotizador";
 }
+
+<h1>Cotizaciones</h1>
 
 <div class="text-center">
     <h1>Cotizaciones</h1>
@@ -34,26 +37,12 @@
 				<label>Cliente Agenda</label>
 				<select id="cod_cliente" name="cod_cliente" size="1" class="form-control">
 					<option value="0">Seleccion de cliente</option>
-					<option value="3377">3GHINCADO, S. A.                                                                                    </option>
-					<option value="2453">ABDALA INTERNACIONAL, S.A.                                                                          </option>
-					<option value="14194">ABN MAINTENANCE CORP.                                                                               </option>
-					<option value="131">ABOLU, S.A.                                                                                         </option>
-					<option value="1523">ACADEMIA INTERAMERICANA DE PANAMA                                                                   </option>
-					<option value="14717">ACC GROUP, INC.                                                                                     </option>
-					<option value="3183">ACN, S.A. / GOLDEN LION CASINO                                                                      </option>
-					<option value="15409">ACTIVE RE(TALENTIA)                                                                                 </option>
-					<option value="3257">ADEN BUSINESS SCHOOL                                                                                </option>
-					<option value="1933">ADMINISTRACION EL DORADO  --- P.H. SUPERCENTRO EL DORADO                                            </option>
-					<option value="7217">ADMINISTRACION Y SUPERVISION DE OBRAS CIVILES (ASOCSA)                                              </option>
-					<option value="143">ADMINISTRADORA ABERDEEN, S.A.                                                                       </option>
-					<option value="2221">ADMINISTRATION AND MANAGEMENT SERVICES INC. (ADMS)                                                  </option>
-					<option value="3109">ADMIRALTY DEVELOPERS CORP                                                                           </option>
-					<option value="14740">ADUANA SANTOS                                                                                       </option>
-					<option value="11534">ADVERTISING AND PROMOTION DE PANAMÁ, S.A.                                                           </option>
-					<option value="3760">AGENCIA DE COLOCACION PANAMÁ                                                                        </option>
-					<option value="14429">AGENCIA DE SEGURIDAD URRACA, S.A.                                                                   </option>
-					<option value="2126">AGENCIA Y MERCADEO, S.A. (AGMER)                                                                    </option>
+					@foreach (var cliente in Model.Clientes)
+					{
+						<option value="@cliente">@cliente</option>
+					}
 				</select>
+
 
 			</div>
 			<!--********FIN CLIENTE AGENDA********-->

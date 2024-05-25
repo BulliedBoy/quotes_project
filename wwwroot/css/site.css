@@ -113,6 +113,7 @@ body {
 .quote-list th,
 .quote-list td {
     padding: 12px 15px;
+    border: 1px solid black;
 }
 
 .quote-list tbody tr {
@@ -150,4 +151,12 @@ body {
     margin-left: auto;
     padding-right: 15px;
     padding-left: 15px;
+}
+.expand-button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }

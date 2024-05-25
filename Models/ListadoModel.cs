@@ -1,9 +1,11 @@
+using System;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
 using ClosedXML.Excel;
 using System.Text;
 using System.Web;
+using System.Collections.Generic;
 
 namespace quotes_project.Models
 {
@@ -17,7 +19,7 @@ namespace quotes_project.Models
             string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "Home", "Data", "Cotizaciones_SQL.xlsx");
 
             // Verificar si el archivo existe
-            if (!System.IO.File.Exists(filePath))
+            if (!File.Exists(filePath))
             {
                 // Si el archivo no existe, asignar un mensaje de error al HtmlTable y salir del método
                 HtmlTable = "<p>El archivo de Excel no se encontró o no cuenta con acceso.</p>";
@@ -47,7 +49,7 @@ namespace quotes_project.Models
             var dataTable = new DataTable();
             using (var workbook = new XLWorkbook(filePath))
             {
-                var worksheet = workbook.Worksheet(1);
+                var worksheet = workbook.Worksheet("LISTADO");
                 var range = worksheet.RangeUsed();
 
                 var columnNames = new HashSet<string>();
@@ -104,10 +106,29 @@ namespace quotes_project.Models
                 foreach (DataRow row in dataTable.Rows)
                 {
                     html.Append("<tr>");
+                    int columnIndex = 0;
                     foreach (var cell in row.ItemArray)
                     {
                         var cellValue = cell?.ToString() ?? string.Empty;
-                        html.Append($"<td>{HttpUtility.HtmlEncode(cellValue)}</td>");
+                        // Comprueba si estamos en la columna 11 o posterior para la vista resumida
+                        if (columnIndex >= 10)
+                        {
+                            // Si el texto es extenso, mostrar un resumen con botón "..."
+                            if (cellValue.Length > 20) // Por ejemplo, si tiene más de 20 caracteres
+                            {
+                                html.Append($"<td><div class='summary'>{HttpUtility.HtmlEncode(cellValue.Substring(0, 20))}<button class='expand-button' onclick='toggleText(this)'>...</button></div><div class='full-text' style='display:none;'>{HttpUtility.HtmlEncode(cellValue)}</div><button class='hide-button' style='display:none;' onclick='toggleText(this)'>Ocultar</button></td>");
+                            }
+                            else
+                            {
+                                html.Append($"<td>{HttpUtility.HtmlEncode(cellValue)}</td>");
+                            }
+                        }
+                        else
+                        {
+                            // Si no estamos en la columna 11 o posterior, mostrar el valor normal
+                            html.Append($"<td>{HttpUtility.HtmlEncode(cellValue)}</td>");
+                        }
+                        columnIndex++;
                     }
                     html.Append("</tr>");
                 }

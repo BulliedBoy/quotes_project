@@ -1,55 +1,39 @@
 using Microsoft.AspNetCore.Mvc;
 using quotes_project.Models;
-using System.Diagnostics;
 
 namespace quotes_project.Controllers
 {
-    public class HomeController : Controller
-    {
-        private readonly ILogger<HomeController> _logger;
+	public class HomeController : Controller
+	{
+		public IActionResult Index()
+		{
+			return View();
+		}
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+		// Acción para la página Main
+		public IActionResult Main()
+		{
+			return View();
+		}
 
-        public IActionResult Index()
-        {
-            if (TempData["ErrorMessage"] != null)
-            {
-                ViewBag.ErrorMessage = TempData["ErrorMessage"];
-            }
-            return View();
-        }
+		public IActionResult Listado()
+		{
+			var model = new ListadoModel();
+			model.LoadData();
+			ViewData["Title"] = "Listado";
+			return View(model);
+		}
 
-        // Acción para la página Main
-        public IActionResult Main()
-        {
-            return View();
-        }
+		public IActionResult Cotizador()
+		{
+			var cotizadorModel = new CotizadorModel();
+			cotizadorModel.CustList(); // Cargar la lista de clientes
+			return View(cotizadorModel);
+		}
 
-        public IActionResult Listado()
-        {
-            var model = new ListadoModel();
-            model.LoadData();
-            ViewData["Title"] = "Listado";
-            return View(model);
-        }
-
-        public IActionResult Cotizador()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-    }
+		public IActionResult Privacy()
+		{
+			return View();
+		}
+	}
 }
