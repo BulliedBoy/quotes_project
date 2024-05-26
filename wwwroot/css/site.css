@@ -163,13 +163,19 @@ body {
     font-weight: bold;
     color: #009879;
 }
+.page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
 .table-container {
-    max-height: 80%; /* Ajusta esta altura según sea necesario */
+    max-height: 80%;
     overflow-y: auto;
     overflow-x: auto;
     border: 1px solid #ddd;
     padding: 10px;
-    border-bottom:50px;
+    border-bottom: 50px;
     margin: 20px 0;
 }
 .main-content {

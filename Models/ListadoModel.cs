@@ -111,22 +111,10 @@ namespace quotes_project.Models
                     {
                         var cellValue = cell?.ToString() ?? string.Empty;
                         // Comprueba si estamos en la columna 11 o posterior para la vista resumida
-                        if (columnIndex==4)
+                        if (columnIndex==3)
                         {
 							html.Append($"<td><a href='/Home/Cotizador?id={HttpUtility.UrlEncode(cellValue)}'>{HttpUtility.HtmlEncode(cellValue)}</a></td>");
 						}
-						if (columnIndex >= 10)
-                        {
-                            // Si el texto es extenso, mostrar un resumen con botón "..."
-                            if (cellValue.Length > 20) // Por ejemplo, si tiene más de 20 caracteres
-                            {
-                                html.Append($"<td><div class='summary'>{HttpUtility.HtmlEncode(cellValue.Substring(0, 20))}<button class='expand-button' onclick='toggleText(this)'>...</button></div><div class='full-text' style='display:none;'>{HttpUtility.HtmlEncode(cellValue)}</div><button class='hide-button' style='display:none;' onclick='toggleText(this)'>Ocultar</button></td>");
-                            }
-                            else
-                            {
-                                html.Append($"<td>{HttpUtility.HtmlEncode(cellValue)}</td>");
-                            }
-                        }
                         else
                         {
                             // Si no estamos en la columna 11 o posterior, mostrar el valor normal
