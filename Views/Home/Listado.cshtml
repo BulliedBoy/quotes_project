@@ -6,32 +6,7 @@
 <h1>Cotizaciones</h1>
 
 <div class="table-container">
-    @if (Model.HtmlTable != null)
-    {
-        @Html.Raw(Model.HtmlTable)
-    }
-    else
-    {
-        <p>No se pudo generar la tabla HTML.</p>
-    }
+    @Html.Raw(Model.HtmlTable)
 </div>
 
-<script>
-    function toggleText(button) {
-        var div = button.parentElement.nextElementSibling;
-        var summaryDiv = button.parentElement.querySelector('.summary');
-        if (div.style.display === "none") {
-            div.style.display = "block";
-            summaryDiv.style.display = "none";
-            button.innerText = "Ocultar";
-        } else {
-            div.style.display = "none";
-            summaryDiv.style.display = "block";
-            button.innerText = "...";
-        }
-        var hideButton = button.parentElement.querySelector('.hide-button');
-        if (hideButton) {
-            hideButton.style.display = "inline"; // Asegura que el botón de "ocultar" siempre esté visible
-        }
-    }
-</script>
+<script src="~/js/listado.js"></script>

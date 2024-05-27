@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using quotes_project.Data;
+using quotes_project.Views.Home.Data;
 using quotes_project.Models;
 
 namespace quotes_project.Controllers

@@ -1,9 +1,5 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using quotes_project.Data;
+using quotes_project.Views.Home.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
