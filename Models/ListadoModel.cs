@@ -1,11 +1,8 @@
-using System;
-using System.Data;
-using System.Diagnostics;
-using System.IO;
-using ClosedXML.Excel;
-using System.Text;
-using System.Web;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.EntityFrameworkCore;
+using quotes_project.Data;
 
 namespace quotes_project.Models
 {
@@ -13,82 +10,39 @@ namespace quotes_project.Models
     {
         public string HtmlTable { get; set; } = string.Empty;
 
+        private readonly ApplicationDbContext _context;
+
+        public ListadoModel(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public ListadoModel()
+        {
+        }
+
         public void LoadData()
         {
-            // Ruta del archivo Excel
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "Home", "Data", "Cotizaciones_SQL.xlsx");
-
-            // Verificar si el archivo existe
-            if (!File.Exists(filePath))
+            var quotes = _context.Quotes.ToList();
+            if (quotes == null || quotes.Count == 0)
             {
-                // Si el archivo no existe, asignar un mensaje de error al HtmlTable y salir del método
-                HtmlTable = "<p>El archivo de Excel no se encontró o no cuenta con acceso.</p>";
-                return;
-            }
-
-            // Leer los datos del archivo Excel
-            DataTable dataTable = ReadFromExcel(filePath);
-
-            if (dataTable == null || dataTable.Rows.Count == 0)
-            {
-                // Si no se pudo leer o no hay datos, asignar un mensaje de error al HtmlTable y salir del método
-                HtmlTable = "<p>No se pudieron leer los datos del archivo de Excel.</p>";
+                HtmlTable = "<p>No se encontraron cotizaciones en la base de datos.</p>";
                 return;
             }
 
             // Generar la tabla HTML a partir de los datos
             HTMLQuoteTable htmlQuoteTable = new HTMLQuoteTable();
-            HtmlTable = htmlQuoteTable.GenerateHTMLTable(dataTable);
+            HtmlTable = htmlQuoteTable.GenerateHTMLTable(quotes);
 
             // Registrar la tabla HTML en la consola para depuración
-            Debug.WriteLine(HtmlTable);
-        }
-
-        public DataTable ReadFromExcel(string filePath)
-        {
-            var dataTable = new DataTable();
-            using (var workbook = new XLWorkbook(filePath))
-            {
-                var worksheet = workbook.Worksheet("LISTADO");
-                var range = worksheet.RangeUsed();
-
-                var columnNames = new HashSet<string>();
-                foreach (var cell in range.FirstRow().CellsUsed())
-                {
-                    string columnName = cell.GetString();
-                    if (columnNames.Contains(columnName))
-                    {
-                        int suffix = 1;
-                        string uniqueName;
-                        do
-                        {
-                            uniqueName = $"{columnName}_{suffix++}";
-                        } while (columnNames.Contains(uniqueName));
-                        columnName = uniqueName;
-                    }
-                    columnNames.Add(columnName);
-                    dataTable.Columns.Add(columnName);
-                }
-
-                foreach (var row in range.RowsUsed().Skip(1))
-                {
-                    var dataRow = dataTable.NewRow();
-                    int i = 0;
-                    foreach (var cell in row.Cells())
-                    {
-                        dataRow[i++] = cell.GetString();
-                    }
-                    dataTable.Rows.Add(dataRow);
-                }
-            }
-            return dataTable;
+            System.Diagnostics.Debug.WriteLine(HtmlTable);
         }
 
         public class HTMLQuoteTable
         {
-            public string GenerateHTMLTable(DataTable dataTable)
+            public string GenerateHTMLTable(List<Quote> quotes)
             {
-                if (dataTable == null || dataTable.Rows.Count == 0)
+                if (quotes == null || !quotes.Any())
                 {
                     return "<p>No data available to display.</p>";
                 }
@@ -97,47 +51,27 @@ namespace quotes_project.Models
                 html.Append("<table class='quote-list'>");
 
                 html.Append("<tr>");
-                foreach (DataColumn column in dataTable.Columns)
-                {
-                    html.Append($"<th>{HttpUtility.HtmlEncode(column.ColumnName)}</th>");
-                }
+                html.Append("<th>No. de Cotizacion</th>");
+                html.Append("<th>No. de Cliente</th>");
+                html.Append("<th>Tipo de Producto</th>");
+                html.Append("<th>Usuario</th>");
+                html.Append("<th>Monto</th>");
+                html.Append("<th>Fecha</th>");
                 html.Append("</tr>");
 
-                foreach (DataRow row in dataTable.Rows)
+                foreach (var quote in quotes)
                 {
                     html.Append("<tr>");
-                    int columnIndex = 0;
-                    foreach (var cell in row.ItemArray)
-                    {
-                        var cellValue = cell?.ToString() ?? string.Empty;
-                        // Comprueba si estamos en la columna 11 o posterior para la vista resumida
-                        if (columnIndex==4)
-                        {
-							html.Append($"<td><a href='/Home/Cotizador?id={HttpUtility.UrlEncode(cellValue)}'>{HttpUtility.HtmlEncode(cellValue)}</a></td>");
-						}
-						if (columnIndex >= 10)
-                        {
-                            // Si el texto es extenso, mostrar un resumen con botón "..."
-                            if (cellValue.Length > 20) // Por ejemplo, si tiene más de 20 caracteres
-                            {
-                                html.Append($"<td><div class='summary'>{HttpUtility.HtmlEncode(cellValue.Substring(0, 20))}<button class='expand-button' onclick='toggleText(this)'>...</button></div><div class='full-text' style='display:none;'>{HttpUtility.HtmlEncode(cellValue)}</div><button class='hide-button' style='display:none;' onclick='toggleText(this)'>Ocultar</button></td>");
-                            }
-                            else
-                            {
-                                html.Append($"<td>{HttpUtility.HtmlEncode(cellValue)}</td>");
-                            }
-                        }
-                        else
-                        {
-                            // Si no estamos en la columna 11 o posterior, mostrar el valor normal
-                            html.Append($"<td>{HttpUtility.HtmlEncode(cellValue)}</td>");
-                        }
-                        columnIndex++;
-                    }
+                    html.Append($"<td>{quote.id_quote}</td>");
+                    html.Append($"<td>{quote.id_customer}</td>");
+                    html.Append($"<td>{quote.id_producto}</td>");
+                    html.Append($"<td>{quote.id_user}</td>");
+                    html.Append($"<td>{quote.amount}</td>");
+                    html.Append($"<td>{quote.dDate}</td>");
                     html.Append("</tr>");
                 }
 
-                html.Append("</table>");
+            html.Append("</table>");
                 return html.ToString();
             }
         }
