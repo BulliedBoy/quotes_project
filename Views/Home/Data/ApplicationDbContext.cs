@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using quotes_project.Views.Home.Data;
-using quotes_project.Models;
 using quotes_project.Views.Home.Data.Entities;
 
 namespace quotes_project.Views.Home.Data
@@ -31,6 +29,38 @@ namespace quotes_project.Views.Home.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<QuoteEntity>(entity =>
+            {
+                entity.HasKey(e => e.IdQuote);
+
+                entity.ToTable("QuoteEntity");
+
+                entity.Property(e => e.IdQuote)
+                    .ValueGeneratedNever()
+                    .HasColumnName("id_quote");
+
+                entity.Property(e => e.Amount)
+                    .HasColumnType("money")
+                    .HasColumnName("amount");
+
+                entity.Property(e => e.DDate)
+                    .HasColumnName("dDate");
+
+                entity.Property(e => e.IdCustomer)
+                    .HasColumnName("id_customer");
+
+                entity.Property(e => e.IdProduct)
+                    .HasColumnName("id_product");
+
+                entity.Property(e => e.IdUser)
+                    .HasColumnName("id_user");
+
+                entity.Property(e => e.CustomerName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("customer_name");
+            });
+
             modelBuilder.Entity<CustomerEntity>(entity =>
             {
                 entity.HasKey(e => e.IdCustomer);
@@ -59,28 +89,6 @@ namespace quotes_project.Views.Home.Data
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("product_name");
-            });
-
-            modelBuilder.Entity<QuoteEntity>(entity =>
-            {
-                entity.HasKey(e => e.IdQuote);
-
-                entity.ToTable("QuoteEntity");
-
-                entity.Property(e => e.IdQuote)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id_quote");
-                entity.Property(e => e.Amount)
-                    .HasColumnType("money")
-                    .HasColumnName("amount");
-                entity.Property(e => e.DDate).HasColumnName("dDate");
-                entity.Property(e => e.IdCustomer).HasColumnName("id_customer");
-                entity.Property(e => e.IdProduct).HasColumnName("id_product");
-                entity.Property(e => e.IdUser).HasColumnName("id_user");
-                entity.Property(e => e.CustomerName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("customername");
             });
 
             modelBuilder.Entity<UserEntity>(entity =>

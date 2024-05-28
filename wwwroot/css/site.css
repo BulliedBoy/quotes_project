@@ -191,3 +191,12 @@ body {
     border-radius: 4px;
     cursor: pointer;
 }
+
+.fixed-size-button {
+    width: 100px; /* Ajusta este valor según sea necesario */
+    height: 40px; /* Ajusta este valor según sea necesario */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px; /* Espacio entre botones */
+}
