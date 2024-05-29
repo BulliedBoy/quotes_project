@@ -4,59 +4,32 @@
     ViewData["Title"] = "Cotizador";
 }
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>@ViewData["Title"]</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* Estilos personalizados */
-        body {
-            background-color: #f8f9fa; /* Color de fondo neutro */
-        }
+<h2>Crear Cotización</h2>
 
-        .container {
-            margin-top: 50px; /* Margen superior para centrar el formulario */
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2 class="text-center">Crear Cotización</h2>
-
-        <form asp-action="Guardar" method="post">
-            <div class="mb-3">
-                <label for="IdCustomer" class="form-label">No. de Cliente</label>
-                <input type="text" class="form-control" id="IdCustomer" name="IdCustomer" required />
-            </div>
-            <div class="mb-3">
-                <label for="CustomerName" class="form-label">Cliente</label>
-                <input type="text" class="form-control" id="CustomerName" name="CustomerName" required />
-            </div>
-            <div class="mb-3">
-                <label for="IdProduct" class="form-label">Tipo de Producto</label>
-                <input type="text" class="form-control" id="IdProduct" name="IdProduct" required />
-            </div>
-            <div class="mb-3">
-                <label for="IdUser" class="form-label">Usuario</label>
-                <input type="text" class="form-control" id="IdUser" name="IdUser" required />
-            </div>
-            <div class="mb-3">
-                <label for="Amount" class="form-label">Monto</label>
-                <input type="number" class="form-control" id="Amount" name="Amount" required />
-            </div>
-            <div class="mb-3">
-                <label for="DDate" class="form-label">Fecha</label>
-                <input type="date" class="form-control" id="DDate" name="DDate" required />
-            </div>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-        </form>
+<form asp-action="Guardar" method="post">
+    <div>
+        <label for="IdCustomer">No. de Cliente</label>
+        <input type="text" id="IdCustomer" name="IdCustomer" required />
     </div>
-
-    <!-- Bootstrap JavaScript (opcional) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    <div>
+        <label for="CustomerName">Cliente</label>
+        <input type="text" id="CustomerName" name="CustomerName" required />
+    </div>
+    <div>
+        <label for="IdProduct">Tipo de Producto</label>
+        <input type="text" id="IdProduct" name="IdProduct" required />
+    </div>
+    <div>
+        <label for="IdUser">Usuario</label>
+        <input type="text" id="IdUser" name="IdUser" required />
+    </div>
+    <div>
+        <label for="Amount">Monto</label>
+        <input type="number" id="Amount" name="Amount" required />
+    </div>
+    <div>
+        <label for="DDate">Fecha</label>
+        <input type="date" id="DDate" name="DDate" required />
+    </div>
+    <button type="submit">Guardar</button>
+</form>

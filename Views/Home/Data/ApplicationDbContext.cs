@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using Microsoft.Extensions.Configuration;
 using quotes_project.Views.Home.Data.Entities;
 
@@ -8,7 +9,8 @@ namespace quotes_project.Views.Home.Data
     {
         private readonly IConfiguration _configuration;
 
-        public ApplicationDbContext(IConfiguration configuration)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration)
+            : base(options)
         {
             _configuration = configuration;
         }
@@ -36,7 +38,7 @@ namespace quotes_project.Views.Home.Data
                 entity.ToTable("QuoteEntity");
 
                 entity.Property(e => e.IdQuote)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("id_quote");
 
                 entity.Property(e => e.Amount)
@@ -44,6 +46,7 @@ namespace quotes_project.Views.Home.Data
                     .HasColumnName("amount");
 
                 entity.Property(e => e.DDate)
+                    .HasColumnType("DateTime")
                     .HasColumnName("dDate");
 
                 entity.Property(e => e.IdCustomer)
@@ -68,8 +71,9 @@ namespace quotes_project.Views.Home.Data
                 entity.ToTable("CustomerEntity");
 
                 entity.Property(e => e.IdCustomer)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("id_customer");
+
                 entity.Property(e => e.CustomerName)
                     .HasMaxLength(50)
                     .IsUnicode(false)
@@ -83,8 +87,9 @@ namespace quotes_project.Views.Home.Data
                 entity.ToTable("ProductEntity");
 
                 entity.Property(e => e.IdProduct)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id_Product");
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("id_product");
+
                 entity.Property(e => e.ProductName)
                     .HasMaxLength(50)
                     .IsUnicode(false)
@@ -98,8 +103,9 @@ namespace quotes_project.Views.Home.Data
                 entity.ToTable("UserEntity");
 
                 entity.Property(e => e.IdUser)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("id_user");
+
                 entity.Property(e => e.Username)
                     .HasMaxLength(50)
                     .IsUnicode(false)

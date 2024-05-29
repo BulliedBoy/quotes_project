@@ -16,9 +16,13 @@ namespace quotes_project.Controllers
         }
 
         // GET: Cotizador
-        public IActionResult Index()
+        public IActionResult Index
         {
-            return View();
+            get
+            {
+                var model = new QuoteEntity(); // Crea un nuevo objeto QuoteEntity
+                return View(model); // Pasa el modelo a la vista
+            }
         }
 
         // POST: Cotizador/Guardar
@@ -32,7 +36,7 @@ namespace quotes_project.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Listado");
             }
-            return View(model);
+            return View(model); // Pasa el modelo de vuelta a la vista en caso de error
         }
     }
 
