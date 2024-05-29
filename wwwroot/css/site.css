@@ -205,4 +205,5 @@ body {
     justify-content: center;
     align-items: center;
     margin: 0 5px; /* Espacio entre botones */
+    font-weight:bold;
 }
