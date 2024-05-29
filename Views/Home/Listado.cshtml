@@ -5,15 +5,8 @@
 
 <h1>Cotizaciones</h1>
 
-<div class="page-container">
-    <div class="table-container">
-        @if (Model.HtmlTable != null)
-        {
-            @Html.Raw(Model.HtmlTable)
-        }
-        else
-        {
-            <p>No se pudo generar la tabla HTML.</p>
-        }
-    </div>
+<div class="table-container">
+    @Html.Raw(Model.HtmlTable)
 </div>
+
+<script src="~/js/listado.js"></script>
