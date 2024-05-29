@@ -1,11 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
 using quotes_project.Models;
+using quotes_project.Views.Home.Data;
 
 namespace quotes_project.Controllers
 {
 	public class HomeController : Controller
 	{
-		public IActionResult Index()
+        private readonly ApplicationDbContext _context;
+
+        public HomeController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+        public IActionResult Index()
 		{
 			return View();
 		}
@@ -18,7 +25,7 @@ namespace quotes_project.Controllers
 
 		public IActionResult Listado()
 		{
-			var model = new ListadoModel();
+			var model = new ListadoModel(_context);
 			model.LoadData();
 			ViewData["Title"] = "Listado";
 			return View(model);
@@ -26,18 +33,11 @@ namespace quotes_project.Controllers
 
 		public IActionResult Cotizador()
 		{
-			var cotizadorModel = new CotizadorModel();
-			cotizadorModel.ExcelList(); // Cargar la lista de clientes
-			return View(cotizadorModel);
-		}
-
-		public IActionResult CotizadorFromListado()
-		{
-			TempData["FromListado"] = true; // Indicador que se accedió desde Listado
-			var cotizadorModel = new CotizadorModel();
-			cotizadorModel.ExcelList(); // Cargar la lista de clientes
-			return View("Cotizador", cotizadorModel);
-		}
+            var model = new CotizadorModel(_context);
+            model.LoadData();
+            ViewData["Title"] = "Cotizador";
+            return View(model);
+        }
 
 		public IActionResult Privacy()
 		{

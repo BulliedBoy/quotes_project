@@ -1,253 +1,45 @@
 ﻿@model quotes_project.Models.CotizadorModel
 @{
-	ViewData["Title"] = "Cotizador";
+    ViewData["Title"] = "Cotizador";
 }
 
-<div style="margin-bottom:30px;">
-	@if (TempData["FromListado"] != null && (bool)TempData["FromListado"])
-	{
-		<h1>Cotización#</h1>
-	}
-	else
-	{
-		<h1>Nueva Cotización</h1>
-	}
+<div class="body">
+<h1>Cotizaciones</h1>
+</div>
+<!--<div class="table-container">
+    @Html.Raw(Model.HtmlTable)
 </div>
 
-<style type="text/css">
-	#wrap {
-		width: 99%;
-		margin: 0 auto;
-		margin-bottom:200px;
-	}
-
-	#left_col {
-		float: left;
-		width: 45%;
-		margin-bottom: 200px;
-	}
-
-	#right_col {
-		float: right;
-		width: 45%;
-		margin-bottom: 200px;
-	}
-</style>
-
-<div id="wrap">
-	<form id="left_col" role="form" action="" method="POST" id="formsave">
-		<div class="box-body">
-			<!--********CLIENTE AGENDA********-->
-			<div class="form-group">
-				<label>Cliente Agenda</label>
-				<select id="cod_cliente" name="cod_cliente" size="1" class="form-control select-limit">
-					<option value="0">Seleccion de cliente</option>
-					@foreach (var cliente in Model.Clientes)
-					{
-						<option value="@cliente">@cliente</option>
-					}
-				</select>
-
-
-			</div>
-			<!--********FIN CLIENTE AGENDA********-->
-			<!--*******NOMBRE CLIENTE********-->
-			<div class="form-group">
-				<!-- form-group 1 -->
-				<label for="nombre_cliente">Nombre</label>
-				<input id="nombre_cliente" name="nombre_cliente" type="text" class="form-control" style="text-transform:uppercase" placeholder="Nombre del Cliente" value="">
-			</div>
-			<!--*******FIN NOMBRE CLIENTE********-->
-			<div>
-				<label>
-					Tipo de Cotización
-				</label>
-
-			</div>
-			<!--********TIPO DE REPORTE********-->
-			<div class="form-group">
-				<div class="radio">
-					<label>
-						<input type="radio" name="ntipocot" id="ntipocot" value="1" checked="">
-						Licencia
-					</label>
-				</div>
-				<div class="radio">
-					<label>
-						<input type="radio" name="ntipocot" id="ntipocot" value="2">
-						Cloud
-					</label>
-				</div>
-				<div class="radio">
-					<label>
-						<input type="radio" name="ntipocot" id="ntipocot" value="3">
-						Característica
-					</label>
-				</div>
-			</div>
-			<!--********FIN TIPO DE REPORTE********-->
-
-			<!--********VERSION********-->
-			<div class="form-group">
-				<label>Versión</label>
-				<input type="text" class="form-control" id="cversion" name="cversion" placeholder="Versión" size="10" value="">
-			</div>
-			<!--********FIN VERSION********-->
-			<!--********TIENE CONTRATO********-->
-			<div>
-				<label>
-					Contrato de Mantenimiento
-				</label>
-			</div>
-
-			<div class="form-group">
-				<div class="radio">
-					<label>
-						<input type="radio" name="ncontrato" id="ncontrato" value="1" readonly="readonly">
-						Si
-					</label>
-				</div>
-				<div class="radio">
-					<label>
-						<input type="radio" name="ncontrato" id="ncontrato" value="2" checked="" readonly="readonly">
-						No
-					</label>
-				</div>
-			</div>
-			<!--********FIN TIENE CONTRATO********-->
-			<!--********FECHA DEL REPORTE********-->
-			<div class="form-group">
-				<label>Fecha</label>
-
-				<div class="input-group date">
-					<div class="input-group-addon">
-						<i class="fa fa-calendar"></i>
-					</div>
-					<input type="text" class="form-control pull-right" id="fecha" name="fecha" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" value="">
-				</div>
-				<!-- /.input group -->
-			</div>
-			<!--********FIN FECHA DEL REPORTE********-->
-			<!--********HORA ENTRADA********-->
-			<div class="bootstrap-timepicker">
-				<div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a href="#" data-action="incrementHour"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="incrementMinute"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td class="meridian-column"><a href="#" data-action="toggleMeridian"><i class="glyphicon glyphicon-chevron-up"></i></a></td></tr><tr><td><span class="bootstrap-timepicker-hour">03</span></td> <td class="separator">:</td><td><span class="bootstrap-timepicker-minute">52</span></td> <td class="separator">&nbsp;</td><td><span class="bootstrap-timepicker-meridian">PM</span></td></tr><tr><td><a href="#" data-action="decrementHour"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator"></td><td><a href="#" data-action="decrementMinute"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="toggleMeridian"><i class="glyphicon glyphicon-chevron-down"></i></a></td></tr></tbody></table></div>
-				<div class="form-group">
-					<label>Hora de entrada</label>
-
-					<div class="input-group">
-						<input type="text" class="form-control timepicker" id="hentrada" name="hentrada" value="">
-
-						<div class="input-group-addon">
-							<i class="fa fa-clock-o"></i>
-						</div>
-					</div>
-					<!-- /.input group -->
-				</div>
-				<!-- /.form group -->
-			</div>
-			<!--********FIN HORA ENTRADA********-->
-			<!--********HORA SALIDA********-->
-			<div class="bootstrap-timepicker">
-				<div class="bootstrap-timepicker-widget dropdown-menu"><table><tbody><tr><td><a href="#" data-action="incrementHour"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="incrementMinute"><i class="glyphicon glyphicon-chevron-up"></i></a></td><td class="separator">&nbsp;</td><td class="meridian-column"><a href="#" data-action="toggleMeridian"><i class="glyphicon glyphicon-chevron-up"></i></a></td></tr><tr><td><span class="bootstrap-timepicker-hour">03</span></td> <td class="separator">:</td><td><span class="bootstrap-timepicker-minute">52</span></td> <td class="separator">&nbsp;</td><td><span class="bootstrap-timepicker-meridian">PM</span></td></tr><tr><td><a href="#" data-action="decrementHour"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator"></td><td><a href="#" data-action="decrementMinute"><i class="glyphicon glyphicon-chevron-down"></i></a></td><td class="separator">&nbsp;</td><td><a href="#" data-action="toggleMeridian"><i class="glyphicon glyphicon-chevron-down"></i></a></td></tr></tbody></table></div>
-				<div class="form-group">
-					<label>Hora de salida</label>
-
-					<div class="input-group">
-						<input type="text" class="form-control timepicker" id="hsalida" name="hsalida" value="">
-
-						<div class="input-group-addon">
-							<i class="fa fa-clock-o"></i>
-						</div>
-					</div>
-					<!-- /.input group -->
-				</div>
-				<!-- /.form group -->
-			</div>
-			<!--********FIN HORA SALIDA********-->
-			<!--********TIEMPO CARGADO********-->
-			<div class="form-group">
-				<label>Tiempo Cargado</label>
-
-				<div class="input-group">
-					<input type="text" id="tcargado" name="tcargado" class="form-control" data-inputmask="&quot;mask&quot;: &quot;99:99&quot;" data-mask="" value="">
-				</div>
-				<!-- /.input group -->
-			</div>
-			<!--********FIN TIEMPO CARGADO********-->
-			<!--********VISITADO POR********-->
-			<div class="form-group">
-				<!-- form-group 9 -->
-				<label>Cotizado por</label>
-				<div class="">
-					<div class="input-group">
-						<select id="visitado_por" name="visitado_por" size="1" class="form-control select-limit">
-							<option value="0">Seleccion de Usuario</option>
-							@foreach (var usuario in Model.Usuarios)
-							{
-								<option value="@usuario">@usuario</option>
-							}
-						</select>
-
-					</div>
-				</div>
-			</div>
-			<!--********FIN VISITADO POR********-->
-			<!--********CARGADO A********-->
-			<div class="form-group">
-				<label>Cargado a</label>
-				<div>
-					<div class="input-group">
-						<select id="cargado_a" name="cargado_a" size="1" class="form-control">
-							<option value="0">Seleccion</option>
-							<option value="Horas Reunion">Horas Reunion</option>
-							<option value="Horas Implementacion">Horas Implementacion</option>
-							<option value="Horas Visita/Asesoria">Horas Visita/Asesoria</option>
-							<option value="Horas Entrenamiento">Horas Entrenamiento</option>
-							<option value="Horas Contrato">Horas Contrato</option>
-						</select>
-
-					</div>
-				</div>
-			</div>
-			<!--********FIN CARGADO A********-->
-			<!--********COMENTARIO********-->
-			<div class="form-group">
-				<!-- form-group 11 -->
-				<label>Descripción del trabajo Realizado</label>
-				<div>
-<textarea id="comentario" name="comentario" class="form-control" style="height: 54px; overflow: hidden; overflow-wrap: break-word; resize: horizontal;" placeholder="Descripción del trabajo Realizado"></textarea>
-				</div>
-			</div> <!-- form-group 11 -->
-			<!--********FIN COMENTARIO********-->
-			<!--********OBSERVACIONES********-->
-			<div class="form-group">
-				<label>Observaciones</label>
-				<div>
-<textarea id="observacion" name="observacion" class="form-control" style="height: 54px; overflow: hidden; overflow-wrap: break-word; resize: horizontal; margin-bottom:15px;" placeholder="Observaciones"></textarea>
-				</div>
-			</div> <!-- form-group 8 -->
-			<!--********FIN OBSERVACIONES********-->
-
-			<div class="box-footer">
-				<div class="row text-center">
-					<button type="submit" name="btnSubmit" id="btnSubmit" class="btn btn-primary"><i class="fa fa-plus"></i> Guardar</button>
-					<a href="Main" class="btn btn-cancelar">
-						<i class="fa fa-times"></i> Cancelar
-					</a>
-				</div>
-			</div>
-
-		</div>
-	</form>
-<div id="right_col">
-	<table>
-    <tr>
-        <td colspan="2">Tester tester</td>
-	</tr>
-	<tr>
-		<td>Tester tester</td>
-		<td>Tester tester</td>
-	</tr>
-	</table>
-</div>
+<script src="~/js/listado.js"></script>
+-->
+<div class="quote-table-container">
+    <div class="left-column">
+        <!-- Contenido adicional o tablas en la columna izquierda -->
+        <p>Contenido de la columna izquierda</p>
+    </div>
+    <div class="right-column">
+        <div class="live-quote-container">
+            <table class="live-quote">
+                <thead>
+                    <tr>
+                        <th colspan="3">
+                            <img src="/assets/cloud_quote_header.jpg" alt="Header Image">
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Test Left</th>
+                        <th></th>
+                        <th style="text-align:right;">Test Right</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Tester</td>
+                        <td>Tester</td>
+                        <td>Tester</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

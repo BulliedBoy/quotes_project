@@ -1,0 +1,11 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace quotes_project.Views.Home.Data.Entities;
+
+public partial class CustomerEntity
+{
+    public int IdCustomer { get; set; }
+
+    public string CustomerName { get; set; } = null!;
+}

@@ -1,12 +1,49 @@
+/* Adaptando quote-table-container a un layout de dos columnas */
+.quote-table-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Espacio entre las columnas */
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    max-width: 900px; /* Ajusta según sea necesario */
+}
+
+    .quote-table-container .left-column,
+    .quote-table-container .right-column {
+        flex: 1;
+        /* Asegura que ambas columnas tengan igual ancho */
+    }
+
+    .quote-table-container .right-column {
+        max-width: 450px; /* Asegura que la columna derecha no exceda este ancho */
+    }
+
+    .quote-table-container .left-column {
+        /* Estilos específicos para la columna izquierda, si es necesario */
+    }
+
+/* Asegura que la tabla use todo el ancho disponible en la columna derecha */
+.live-quote {
+    width: 100%;
+}
+
+    .live-quote img {
+        width: 100%; /* Asegura que la imagen se ajuste al ancho de la tabla */
+    }
+
+/* Resto del CSS existente */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
+
 .input-group {
     position: relative;
     display: flex;
@@ -15,14 +52,17 @@ html {
     width: 100%;
     max-height: 75%;
 }
-.input:focus{
+
+.input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #0072ff;
-    color:#000000;
+    color: #000000;
 }
+
 .select-limit {
     max-height: 200px !important; /* Limita la altura del selector */
     overflow-y: auto !important; /* Agrega una barra de desplazamiento si es necesario */
 }
+
 .form-check-input:focus {
     border: 0.25rem #0072ff;
 }
@@ -42,23 +82,29 @@ body {
     font-size: 18px;
     background-color: #d6dce4
 }
+
 .form-input-group {
-    margin-bottom:10px;
+    margin-bottom: 10px;
 }
-.input-username{
+
+.input-username {
     margin-bottom: 15px;
 }
-.input-password{
+
+.input-password {
     margin-bottom: 15px;
 }
+
 .form-check-remember {
-    margin-bottom:2rem;
+    margin-bottom: 2rem;
 }
+
 .form-message-error {
-    top:3px;
-    bottom:7px;
+    top: 3px;
+    bottom: 7px;
     color: var(--color-error)
 }
+
 .center {
     width: 350px;
     max-width: 350px;
@@ -76,6 +122,7 @@ body {
     background: #ffffff7b;
     border-radius: 5px;
 }
+
 .quote {
     width: 450px;
     max-width: 500px;
@@ -93,6 +140,7 @@ body {
     background: #ffffff7b;
     border-radius: 5px;
 }
+
 .btn-primary {
     width: 100%;
     padding: 1rem 2rem;
@@ -101,8 +149,9 @@ body {
     outline: none;
     cursor: pointer;
     background: #0d6efd;
-    margin-bottom:10px;
+    margin-bottom: 10px;
 }
+
 .btn-guardar {
     width: 100%;
     padding: 1rem 2rem;
@@ -113,6 +162,7 @@ body {
     background: #009879;
     margin-bottom: 10px;
 }
+
 .btn-cancelar {
     width: 100%;
     padding: 1rem 2rem;
@@ -123,9 +173,11 @@ body {
     background: #ff4747;
     margin-bottom: 10px;
 }
+
 .btn-primary:hover {
     background: #000dff;
 }
+
 .quote-list {
     border-collapse: collapse;
     margin: 25px 0;
@@ -151,24 +203,26 @@ body {
     border-bottom: 1px solid #dddddd;
 }
 
-.quote-list tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
+    .quote-list tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
 
-.quote-list tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
-}
+    .quote-list tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
 
-.quote-list tbody tr.active-row {
-    font-weight: bold;
-    color: #009879;
-}
+    .quote-list tbody tr.active-row {
+        font-weight: bold;
+        color: #009879;
+    }
+
 .page-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
 }
+
 .table-container {
     max-height: 80%;
     overflow-y: auto;
@@ -178,17 +232,13 @@ body {
     border-bottom: 50px;
     margin: 20px 0;
 }
+
 .main-content {
     max-height: calc(100vh - 130px); /* 150px es la altura estimada de la barra de navegación y el pie de página */
     overflow-y: auto;
     padding-bottom: 30px; /* Ajusta este valor según sea necesario para evitar que el contenido se oculte detrás del footer */
 }
-.quote-table-container {
-    margin-right: auto;
-    margin-left: auto;
-    padding-right: 15px;
-    padding-left: 15px;
-}
+
 .expand-button {
     padding: 5px 10px;
     background-color: #007bff;
@@ -196,4 +246,8 @@ body {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+}
+
+.live-quote {
+    max-width: 300px;
 }
