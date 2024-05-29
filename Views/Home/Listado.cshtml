@@ -3,10 +3,17 @@
     ViewData["Title"] = "Listado";
 }
 
-<h1>Cotizaciones</h1>
+<h1 class="text-center">Cotizaciones</h1>
 
-<div class="table-container">
-    @Html.Raw(Model.HtmlTable)
+<div class="container-fluid justify-content-center align-items-center">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                @Html.Raw(Model.HtmlTable)
+            </div>
+        </div>
+    </div>
 </div>
 
+<link rel="stylesheet" href="~/css/site.css">
 <script src="~/js/listado.js"></script>

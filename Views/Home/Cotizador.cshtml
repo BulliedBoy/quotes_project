@@ -1,45 +1,35 @@
-﻿@model quotes_project.Models.CotizadorModel
+﻿@model quotes_project.Views.Home.Data.Entities.QuoteEntity
+
 @{
     ViewData["Title"] = "Cotizador";
 }
 
-<div class="body">
-<h1>Cotizaciones</h1>
-</div>
-<!--<div class="table-container">
-    @Html.Raw(Model.HtmlTable)
-</div>
+<h2>Crear Cotización</h2>
 
-<script src="~/js/listado.js"></script>
--->
-<div class="quote-table-container">
-    <div class="left-column">
-        <!-- Contenido adicional o tablas en la columna izquierda -->
-        <p>Contenido de la columna izquierda</p>
+<form asp-action="Guardar" method="post">
+    <div>
+        <label for="IdCustomer">No. de Cliente</label>
+        <input type="text" id="IdCustomer" name="IdCustomer" required />
     </div>
-    <div class="right-column">
-        <div class="live-quote-container">
-            <table class="live-quote">
-                <thead>
-                    <tr>
-                        <th colspan="3">
-                            <img src="/assets/cloud_quote_header.jpg" alt="Header Image">
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>Test Left</th>
-                        <th></th>
-                        <th style="text-align:right;">Test Right</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Tester</td>
-                        <td>Tester</td>
-                        <td>Tester</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <div>
+        <label for="CustomerName">Cliente</label>
+        <input type="text" id="CustomerName" name="CustomerName" required />
     </div>
-</div>
+    <div>
+        <label for="IdProduct">Tipo de Producto</label>
+        <input type="text" id="IdProduct" name="IdProduct" required />
+    </div>
+    <div>
+        <label for="IdUser">Usuario</label>
+        <input type="text" id="IdUser" name="IdUser" required />
+    </div>
+    <div>
+        <label for="Amount">Monto</label>
+        <input type="number" id="Amount" name="Amount" required />
+    </div>
+    <div>
+        <label for="DDate">Fecha</label>
+        <input type="date" id="DDate" name="DDate" required />
+    </div>
+    <button type="submit">Guardar</button>
+</form>
