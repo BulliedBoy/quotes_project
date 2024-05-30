@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using quotes_project.Views.Home.Data;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Crear el app
 var app = builder.Build();
+
+// Inicializar la base de datos
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    var configuration = services.GetRequiredService<IConfiguration>();
+    SeedDb.Initialize(services, configuration);
+}
 
 // Configurar el pipeline HTTP
 if (app.Environment.IsDevelopment())

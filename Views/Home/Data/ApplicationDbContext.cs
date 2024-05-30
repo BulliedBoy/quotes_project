@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
 using Microsoft.Extensions.Configuration;
 using quotes_project.Views.Home.Data.Entities;
 
 namespace quotes_project.Views.Home.Data
 {
-    public partial class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
         private readonly IConfiguration _configuration;
 
@@ -15,10 +14,10 @@ namespace quotes_project.Views.Home.Data
             _configuration = configuration;
         }
 
-        public virtual DbSet<CustomerEntity> CustomerEntity { get; set; }
-        public virtual DbSet<ProductEntity> ProductEntity { get; set; }
-        public virtual DbSet<QuoteEntity> QuoteEntity { get; set; }
-        public virtual DbSet<UserEntity> UserEntity { get; set; }
+        public DbSet<CustomerEntity> CustomerEntity { get; set; }
+        public DbSet<ProductEntity> ProductEntity { get; set; }
+        public DbSet<QuoteEntity> QuoteEntity { get; set; }
+        public DbSet<UserEntity> UserEntity { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -34,87 +33,41 @@ namespace quotes_project.Views.Home.Data
             modelBuilder.Entity<QuoteEntity>(entity =>
             {
                 entity.HasKey(e => e.IdQuote);
-
                 entity.ToTable("QuoteEntity");
 
-                entity.Property(e => e.IdQuote)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("id_quote");
-
-                entity.Property(e => e.Amount)
-                    .HasColumnType("money")
-                    .HasColumnName("amount");
-
-                entity.Property(e => e.DDate)
-                    .HasColumnType("DateTime")
-                    .HasColumnName("dDate");
-
-                entity.Property(e => e.IdCustomer)
-                    .HasColumnName("id_customer");
-
-                entity.Property(e => e.IdProduct)
-                    .HasColumnName("id_product");
-
-                entity.Property(e => e.IdUser)
-                    .HasColumnName("id_user");
-
-                entity.Property(e => e.CustomerName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("customer_name");
+                entity.Property(e => e.IdQuote).ValueGeneratedOnAdd();
+                entity.Property(e => e.Amount).HasColumnType("money");
+                entity.Property(e => e.DDate).HasColumnType("DateTime");
+                entity.Property(e => e.CustomerName).HasMaxLength(50).IsUnicode(false);
             });
 
             modelBuilder.Entity<CustomerEntity>(entity =>
             {
                 entity.HasKey(e => e.IdCustomer);
-
                 entity.ToTable("CustomerEntity");
 
-                entity.Property(e => e.IdCustomer)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("id_customer");
-
-                entity.Property(e => e.CustomerName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("customer_name");
+                entity.Property(e => e.IdCustomer).ValueGeneratedOnAdd();
+                entity.Property(e => e.CustomerName).HasMaxLength(50).IsUnicode(false);
+                entity.Property(e => e.CustomerType).HasMaxLength(50).IsUnicode(false);
             });
 
             modelBuilder.Entity<ProductEntity>(entity =>
             {
                 entity.HasKey(e => e.IdProduct);
-
                 entity.ToTable("ProductEntity");
 
-                entity.Property(e => e.IdProduct)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("id_product");
-
-                entity.Property(e => e.ProductName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("product_name");
+                entity.Property(e => e.IdProduct).ValueGeneratedOnAdd();
+                entity.Property(e => e.ProductName).HasMaxLength(50).IsUnicode(false);
             });
 
             modelBuilder.Entity<UserEntity>(entity =>
             {
                 entity.HasKey(e => e.IdUser);
-
                 entity.ToTable("UserEntity");
 
-                entity.Property(e => e.IdUser)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("id_user");
-
-                entity.Property(e => e.Username)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("username");
+                entity.Property(e => e.IdUser).ValueGeneratedOnAdd();
+                entity.Property(e => e.Username).HasMaxLength(50).IsUnicode(false);
             });
-
-            OnModelCreatingPartial(modelBuilder);
         }
-
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

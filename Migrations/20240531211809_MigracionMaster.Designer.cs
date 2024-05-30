@@ -12,15 +12,15 @@ using quotes_project.Views.Home.Data;
 namespace quotes_project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240528212047_DataInsert2")]
-    partial class DataInsert2
+    [Migration("20240531211809_MigracionMaster")]
+    partial class MigracionMaster
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -28,15 +28,22 @@ namespace quotes_project.Migrations
             modelBuilder.Entity("quotes_project.Views.Home.Data.Entities.CustomerEntity", b =>
                 {
                     b.Property<int>("IdCustomer")
-                        .HasColumnType("int")
-                        .HasColumnName("id_customer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCustomer"));
 
                     b.Property<string>("CustomerName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("customer_name");
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("CustomerType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("IdCustomer");
 
@@ -46,15 +53,22 @@ namespace quotes_project.Migrations
             modelBuilder.Entity("quotes_project.Views.Home.Data.Entities.ProductEntity", b =>
                 {
                     b.Property<int>("IdProduct")
-                        .HasColumnType("int")
-                        .HasColumnName("id_Product");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProduct"));
+
+                    b.Property<double>("AmountNormal")
+                        .HasColumnType("float");
+
+                    b.Property<double>("AmountOutsourcing")
+                        .HasColumnType("float");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("product_name");
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("IdProduct");
 
@@ -64,28 +78,31 @@ namespace quotes_project.Migrations
             modelBuilder.Entity("quotes_project.Views.Home.Data.Entities.QuoteEntity", b =>
                 {
                     b.Property<int>("IdQuote")
-                        .HasColumnType("int")
-                        .HasColumnName("id_quote");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdQuote"));
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("money")
-                        .HasColumnName("amount");
+                        .HasColumnType("money");
 
-                    b.Property<DateOnly>("DDate")
-                        .HasColumnType("date")
-                        .HasColumnName("dDate");
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<DateTime>("DDate")
+                        .HasColumnType("DateTime");
 
                     b.Property<int>("IdCustomer")
-                        .HasColumnType("int")
-                        .HasColumnName("id_customer");
+                        .HasColumnType("int");
 
                     b.Property<int>("IdProduct")
-                        .HasColumnType("int")
-                        .HasColumnName("id_product");
+                        .HasColumnType("int");
 
                     b.Property<int>("IdUser")
-                        .HasColumnType("int")
-                        .HasColumnName("id_user");
+                        .HasColumnType("int");
 
                     b.HasKey("IdQuote");
 
@@ -95,15 +112,16 @@ namespace quotes_project.Migrations
             modelBuilder.Entity("quotes_project.Views.Home.Data.Entities.UserEntity", b =>
                 {
                     b.Property<int>("IdUser")
-                        .HasColumnType("int")
-                        .HasColumnName("id_user");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdUser"));
 
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("username");
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("IdUser");
 

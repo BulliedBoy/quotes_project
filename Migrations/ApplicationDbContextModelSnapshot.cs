@@ -26,8 +26,7 @@ namespace quotes_project.Migrations
                 {
                     b.Property<int>("IdCustomer")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id_customer");
+                        .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCustomer"));
 
@@ -35,8 +34,13 @@ namespace quotes_project.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("customer_name");
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("CustomerType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("IdCustomer");
 
@@ -47,17 +51,21 @@ namespace quotes_project.Migrations
                 {
                     b.Property<int>("IdProduct")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id_product");
+                        .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProduct"));
+
+                    b.Property<double>("AmountNormal")
+                        .HasColumnType("float");
+
+                    b.Property<double>("AmountOutsourcing")
+                        .HasColumnType("float");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("product_name");
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("IdProduct");
 
@@ -68,37 +76,30 @@ namespace quotes_project.Migrations
                 {
                     b.Property<int>("IdQuote")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id_quote");
+                        .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdQuote"));
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("money")
-                        .HasColumnName("amount");
+                        .HasColumnType("money");
 
                     b.Property<string>("CustomerName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("customer_name");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<DateTime>("DDate")
-                        .HasColumnType("DateTime")
-                        .HasColumnName("dDate");
+                        .HasColumnType("DateTime");
 
                     b.Property<int>("IdCustomer")
-                        .HasColumnType("int")
-                        .HasColumnName("id_customer");
+                        .HasColumnType("int");
 
                     b.Property<int>("IdProduct")
-                        .HasColumnType("int")
-                        .HasColumnName("id_product");
+                        .HasColumnType("int");
 
                     b.Property<int>("IdUser")
-                        .HasColumnType("int")
-                        .HasColumnName("id_user");
+                        .HasColumnType("int");
 
                     b.HasKey("IdQuote");
 
@@ -109,8 +110,7 @@ namespace quotes_project.Migrations
                 {
                     b.Property<int>("IdUser")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id_user");
+                        .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdUser"));
 
@@ -118,8 +118,7 @@ namespace quotes_project.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("username");
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("IdUser");
 
