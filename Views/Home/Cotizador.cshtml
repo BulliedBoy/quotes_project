@@ -1,4 +1,4 @@
-﻿@model quotes_project.Views.Home.Data.Entities.QuoteEntity
+﻿@model quotes_project.Models.CotizadorModel
 
 @{
     ViewData["Title"] = "Cotizador";
@@ -33,3 +33,29 @@
     </div>
     <button type="submit">Guardar</button>
 </form>
+
+<div id="quote-viewer">
+    @section scripts {
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                // Función para cargar y mostrar el contenido del template HTML
+                function mostrarTemplate() {
+                    $.ajax({
+                        url: '@Url.Action("ObtenerTemplate", "Cotizacion")', // Ruta de la acción del controlador para obtener el template
+                        type: 'GET',
+                        success: function (data) {
+                            $('#quoteViewer').html(data); // Mostrar el contenido del template en el visor
+                        },
+                        error: function () {
+                            console.error('Error al obtener el template HTML.');
+                        }
+                    });
+                }
+
+                // Llamar a la función para mostrar el template cuando la página se carga por completo
+                mostrarTemplate();
+            });
+        </script>
+    }
+</div>

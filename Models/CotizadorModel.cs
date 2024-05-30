@@ -1,5 +1,6 @@
 using System.Text;
 using System.Web;
+using Microsoft.AspNetCore.Mvc;
 using quotes_project.Views.Home.Data;
 using quotes_project.Views.Home.Data.Entities; // Asegúrate de importar el espacio de nombres correcto
 
@@ -72,5 +73,19 @@ namespace quotes_project.Models
                 return html.ToString();
             }
         }
+    }
+}
+
+public class CotizacionController : Controller
+{
+    // Otras acciones del controlador
+
+    public IActionResult ObtenerTemplate()
+    {
+        // Lee el contenido del archivo de template HTML
+        var templatePath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot", "Assets", "cotizacion_cloud2.html");
+        var templateContent = System.IO.File.ReadAllText(templatePath);
+
+        return Content(templateContent, "text/html"); // Devuelve el contenido del template HTML
     }
 }

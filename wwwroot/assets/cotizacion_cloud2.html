@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cotización</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td, th {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        .header, .header td {
+            border: none;
+        }
+        .header img {
+            width: 100%;
+            height: auto;
+        }
+        .no-border {
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <p><img src="\assets\cloud_quote_header.jpg" alt="A blue and white logo Description automatically generated" width="699" height="105" /></p>
+        <table>
+            <tbody>
+                <tr class="header">
+                    <td><strong>Sosa y Cía., S.A.</strong></td>
+                    <td colspan="2"><strong>Cotización #&lt;id_quote&gt;</strong></td>
+                </tr>
+                <tr class="header">
+                    <td>Urbanización Industrial Los Angeles, calle 63 Oeste, local No. 30</td>
+                    <td colspan="2">&lt;date_quote&gt;</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Para: <strong>&lt;cloud_cust_name&gt;</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>DESCRIPCION DE SERVICIOS</strong></td>
+                    <td colspan="2"><strong>&lt;cloud_freq1&gt;</strong></td>
+                </tr>
+                <tr>
+                    <td>Servicio de uso de PayDayCloud hasta &lt;cloud_emp_qty&gt; empleados. *</td>
+                    <td>B/.&lt;cloud_amnt&gt;</td>
+                </tr>
+                <tr>
+                    <td>El total incluye:</td>
+                    <td class="no-border"></td>
+                    <td class="no-border"></td>
+                </tr>
+                <tr>
+                    <td>&lt;cloud_comp_qty&gt;</td>
+                    <td class="no-border"></td>
+                    <td class="no-border"></td>
+                </tr>
+                <tr>
+                    <td>&lt;cloud_user_qty&gt;</td>
+                    <td class="no-border"></td>
+                    <td class="no-border"></td>
+                </tr>
+                <tr>
+                    <td>&lt;cloud_mod_cost&gt;</td>
+                    <td class="no-border"></td>
+                    <td class="no-border"></td>
+                </tr>
+                <tr>
+                    <td>Servicio de Soporte, incluye asesoría telefónica y conexiones remotas</td>
+                    <td class="no-border"></td>
+                    <td class="no-border"></td>
+                </tr>
+                <tr>
+                    <td>Autenticación de acceso mediante Token</td>
+                    <td class="no-border"></td>
+                    <td class="no-border"></td>
+                </tr>
+                <tr>
+                    <td>Hasta &lt;cloud_storage_cap&gt; de almacenamiento</td>
+                    <td class="no-border"></td>
+                    <td class="no-border"></td>
+                </tr>
+                <tr>
+                    <td>Descuento</td>
+                    <td>B/.&lt;cloud_disc1&gt;</td>
+                    <td class="no-border"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Subtotal</td>
+                    <td>B/.&lt;cloud_subt1&gt;</td>
+                </tr>
+                <tr>
+                    <td colspan="2">ITBMS</td>
+                    <td>B/.&lt;cloud_tax1&gt;</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><strong>Total a pagar por &lt;cloud_freq2&gt;</strong></td>
+                    <td><strong>B/.&lt;cloud_net1&gt;</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><strong>Servicios adicionales (se paga una sola vez)</strong></td>
+                    <td><strong>Precio</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Doce horas de capacitación en el uso de PayDayCloud, hasta &lt;cloud_train_qty&gt; **</td>
+                    <td>B/.&lt;cloud_train_cost&gt;</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Interfaz de pago ACH a los colaboradores &lt;cloud_ach-e_bank&gt;</td>
+                    <td>B/.&lt;cloud_ach-e_cost&gt;</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Interfaz de pago ACH a los acreedores &lt;cloud_ach-a_bank&gt;</td>
+                    <td>B/.&lt;cloud_ach-a_cost&gt;</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Interfaz con el Reloj de Marcación o Software de control de Asistencia</td>
+                    <td>B/.&lt;cloud_clock_cost&gt;</td>
+                </tr>
+                <tr>
+                    <td colspan="2" rowspan="2">Importación de datos iniciales e historia anterior, a partir del formato proporcionado.<br />Para una (1) compañía. (Empleados, acreedores, deudas e ingresos)</td>
+                    <td rowspan="2">B/.&lt;cloud_impor_cost&gt;</td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td colspan="2" rowspan="2">Enlace con el Mayor General (Básico) por medio de un archivo (ASCII,DBF)<br />(Precio dependerá del requerimiento del cliente)</td>
+                    <td rowspan="2">B/.&lt;cloud_gl_cost&gt;</td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td>Descuento</td>
+                    <td>B/.&lt;cloud_disc2&gt;</td>
+                    <td class="no-border"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Subtotal</td>
+                    <td>B/.&lt;cloud_subt2&gt;</td>
+                </tr>
+                <tr>
+                    <td colspan="2">ITBMS</td>
+                    <td>B/.&lt;cloud_tax2&gt;</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><strong>Total a pagar</strong></td>
+                    <td><strong>B/.&lt;cloud_net2&gt;</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="3">* Se contabilizan los empleados activos, de vacaciones, suspendidos o de licencia, de todas las compañías.</td>
+                </tr>
+                <tr>
+                    <td colspan="3" rowspan="2">** La capacitación será dictada en cuatro (4) sesiones de tres (3) horas cada una, hasta un máximo de dos (2) personas simultáneamente en las oficinas de Sosa y Cía., S.A., y debe ser tomada durante los 3 primeros meses, a partir de la fecha de contratación del servicio.</td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td colspan="3">- El Software PayDayCloud se ofrece tal cual está, cualquier modificación se cotiza por separado.</td>
+                </tr>
+                <tr>
+                    <td colspan="3">- El contrato de Servicio de Uso y de Soporte de PayDayCloud debe ser por un (1) año, como mínimo.</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <div>
+                            <p><img src="\assets\cloud_quote_divider.png" alt="" width="19" height="27" /></p>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Forma de pago:</strong> Pagos mensuales por transferencia bancaria o ACH</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>Servicios adicionales:</strong> un solo pago al momento de firma del contrato.</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Cotización válida por 30 días.</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            <p><img src="\assets\cloud_quote_approval.png" width="636" height="9" />
