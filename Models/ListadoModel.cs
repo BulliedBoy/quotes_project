@@ -74,7 +74,7 @@ namespace quotes_project.Models
                     html.Append($"<td class='align-middle'>{quote.Amount}</td>");
                     html.Append($"<td class='align-middle'>{quote.DDate}</td>");
                     html.Append("<td class='d-flex justify-content-center align-items-center'>");
-                    html.Append("<button class='btn btn-success btn-sm fixed-size-button'>Editar</button>");
+                    html.Append("<button class='btn btn-primary btn-sm fixed-size-button'>Editar</button>");
                     html.Append("<button class='btn btn-success btn-sm fixed-size-button'>Descargar</button>");
                     html.Append("</td>");
                     html.Append("</tr>");
