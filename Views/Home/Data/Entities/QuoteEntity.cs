@@ -3,10 +3,9 @@
     public class QuoteEntity
     {
         public int IdQuote { get; set; }
-        public int IdCustomer { get; set; }
         public string CustomerName { get; set; } = string.Empty;
-        public int IdProduct { get; set; }
-        public int IdUser { get; set; }
+        public string Product { get; set; } = string.Empty;
+        public string User { get; set; } = string.Empty;
         public decimal Amount { get; set; }
         public DateTime DDate { get; set; }
     }

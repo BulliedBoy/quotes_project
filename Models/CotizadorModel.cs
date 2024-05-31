@@ -50,7 +50,6 @@ namespace quotes_project.Models
                 html.Append("<table class='quote-list'>");
                 html.Append("<tr>");
                 html.Append("<th>No. de Cotización</th>");
-                html.Append("<th>No. de Cliente</th>");
                 html.Append("<th>Tipo de Producto</th>");
                 html.Append("<th>Usuario</th>");
                 html.Append("<th>Monto</th>");
@@ -61,9 +60,8 @@ namespace quotes_project.Models
                 {
                     html.Append("<tr>");
                     html.Append($"<td>{quote.IdQuote}</td>");
-                    html.Append($"<td>{quote.IdCustomer}</td>");
-                    html.Append($"<td>{quote.IdProduct}</td>");
-                    html.Append($"<td>{quote.IdUser}</td>");
+                    html.Append($"<td>{quote.Product}</td>");
+                    html.Append($"<td>{quote.User}</td>");
                     html.Append($"<td>{quote.Amount}</td>");
                     html.Append($"<td>{quote.DDate}</td>");
                     html.Append("</tr>");

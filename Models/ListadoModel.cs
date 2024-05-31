@@ -52,7 +52,6 @@ namespace quotes_project.Models
                 html.Append("<thead>");
                 html.Append("<tr>");
                 html.Append("<th>No. de Cotización</th>");
-                html.Append("<th>No. de Cliente</th>");
                 html.Append("<th>Cliente</th>");
                 html.Append("<th>Tipo de Producto</th>");
                 html.Append("<th>Usuario</th>");
@@ -67,10 +66,9 @@ namespace quotes_project.Models
                 {
                     html.Append("<tr>");
                     html.Append($"<td class='align-middle'>{quote.IdQuote}</td>");
-                    html.Append($"<td class='align-middle'>{quote.IdCustomer}</td>");
                     html.Append($"<td class='align-middle'>{quote.CustomerName}</td>");
-                    html.Append($"<td class='align-middle'>{quote.IdProduct}</td>");
-                    html.Append($"<td class='align-middle'>{quote.IdUser}</td>");
+                    html.Append($"<td class='align-middle'>{quote.Product}</td>");
+                    html.Append($"<td class='align-middle'>{quote.User}</td>");
                     html.Append($"<td class='align-middle'>{quote.Amount}</td>");
                     html.Append($"<td class='align-middle'>{quote.DDate}</td>");
                     html.Append("<td class='d-flex justify-content-center align-items-center'>");

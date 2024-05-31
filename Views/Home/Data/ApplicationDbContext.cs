@@ -15,7 +15,7 @@ namespace quotes_project.Views.Home.Data
         }
 
         public DbSet<CustomerEntity> CustomerEntity { get; set; }
-        public DbSet<ProductEntity> ProductEntity { get; set; }
+        public DbSet<LocalProductEntity> LocalProductEntity { get; set; }
         public DbSet<QuoteEntity> QuoteEntity { get; set; }
         public DbSet<UserEntity> UserEntity { get; set; }
 
@@ -48,16 +48,16 @@ namespace quotes_project.Views.Home.Data
 
                 entity.Property(e => e.IdCustomer).ValueGeneratedOnAdd();
                 entity.Property(e => e.CustomerName).HasMaxLength(50).IsUnicode(false);
-                entity.Property(e => e.CustomerType).HasMaxLength(50).IsUnicode(false);
+                entity.Property(e => e.LicenceType).HasMaxLength(50).IsUnicode(false);
             });
 
-            modelBuilder.Entity<ProductEntity>(entity =>
+            modelBuilder.Entity<LocalProductEntity>(entity =>
             {
                 entity.HasKey(e => e.IdProduct);
-                entity.ToTable("ProductEntity");
+                entity.ToTable("LocalProductEntity");
 
                 entity.Property(e => e.IdProduct).ValueGeneratedOnAdd();
-                entity.Property(e => e.ProductName).HasMaxLength(50).IsUnicode(false);
+                entity.Property(e => e.ProductName).HasMaxLength(100).IsUnicode(false);
             });
 
             modelBuilder.Entity<UserEntity>(entity =>
