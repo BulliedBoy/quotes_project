@@ -4,56 +4,80 @@
     ViewData["Title"] = "Cotizador";
 }
 
-<h2>Crear Cotización</h2>
-
-<form asp-action="Guardar" method="post">
-    <div>
-        <label for="IdCustomer">No. de Cliente</label>
-        <input type="text" id="IdCustomer" name="IdCustomer" required />
-    </div>
-    <div>
-        <label for="CustomerName">Cliente</label>
-        <input type="text" id="CustomerName" name="CustomerName" required />
-    </div>
-    <div>
-        <label for="IdProduct">Tipo de Producto</label>
-        <input type="text" id="IdProduct" name="IdProduct" required />
-    </div>
-    <div>
-        <label for="IdUser">Usuario</label>
-        <input type="text" id="IdUser" name="IdUser" required />
-    </div>
-    <div>
-        <label for="Amount">Monto</label>
-        <input type="number" id="Amount" name="Amount" required />
-    </div>
-    <div>
-        <label for="DDate">Fecha</label>
-        <input type="date" id="DDate" name="DDate" required />
-    </div>
-    <button type="submit">Guardar</button>
-</form>
+<div class="container mt-5">
+    <h2 class="text-center">Crear Cotización</h2>
+    <form asp-action="Guardar" method="post" class="row g-3">
+        <div class="col-md-12">
+            <div class="mb-3">
+                <label for="CustomerName" class="form-label">Cliente</label>
+                <select id="CustomerName" name="CustomerName" class="form-select" required>
+                    <option value="">Seleccione un cliente</option>
+                    @foreach (var customer in Model.CustomerEntity)
+                    {
+                        <option value="@customer.IdCustomer">@customer.CustomerName</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="mb-3">
+                <label for="IdProduct" class="form-label">Tipo de Producto</label>
+                <select id="IdProduct" name="IdProduct" class="form-select" required>
+                    <option value="">Seleccione un producto</option>
+                    @foreach (var product in Model.LocalProductEntity)
+                    {
+                        <option value="@product.IdProduct">@product.ProductName</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="mb-3">
+                <label for="IdUser" class="form-label">Usuario</label>
+                <select id="IdUser" name="IdUser" class="form-select" required>
+                    <option value="">Seleccione un usuario</option>
+                    @foreach (var user in Model.UserEntity)
+                    {
+                        <option value="@user.IdUser">@user.Username</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="mb-3">
+                <label for="Amount" class="form-label">Monto</label>
+                <input type="number" id="Amount" name="Amount" class="form-control" required />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="mb-3">
+                <label for="DDate" class="form-label">Fecha</label>
+                <input type="date" id="DDate" name="DDate" class="form-control" required />
+            </div>
+        </div>
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+    </form>
+</div>
 
 <div id="quote-viewer">
     @section scripts {
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             $(document).ready(function () {
-                // Función para cargar y mostrar el contenido del template HTML
                 function mostrarTemplate() {
                     $.ajax({
-                        url: '@Url.Action("ObtenerTemplate", "Cotizacion")', // Ruta de la acción del controlador para obtener el template
+                        url: '@Url.Action("ObtenerTemplate", "Cotizacion")',
                         type: 'GET',
                         success: function (data) {
-                            $('#quoteViewer').html(data); // Mostrar el contenido del template en el visor
+                            $('#quoteViewer').html(data);
                         },
                         error: function () {
                             console.error('Error al obtener el template HTML.');
                         }
                     });
                 }
-
-                // Llamar a la función para mostrar el template cuando la página se carga por completo
                 mostrarTemplate();
             });
         </script>

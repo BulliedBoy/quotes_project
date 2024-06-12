@@ -1,5 +1,6 @@
 using System.Text;
 using System.Web;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Mvc;
 using quotes_project.Views.Home.Data;
 using quotes_project.Views.Home.Data.Entities; // Asegúrate de importar el espacio de nombres correcto
@@ -8,6 +9,10 @@ namespace quotes_project.Models
 {
     public class CotizadorModel
     {
+        public List<CustomerEntity> CustomerEntity { get; set; } = new List<CustomerEntity>();
+        public List<LocalProductEntity> LocalProductEntity { get; set; } = new List<LocalProductEntity>();
+        public List<UserEntity> UserEntity { get; set; } = new List<UserEntity>();
+
         public string HtmlTable { get; set; } = string.Empty;
 
         private readonly ApplicationDbContext _context;
@@ -15,6 +20,17 @@ namespace quotes_project.Models
         public CotizadorModel(ApplicationDbContext context)
         {
             _context = context;
+            CustomerEntity = new List<CustomerEntity>();
+            LocalProductEntity = new List<LocalProductEntity>();
+            UserEntity = new List<UserEntity>();
+            LoadDropdownData();
+        }
+
+        public void LoadDropdownData()
+        {
+            CustomerEntity = _context.CustomerEntity.ToList();
+            LocalProductEntity = _context.LocalProductEntity.ToList();
+            UserEntity = _context.UserEntity.ToList();
         }
         public void LoadData()
         {
@@ -71,19 +87,5 @@ namespace quotes_project.Models
                 return html.ToString();
             }
         }
-    }
-}
-
-public class CotizacionController : Controller
-{
-    // Otras acciones del controlador
-
-    public IActionResult ObtenerTemplate()
-    {
-        // Lee el contenido del archivo de template HTML
-        var templatePath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot", "Assets", "cotizacion_cloud2.html");
-        var templateContent = System.IO.File.ReadAllText(templatePath);
-
-        return Content(templateContent, "text/html"); // Devuelve el contenido del template HTML
     }
 }
