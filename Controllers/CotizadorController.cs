@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using quotes_project.Models;
 using quotes_project.Views.Home.Data;
 using quotes_project.Views.Home.Data.Entities;
@@ -15,13 +16,35 @@ namespace quotes_project.Controllers
             _context = context;
         }
 
-        // GET: Cotizador
-        public IActionResult Index
+        [HttpPost]
+        public async Task<JsonResult> ObtenerMontoCliente(int customerId, int productId)
         {
-            get
+            try
             {
-                var model = new QuoteEntity(); // Crea un nuevo objeto QuoteEntity
-                return View(model); // Pasa el modelo a la vista
+                var customer = await _context.CustomerEntity
+                    .FirstOrDefaultAsync(c => c.IdCustomer == customerId);
+
+                var product = await _context.LocalProductEntity
+                    .FirstOrDefaultAsync(p => p.IdProduct == productId);
+
+                if (customer != null && product != null)
+                {
+                    // Determinar el monto basado en el tipo de cliente y el tipo de producto
+                    double monto = customer.CustomerType switch
+                    {
+                        "Normal" => product.AmountNormal,
+                        "Outsourcing" => product.AmountOutsourcing,
+                        _ => 0
+                    };
+
+                    return Json(new { success = true, monto });
+                }
+
+                return Json(new { success = false, message = "Error al obtener el monto del cliente o el producto." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
             }
         }
 
@@ -54,7 +77,7 @@ namespace quotes_project.Controllers
         {
             var model = new ListadoModel(_context);
             model.LoadData();
-            return View(model);
+            return View(model); // Devuelve la vista Listado.cshtml con el modelo
         }
     }
 }

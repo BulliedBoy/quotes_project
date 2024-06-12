@@ -33,6 +33,24 @@
         </div>
         <div class="col-md-12">
             <div class="mb-3">
+                <label for="Amount" class="form-label">Monto</label>
+                <input type="number" step="0.01" id="Amount" name="Amount" class="form-control" required />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="mb-3">
+                <label for="description" class="form-label">Descripción</label>
+                <textarea id="description" name="description" class="form-control" rows="4" required></textarea>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="mb-3">
+                <label for="DDate" class="form-label">Fecha</label>
+                <input type="date" id="DDate" name="DDate" class="form-control" required />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="mb-3">
                 <label for="IdUser" class="form-label">Usuario</label>
                 <select id="IdUser" name="IdUser" class="form-select" required>
                     <option value="">Seleccione un usuario</option>
@@ -41,18 +59,6 @@
                         <option value="@user.IdUser">@user.Username</option>
                     }
                 </select>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="mb-3">
-                <label for="Amount" class="form-label">Monto</label>
-                <input type="number" id="Amount" name="Amount" class="form-control" required />
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="mb-3">
-                <label for="DDate" class="form-label">Fecha</label>
-                <input type="date" id="DDate" name="DDate" class="form-control" required />
             </div>
         </div>
         <div class="col-12 text-center">
@@ -66,20 +72,51 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             $(document).ready(function () {
-                function mostrarTemplate() {
-                    $.ajax({
-                        url: '@Url.Action("ObtenerTemplate", "Cotizacion")',
-                        type: 'GET',
-                        success: function (data) {
-                            $('#quoteViewer').html(data);
-                        },
-                        error: function () {
-                            console.error('Error al obtener el template HTML.');
-                        }
-                    });
+                function actualizarMonto() {
+                    var customerId = $('#CustomerName').val();
+                    var productId = $('#IdProduct').val();
+
+                    if (customerId !== '' && productId !== '') {
+                        $.ajax({
+                            url: '/Cotizador/ObtenerMontoCliente',
+                            type: 'POST',
+                            data: { customerId: customerId, productId: productId },
+                            success: function (response) {
+                                if (response.success) {
+                                    // Formatear el monto a dos decimales
+                                    var montoFormateado = parseFloat(response.monto).toFixed(2);
+                                    $('#Amount').val(montoFormateado);
+                                } else {
+                                    console.error(response.message);
+                                    // Puedes manejar el error como mejor se ajuste a tu aplicación
+                                }
+                            },
+                            error: function () {
+                                console.error('Error al obtener el monto del cliente.');
+                            }
+                        });
+                    } else {
+                        $('#Amount').val('');
+                    }
                 }
-                mostrarTemplate();
+
+                // Llamar la función al cargar la página
+                actualizarMonto();
+
+                // Manejar el evento de cambio para el cliente
+                $('#CustomerName').change(actualizarMonto);
+
+                // Manejar el evento de cambio para el producto
+                $('#IdProduct').change(actualizarMonto);
+
+                // Permitir la modificación manual del monto con dos decimales
+                $('#Amount').change(function () {
+                    var monto = parseFloat($(this).val());
+                    if (!isNaN(monto)) {
+                        $(this).val(monto.toFixed(2));
+                    }
+                });
             });
         </script>
     }
-</div>
+    }
