@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using quotes_project.Models;
 using quotes_project.Views.Home.Data;
 using quotes_project.Views.Home.Data.Entities;
-using System.Threading.Tasks;
 
 namespace quotes_project.Controllers
 {
@@ -29,7 +27,6 @@ namespace quotes_project.Controllers
 
                 if (customer != null && product != null)
                 {
-                    // Determinar el monto basado en el tipo de cliente y el tipo de producto
                     double monto = customer.CustomerType switch
                     {
                         "Normal" => product.AmountNormal,
@@ -51,33 +48,24 @@ namespace quotes_project.Controllers
         // POST: Cotizador/Guardar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Guardar(QuoteEntity model)
+        public async Task<IActionResult> Guardar(string CustomerName, string Product, string User, decimal Amount, DateTime DDate)
         {
             if (ModelState.IsValid)
             {
-                _context.QuoteEntity.Add(model);
+                var quote = new QuoteEntity
+                {
+                    CustomerName = CustomerName,
+                    Product = Product,
+                    User = User,
+                    Amount = Amount,
+                    DDate = DDate
+                };
+
+                _context.QuoteEntity.Add(quote);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Listado");
             }
-            return View(model); // Pasa el modelo de vuelta a la vista en caso de error
-        }
-    }
-
-    public class ListadoController : Controller
-    {
-        private readonly ApplicationDbContext _context;
-
-        public ListadoController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        // GET: Listado
-        public IActionResult Index()
-        {
-            var model = new ListadoModel(_context);
-            model.LoadData();
-            return View(model); // Devuelve la vista Listado.cshtml con el modelo
+            return View("Cotizador", new { CustomerName, Product, User, Amount, DDate }); // Pasa el modelo de vuelta a la vista en caso de error
         }
     }
 }
