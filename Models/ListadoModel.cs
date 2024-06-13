@@ -1,8 +1,10 @@
-using System.Drawing;
+using System;
+using System.Linq;
 using System.Text;
 using System.Web;
 using quotes_project.Views.Home.Data;
-using quotes_project.Views.Home.Data.Entities; // Asegúrate de importar el espacio de nombres correcto
+using quotes_project.Views.Home.Data.Entities;
+using System.Collections.Generic;
 
 namespace quotes_project.Models
 {
@@ -21,8 +23,8 @@ namespace quotes_project.Models
         {
             try
             {
-                var quotes = _context.QuoteEntity.ToList(); // Corrección aquí
-                if (quotes == null || !quotes.Any()) // Corrección aquí
+                var quotes = _context.QuoteEntity.ToList(); // Obtiene las cotizaciones desde la base de datos
+                if (quotes == null || !quotes.Any())
                 {
                     HtmlTable = "<p>No se encontraron cotizaciones en la base de datos.</p>";
                     return;
@@ -40,7 +42,7 @@ namespace quotes_project.Models
 
         public class HTMLQuoteTable
         {
-            public string GenerateHTMLTable(List<QuoteEntity> quotes) // Cambio aquí
+            public string GenerateHTMLTable(List<QuoteEntity> quotes)
             {
                 if (quotes == null || !quotes.Any())
                 {

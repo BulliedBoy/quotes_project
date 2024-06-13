@@ -7,6 +7,6 @@ public partial class LocalProductEntity
 {
     public int IdProduct { get; set; }
     public string ProductName { get; set; } = null!;
-    public double AmountNormal { get; set; }
-    public double AmountOutsourcing { get; set; }
+    public decimal AmountNormal { get; set; }
+    public decimal AmountOutsourcing { get; set; }
 }

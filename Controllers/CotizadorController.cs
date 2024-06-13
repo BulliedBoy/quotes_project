@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using quotes_project.Models;
 using quotes_project.Views.Home.Data;
 using quotes_project.Views.Home.Data.Entities;
 
@@ -27,14 +28,14 @@ namespace quotes_project.Controllers
 
                 if (customer != null && product != null)
                 {
-                    double monto = customer.CustomerType switch
+                    decimal amount = customer.CustomerType switch
                     {
                         "Normal" => product.AmountNormal,
                         "Outsourcing" => product.AmountOutsourcing,
-                        _ => 0
+                        _ => 0M  // 0M indica un literal decimal
                     };
 
-                    return Json(new { success = true, monto });
+                    return Json(new { success = true, monto = amount });
                 }
 
                 return Json(new { success = false, message = "Error al obtener el monto del cliente o el producto." });
@@ -45,27 +46,43 @@ namespace quotes_project.Controllers
             }
         }
 
-        // POST: Cotizador/Guardar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Guardar(string CustomerName, string Product, string User, decimal Amount, DateTime DDate)
+        public async Task<IActionResult> Guardar(CotizadorModel model)
         {
             if (ModelState.IsValid)
             {
-                var quote = new QuoteEntity
+                try
                 {
-                    CustomerName = CustomerName,
-                    Product = Product,
-                    User = User,
-                    Amount = Amount,
-                    DDate = DDate
-                };
+                    // Crear entidad de cotización
+                    var quote = new QuoteEntity
+                    {
+                        CustomerName = _context.CustomerEntity.FirstOrDefault(c => c.IdCustomer == model.CustomerId)?.CustomerName,
+                        Product = _context.LocalProductEntity.FirstOrDefault(p => p.IdProduct == model.ProductId)?.ProductName,
+                        User = _context.UserEntity.FirstOrDefault(u => u.IdUser == model.UserId)?.Username,
+                        Amount = model.Amount,
+                        DDate = model.DDate
+                    };
 
-                _context.QuoteEntity.Add(quote);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Listado");
+                    // Guardar en la base de datos
+                    _context.QuoteEntity.Add(quote);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction("Index", "Listado");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"Error al guardar la cotización: {ex.Message}");
+                }
             }
-            return View("Cotizador", new { CustomerName, Product, User, Amount, DDate }); // Pasa el modelo de vuelta a la vista en caso de error
+
+            // Recargar listas necesarias para el formulario
+            model.CustomerEntity = await _context.CustomerEntity.ToListAsync();
+            model.LocalProductEntity = await _context.LocalProductEntity.ToListAsync();
+            model.UserEntity = await _context.UserEntity.ToListAsync();
+
+            return View("Cotizador", model);
         }
+
     }
 }
