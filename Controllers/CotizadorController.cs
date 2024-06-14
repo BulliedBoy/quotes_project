@@ -46,6 +46,27 @@ namespace quotes_project.Controllers
             }
         }
 
+        [HttpPost] //Post para asociar la descripcion al producto
+        public async Task<JsonResult> ObtenerProductoDescripcion(int productId)
+        {
+            try
+            {
+                var product = await _context.LocalProductEntity
+                    .FirstOrDefaultAsync(p => p.IdProduct == productId);
+
+                if (product != null)
+                {
+                    return Json(new { success = true, productDescription = product.ProductDescription });
+                }
+
+                return Json(new { success = false, message = "Producto no encontrado." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
         [HttpPost] //Post para asociar tipo de cliente y tipo de licencia 
         public async Task<JsonResult> ObtenerClienteDetalles(int customerId)
         {

@@ -43,5 +43,8 @@ namespace quotes_project.Models
 
         [Required(ErrorMessage = "El campo Usuario es obligatorio.")]
         public int UserId { get; set; }
+
+        [Required(ErrorMessage = "El campo Descripcion es obligatorio.")]
+        public string? ProductDescription { get; set; }
     }
 }

@@ -55,8 +55,8 @@
         </div>
         <div class="col-md-12">
             <div class="mb-3">
-                <label for="Description" class="form-label">Descripción</label>
-                <textarea id="Description" name="Description" class="form-control" rows="4" required></textarea>
+                <label for="ProductDescription" class="form-label">Descripción del Producto</label>
+                <textarea id="ProductDescription" class="form-control" rows="5" required></textarea>
             </div>
         </div>
         <div class="col-md-12">
@@ -88,63 +88,84 @@
 @section scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function () {
-            function actualizarClienteYMontos() {
-                var customerId = $('#CustomerId').val();
-                var productId = $('#ProductId').val();
+    $(document).ready(function () {
+        function actualizarClienteYMontos() {
+            var customerId = $('#CustomerId').val();
+            var productId = $('#ProductId').val();
 
-                if (customerId !== '') {
-                    $.ajax({
-                        url: '@Url.Action("ObtenerClienteDetalles", "Cotizador")',
-                        type: 'POST',
-                        data: { customerId: customerId },
-                        success: function (response) {
-                            if (response.success) {
-                                $('#CustomerType').val(response.customerType);
-                                $('#LicenceType').val(response.licenceType);
-                            } else {
-                                console.error(response.message);
-                            }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.error('Error al obtener los detalles del cliente: ' + textStatus + " " + errorThrown);
+            if (customerId !== '') {
+                $.ajax({
+                    url: '@Url.Action("ObtenerClienteDetalles", "Cotizador")',
+                    type: 'POST',
+                    data: { customerId: customerId },
+                    success: function (response) {
+                        if (response.success) {
+                            $('#CustomerType').val(response.customerType);
+                            $('#LicenceType').val(response.licenceType);
+                        } else {
+                            console.error(response.message);
                         }
-                    });
-                } else {
-                    $('#CustomerType').val('');
-                    $('#LicenceType').val('');
-                }
-
-                if (customerId !== '' && productId !== '') {
-                    $.ajax({
-                        url: '@Url.Action("ObtenerMontoCliente", "Cotizador")',
-                        type: 'POST',
-                        data: { customerId: customerId, productId: productId },
-                        success: function (response) {
-                            if (response.success) {
-                                var montoFormateado = parseFloat(response.monto).toFixed(2);
-                                $('#Amount').val(montoFormateado);
-                            } else {
-                                console.error(response.message);
-                            }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.error('Error al obtener el monto del cliente: ' + textStatus + " " + errorThrown);
-                        }
-                    });
-                } else {
-                    $('#Amount').val('');
-                }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error al obtener los detalles del cliente: ' + textStatus + " " + errorThrown);
+                    }
+                });
+            } else {
+                $('#CustomerType').val('');
+                $('#LicenceType').val('');
             }
 
-            $('#CustomerId, #ProductId').change(actualizarClienteYMontos);
+            if (productId !== '') {
+                $.ajax({
+                    url: '@Url.Action("ObtenerProductoDescripcion", "Cotizador")',
+                    type: 'POST',
+                    data: { productId: productId },
+                    success: function (response) {
+                        if (response.success) {
+                            $('#ProductDescription').val(response.productDescription);
+                        } else {
+                            console.error(response.message);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error al obtener la descripción del producto: ' + textStatus + " " + errorThrown);
+                    }
+                });
+            } else {
+                $('#ProductDescription').val('');
+            }
 
-            $('#Amount').change(function () {
-                var monto = parseFloat($(this).val());
-                if (!isNaN(monto)) {
-                    $(this).val(monto.toFixed(2));
-                }
-            });
+            if (customerId !== '' && productId !== '') {
+                $.ajax({
+                    url: '@Url.Action("ObtenerMontoCliente", "Cotizador")',
+                    type: 'POST',
+                    data: { customerId: customerId, productId: productId },
+                    success: function (response) {
+                        if (response.success) {
+                            var montoFormateado = parseFloat(response.monto).toFixed(2);
+                            $('#Amount').val(montoFormateado);
+                        } else {
+                            console.error(response.message);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error al obtener el monto del cliente: ' + textStatus + " " + errorThrown);
+                    }
+                });
+            } else {
+                $('#Amount').val('');
+            }
+        }
+
+        $('#CustomerId, #ProductId').change(actualizarClienteYMontos);
+
+        $('#Amount').change(function () {
+            var monto = parseFloat($(this).val());
+            if (!isNaN(monto)) {
+                $(this).val(monto.toFixed(2));
+            }
         });
-    </script>
+    });
+</script>
+
 }

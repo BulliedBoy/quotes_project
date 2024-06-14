@@ -6,6 +6,6 @@
         public string? ProductName { get; set; }
         public decimal AmountNormal { get; set; }
         public decimal AmountOutsourcing { get; set; }
-        public string? Description { get; set; } // Nueva propiedad para la descripción
+        public string? ProductDescription { get; set; } // Nueva propiedad para la descripción
     }
 }
