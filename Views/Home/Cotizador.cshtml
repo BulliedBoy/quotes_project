@@ -2,13 +2,13 @@
 
 @{
     ViewData["Title"] = "Cotizador";
-    Model.LoadData();
+    Model.LoadData(); // Asegúrate de que los datos estén cargados correctamente
 }
 
 <div class="container mt-5">
     <h2 class="text-center">Crear Cotización</h2>
-    <form id="cotizacionForm" asp-action="Guardar" method="post" class="row g-3">
-        <div class="col-md-12">
+    <form id="cotizacionForm" asp-action="Guardar" method="post" class="row g-3 formulario-cotizacion">
+        <div class="col-md-4">
             <div class="mb-3">
                 <label for="CustomerId" class="form-label">Cliente</label>
                 <select id="CustomerId" name="CustomerId" class="form-select" required>
@@ -19,6 +19,18 @@
                     }
                 </select>
                 <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="mb-3">
+                <label for="CustomerType" class="form-label">Tipo de Cliente</label>
+                <input type="text" id="CustomerType" name="CustomerType" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="mb-3">
+                <label for="LicenceType" class="form-label">Tipo de Licencia</label>
+                <input type="text" id="LicenceType" name="LicenceType" class="form-control" readonly />
             </div>
         </div>
         <div class="col-md-12">
@@ -77,27 +89,47 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            function actualizarMonto() {
+            function actualizarClienteYMontos() {
                 var customerId = $('#CustomerId').val();
                 var productId = $('#ProductId').val();
 
+                if (customerId !== '') {
+                    $.ajax({
+                        url: '@Url.Action("ObtenerClienteDetalles", "Cotizador")',
+                        type: 'POST',
+                        data: { customerId: customerId },
+                        success: function (response) {
+                            if (response.success) {
+                                $('#CustomerType').val(response.customerType);
+                                $('#LicenceType').val(response.licenceType);
+                            } else {
+                                console.error(response.message);
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error('Error al obtener los detalles del cliente: ' + textStatus + " " + errorThrown);
+                        }
+                    });
+                } else {
+                    $('#CustomerType').val('');
+                    $('#LicenceType').val('');
+                }
+
                 if (customerId !== '' && productId !== '') {
                     $.ajax({
-                        url: '/Cotizador/ObtenerMontoCliente',
+                        url: '@Url.Action("ObtenerMontoCliente", "Cotizador")',
                         type: 'POST',
                         data: { customerId: customerId, productId: productId },
                         success: function (response) {
                             if (response.success) {
-                                // Formatear el monto a dos decimales
                                 var montoFormateado = parseFloat(response.monto).toFixed(2);
                                 $('#Amount').val(montoFormateado);
                             } else {
                                 console.error(response.message);
-                                // Puedes manejar el error como mejor se ajuste a tu aplicación
                             }
                         },
-                        error: function () {
-                            console.error('Error al obtener el monto del cliente.');
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error('Error al obtener el monto del cliente: ' + textStatus + " " + errorThrown);
                         }
                     });
                 } else {
@@ -105,16 +137,8 @@
                 }
             }
 
-            // Llamar la función al cargar la página
-            actualizarMonto();
+            $('#CustomerId, #ProductId').change(actualizarClienteYMontos);
 
-            // Manejar el evento de cambio para el cliente
-            $('#CustomerId').change(actualizarMonto);
-
-            // Manejar el evento de cambio para el producto
-            $('#ProductId').change(actualizarMonto);
-
-            // Permitir la modificación manual del monto con dos decimales
             $('#Amount').change(function () {
                 var monto = parseFloat($(this).val());
                 if (!isNaN(monto)) {

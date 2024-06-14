@@ -1,14 +1,18 @@
 using quotes_project.Views.Home.Data;
 using quotes_project.Views.Home.Data.Entities;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace quotes_project.Models
 {
     public class CotizadorModel
     {
         private readonly ApplicationDbContext context;
-
+        internal void LoadData()
+        {
+            this.CustomerEntity = context.CustomerEntity.ToList();
+            this.LocalProductEntity = context.LocalProductEntity.ToList();
+            this.UserEntity = context.UserEntity.ToList();
+        }
         public CotizadorModel(ApplicationDbContext context)
         {
             this.context = context;
@@ -39,12 +43,5 @@ namespace quotes_project.Models
 
         [Required(ErrorMessage = "El campo Usuario es obligatorio.")]
         public int UserId { get; set; }
-
-        internal void LoadData()
-        {
-            this.CustomerEntity = context.CustomerEntity.ToList();
-            this.LocalProductEntity = context.LocalProductEntity.ToList();
-            this.UserEntity = context.UserEntity.ToList();
-        }
     }
 }

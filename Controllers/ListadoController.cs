@@ -16,9 +16,8 @@ namespace quotes_project.Controllers
         // GET: Listado
         public IActionResult Index()
         {
-            var model = new ListadoModel(_context);
-            model.LoadData();
-            return View(model); // Devuelve la vista Listado.cshtml con el modelo
+            var quotes = _context.QuoteEntity.ToList();
+            return View(quotes); // Retorna una vista que muestra la lista de cotizaciones
         }
     }
 }

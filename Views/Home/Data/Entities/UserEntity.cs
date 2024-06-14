@@ -7,5 +7,5 @@ public partial class UserEntity
 {
     public int IdUser { get; set; }
 
-    public string Username { get; set; } = null!;
+    public string? Username { get; set; }
 }

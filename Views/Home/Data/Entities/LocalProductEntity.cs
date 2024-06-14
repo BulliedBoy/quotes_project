@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace quotes_project.Views.Home.Data.Entities;
-
-public partial class LocalProductEntity
+﻿namespace quotes_project.Views.Home.Data.Entities
 {
-    public int IdProduct { get; set; }
-    public string ProductName { get; set; } = null!;
-    public decimal AmountNormal { get; set; }
-    public decimal AmountOutsourcing { get; set; }
+    public partial class LocalProductEntity
+    {
+        public int IdProduct { get; set; }
+        public string? ProductName { get; set; }
+        public decimal AmountNormal { get; set; }
+        public decimal AmountOutsourcing { get; set; }
+        public string? Description { get; set; } // Nueva propiedad para la descripción
+    }
 }

@@ -15,7 +15,7 @@ namespace quotes_project.Controllers
             _context = context;
         }
 
-        [HttpPost]
+        [HttpPost] //Post para enlazar clientes normales y outsourcing y asignarles el monto 
         public async Task<JsonResult> ObtenerMontoCliente(int customerId, int productId)
         {
             try
@@ -46,36 +46,62 @@ namespace quotes_project.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost] //Post para asociar tipo de cliente y tipo de licencia 
+        public async Task<JsonResult> ObtenerClienteDetalles(int customerId)
+        {
+            try
+            {
+                var customer = await _context.CustomerEntity
+                    .FirstOrDefaultAsync(c => c.IdCustomer == customerId);
+
+                if (customer != null)
+                {
+                    return Json(new { success = true, customerType = customer.CustomerType, licenceType = customer.LicenceType });
+                }
+
+                return Json(new { success = false, message = "Cliente no encontrado." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost] //Post para guardar la cotizacion realizada
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Guardar(CotizadorModel model)
         {
-            var customer = _context.CustomerEntity.FirstOrDefault(c => c.IdCustomer == model.CustomerId);
-            var product = _context.LocalProductEntity.FirstOrDefault(p => p.IdProduct == model.ProductId);
-            var user = _context.UserEntity.FirstOrDefault(u => u.IdUser == model.UserId);
-
-            if (customer != null && product != null && user != null)
+            try
             {
-                var quote = new QuoteEntity
+                var customer = await _context.CustomerEntity.FirstOrDefaultAsync(c => c.IdCustomer == model.CustomerId);
+                var product = await _context.LocalProductEntity.FirstOrDefaultAsync(p => p.IdProduct == model.ProductId);
+                var user = await _context.UserEntity.FirstOrDefaultAsync(u => u.IdUser == model.UserId);
+
+                if (customer != null && product != null && user != null)
                 {
-                    CustomerName = customer.CustomerName,
-                    Product = product.ProductName,
-                    User = user.Username,
-                    Amount = model.Amount,
-                    DDate = model.DDate
-                };
+                    var quote = new QuoteEntity
+                    {
+                        CustomerName = customer.CustomerName,
+                        Product = product.ProductName,
+                        User = user.Username,
+                        Amount = model.Amount,
+                        DDate = model.DDate
+                    };
 
-                // Guardar en la base de datos
-                _context.QuoteEntity.Add(quote);
-                await _context.SaveChangesAsync();
+                    _context.QuoteEntity.Add(quote);
+                    await _context.SaveChangesAsync();
 
-                return RedirectToAction("Index", "Listado");
+                    return RedirectToAction("Index", "Listado");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "No se encontró alguna de las entidades necesarias para guardar la cotización.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ModelState.AddModelError("", "No se encontró alguna de las entidades necesarias para guardar la cotización.");
+                ModelState.AddModelError("", $"Error al intentar guardar la cotización: {ex.Message}");
             }
-
 
             // Recargar listas necesarias para el formulario
             model.CustomerEntity = await _context.CustomerEntity.ToListAsync();
@@ -84,6 +110,7 @@ namespace quotes_project.Controllers
 
             return View("Cotizador", model);
         }
+
 
     }
 }

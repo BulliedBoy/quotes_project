@@ -257,4 +257,7 @@ body {
     margin: 0 5px; /* Espacio entre botones */
     font-weight:bold;
 }
-z
+
+.formulario-cotizacion {
+    margin-top: 20px; /* Ajusta el valor según lo necesites en cotizador.cshtml para el form*/
+}
