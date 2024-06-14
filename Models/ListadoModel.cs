@@ -71,8 +71,8 @@ namespace quotes_project.Models
                     html.Append($"<td class='align-middle'>{quote.CustomerName}</td>");
                     html.Append($"<td class='align-middle'>{quote.Product}</td>");
                     html.Append($"<td class='align-middle'>{quote.User}</td>");
-                    html.Append($"<td class='align-middle'>{quote.Amount}</td>");
-                    html.Append($"<td class='align-middle'>{quote.DDate}</td>");
+                    html.Append($"<td class='align-middle'>{quote.Amount.ToString("F2")}</td>");
+                    html.Append($"<td class='align-middle'>{quote.DDate.ToString("dd/MM/yyyy")}</td>");
                     html.Append("<td class='d-flex justify-content-center align-items-center'>");
                     html.Append("<button class='btn btn-primary btn-sm fixed-size-button'>Editar</button>");
                     html.Append("<button class='btn btn-success btn-sm fixed-size-button'>Descargar</button>");

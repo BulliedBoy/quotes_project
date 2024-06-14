@@ -1,16 +1,20 @@
 using quotes_project.Views.Home.Data;
 using quotes_project.Views.Home.Data.Entities;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace quotes_project.Models
 {
     public class CotizadorModel
     {
-        private ApplicationDbContext context;
+        private readonly ApplicationDbContext context;
 
         public CotizadorModel(ApplicationDbContext context)
         {
             this.context = context;
+            this.CustomerEntity = new List<CustomerEntity>();
+            this.LocalProductEntity = new List<LocalProductEntity>();
+            this.UserEntity = new List<UserEntity>();
         }
 
         public List<CustomerEntity> CustomerEntity { get; set; }
@@ -26,9 +30,11 @@ namespace quotes_project.Models
 
         [Required(ErrorMessage = "El campo Monto es obligatorio.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "El Monto debe ser mayor que cero.")]
+        [DisplayFormat(DataFormatString = "{0:F2}")]
         public decimal Amount { get; set; }
 
         [Required(ErrorMessage = "El campo Fecha es obligatorio.")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DDate { get; set; }
 
         [Required(ErrorMessage = "El campo Usuario es obligatorio.")]
@@ -40,6 +46,5 @@ namespace quotes_project.Models
             this.LocalProductEntity = context.LocalProductEntity.ToList();
             this.UserEntity = context.UserEntity.ToList();
         }
-
     }
 }

@@ -50,31 +50,32 @@ namespace quotes_project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Guardar(CotizadorModel model)
         {
-            if (ModelState.IsValid)
+            var customer = _context.CustomerEntity.FirstOrDefault(c => c.IdCustomer == model.CustomerId);
+            var product = _context.LocalProductEntity.FirstOrDefault(p => p.IdProduct == model.ProductId);
+            var user = _context.UserEntity.FirstOrDefault(u => u.IdUser == model.UserId);
+
+            if (customer != null && product != null && user != null)
             {
-                try
+                var quote = new QuoteEntity
                 {
-                    // Crear entidad de cotización
-                    var quote = new QuoteEntity
-                    {
-                        CustomerName = _context.CustomerEntity.FirstOrDefault(c => c.IdCustomer == model.CustomerId)?.CustomerName,
-                        Product = _context.LocalProductEntity.FirstOrDefault(p => p.IdProduct == model.ProductId)?.ProductName,
-                        User = _context.UserEntity.FirstOrDefault(u => u.IdUser == model.UserId)?.Username,
-                        Amount = model.Amount,
-                        DDate = model.DDate
-                    };
+                    CustomerName = customer.CustomerName,
+                    Product = product.ProductName,
+                    User = user.Username,
+                    Amount = model.Amount,
+                    DDate = model.DDate
+                };
 
-                    // Guardar en la base de datos
-                    _context.QuoteEntity.Add(quote);
-                    await _context.SaveChangesAsync();
+                // Guardar en la base de datos
+                _context.QuoteEntity.Add(quote);
+                await _context.SaveChangesAsync();
 
-                    return RedirectToAction("Index", "Listado");
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", $"Error al guardar la cotización: {ex.Message}");
-                }
+                return RedirectToAction("Index", "Listado");
             }
+            else
+            {
+                ModelState.AddModelError("", "No se encontró alguna de las entidades necesarias para guardar la cotización.");
+            }
+
 
             // Recargar listas necesarias para el formulario
             model.CustomerEntity = await _context.CustomerEntity.ToListAsync();
