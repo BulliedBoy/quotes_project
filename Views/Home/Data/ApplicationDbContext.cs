@@ -58,7 +58,7 @@ namespace quotes_project.Views.Home.Data
 
                 entity.Property(e => e.IdProduct).ValueGeneratedOnAdd();
                 entity.Property(e => e.ProductName).HasMaxLength(100).IsUnicode(false);
-                entity.Property(e => e.ProductDescription).HasMaxLength(300).IsUnicode(false);
+                entity.Property(e => e.ProductDescription).HasMaxLength(1000).IsUnicode(false);
             });
 
             modelBuilder.Entity<UserEntity>(entity =>

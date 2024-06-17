@@ -7,7 +7,7 @@
 
 <div class="container mt-5">
     <h2 class="text-center">Crear Cotización</h2>
-    <form id="cotizacionForm" asp-action="Guardar" method="post" class="row g-3 formulario-cotizacion">
+    <form id="cotizacionForm" asp-action="Guardar" method="post" class="row g-3 formulario-cotizacion border border-primary rounded p-4">
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="CustomerId" class="form-label">Cliente</label>
@@ -56,7 +56,13 @@
         <div class="col-md-12">
             <div class="mb-3">
                 <label for="ProductDescription" class="form-label">Descripción del Producto</label>
-                <textarea id="ProductDescription" class="form-control" rows="5" required></textarea>
+                <textarea id="ProductDescription" class="form-control" rows="8" required></textarea>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="mb-3">
+                <label for="ImportantNotes" class="form-label">Notas Importantes</label>
+                <textarea id="ImportantNotes" class="form-control" rows="1" required></textarea>
             </div>
         </div>
         <div class="col-md-12">
@@ -88,84 +94,83 @@
 @section scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    $(document).ready(function () {
-        function actualizarClienteYMontos() {
-            var customerId = $('#CustomerId').val();
-            var productId = $('#ProductId').val();
+        $(document).ready(function () {
+            function actualizarClienteYMontos() {
+                var customerId = $('#CustomerId').val();
+                var productId = $('#ProductId').val();
 
-            if (customerId !== '') {
-                $.ajax({
-                    url: '@Url.Action("ObtenerClienteDetalles", "Cotizador")',
-                    type: 'POST',
-                    data: { customerId: customerId },
-                    success: function (response) {
-                        if (response.success) {
-                            $('#CustomerType').val(response.customerType);
-                            $('#LicenceType').val(response.licenceType);
-                        } else {
-                            console.error(response.message);
+                if (customerId !== '') {
+                    $.ajax({
+                        url: '@Url.Action("ObtenerClienteDetalles", "Cotizador")',
+                        type: 'POST',
+                        data: { customerId: customerId },
+                        success: function (response) {
+                            if (response.success) {
+                                $('#CustomerType').val(response.customerType);
+                                $('#LicenceType').val(response.licenceType);
+                            } else {
+                                console.error(response.message);
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error('Error al obtener los detalles del cliente: ' + textStatus + " " + errorThrown);
                         }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.error('Error al obtener los detalles del cliente: ' + textStatus + " " + errorThrown);
-                    }
-                });
-            } else {
-                $('#CustomerType').val('');
-                $('#LicenceType').val('');
-            }
+                    });
+                } else {
+                    $('#CustomerType').val('');
+                    $('#LicenceType').val('');
+                }
 
-            if (productId !== '') {
-                $.ajax({
-                    url: '@Url.Action("ObtenerProductoDescripcion", "Cotizador")',
-                    type: 'POST',
-                    data: { productId: productId },
-                    success: function (response) {
-                        if (response.success) {
-                            $('#ProductDescription').val(response.productDescription);
-                        } else {
-                            console.error(response.message);
+                if (productId !== '') {
+                    $.ajax({
+                        url: '@Url.Action("ObtenerProductoDescripcion", "Cotizador")',
+                        type: 'POST',
+                        data: { productId: productId },
+                        success: function (response) {
+                            if (response.success) {
+                                $('#ProductDescription').val(response.productDescription);
+                            } else {
+                                console.error(response.message);
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error('Error al obtener la descripción del producto: ' + textStatus + " " + errorThrown);
                         }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.error('Error al obtener la descripción del producto: ' + textStatus + " " + errorThrown);
-                    }
-                });
-            } else {
-                $('#ProductDescription').val('');
-            }
+                    });
+                } else {
+                    $('#ProductDescription').val('');
+                }
 
-            if (customerId !== '' && productId !== '') {
-                $.ajax({
-                    url: '@Url.Action("ObtenerMontoCliente", "Cotizador")',
-                    type: 'POST',
-                    data: { customerId: customerId, productId: productId },
-                    success: function (response) {
-                        if (response.success) {
-                            var montoFormateado = parseFloat(response.monto).toFixed(2);
-                            $('#Amount').val(montoFormateado);
-                        } else {
-                            console.error(response.message);
+                if (customerId !== '' && productId !== '') {
+                    $.ajax({
+                        url: '@Url.Action("ObtenerMontoCliente", "Cotizador")',
+                        type: 'POST',
+                        data: { customerId: customerId, productId: productId },
+                        success: function (response) {
+                            if (response.success) {
+                                var montoFormateado = parseFloat(response.monto).toFixed(2);
+                                $('#Amount').val(montoFormateado);
+                            } else {
+                                console.error(response.message);
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error('Error al obtener el monto del cliente: ' + textStatus + " " + errorThrown);
                         }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.error('Error al obtener el monto del cliente: ' + textStatus + " " + errorThrown);
-                    }
-                });
-            } else {
-                $('#Amount').val('');
+                    });
+                } else {
+                    $('#Amount').val('');
+                }
             }
-        }
 
-        $('#CustomerId, #ProductId').change(actualizarClienteYMontos);
+            $('#CustomerId, #ProductId').change(actualizarClienteYMontos);
 
-        $('#Amount').change(function () {
-            var monto = parseFloat($(this).val());
-            if (!isNaN(monto)) {
-                $(this).val(monto.toFixed(2));
-            }
+            $('#Amount').change(function () {
+                var monto = parseFloat($(this).val());
+                if (!isNaN(monto)) {
+                    $(this).val(monto.toFixed(2));
+                }
+            });
         });
-    });
-</script>
-
+    </script>
 }
