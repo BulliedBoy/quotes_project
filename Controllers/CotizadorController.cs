@@ -46,6 +46,27 @@ namespace quotes_project.Controllers
             }
         }
 
+        [HttpPost] //Post para asociar el ususario con su cargo empresarial
+        public async Task<JsonResult> ObtenerCargoUsuario(int userId)
+        {
+            try
+            {
+                var user = await _context.UserEntity
+                    .FirstOrDefaultAsync(p => p.IdUser == userId);
+
+                if (user != null)
+                {
+                    return Json(new { success = true, position = user.Position });
+                }
+
+                return Json(new { success = false, message = "Cargo no asignado." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
         [HttpPost] //Post para asociar la descripcion al producto
         public async Task<JsonResult> ObtenerProductoDescripcion(int productId)
         {

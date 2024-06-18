@@ -24,22 +24,22 @@ namespace quotes_project.Views.Home.Data
 
             // Insertar datos estáticos
             context.UserEntity.AddRange(
-                new UserEntity { Username = "Rainier Rios" },
-                new UserEntity { Username = "Daniel Ortiz" },
-                new UserEntity { Username = "Maritza Bonilla" },
-                new UserEntity { Username = "Ricardo Cogley" },
-                new UserEntity { Username = "Massiel Moreno" },
-                new UserEntity { Username = "Ariadni Cerrud" },
-                new UserEntity { Username = "Jose Hernandez" },
-                new UserEntity { Username = "Lourine Troncoso" },
-                new UserEntity { Username = "Christopher Vanegas" },
-                new UserEntity { Username = "Luz Pedrosa" },
-                new UserEntity { Username = "Adrian Valor" },
-                new UserEntity { Username = "Edwin Delgado" },
-                new UserEntity { Username = "Jose Sieiro" },
-                new UserEntity { Username = "Alcides Sanches" },
-                new UserEntity { Username = "Alejandro Sosa" },
-                new UserEntity { Username = "Erick Hernandez" }
+                new UserEntity { Username = "Rainier Rios", Position = "Asistente - Sistemas e Infraestructura" },
+                new UserEntity { Username = "Daniel Ortiz", Position = "Soporte Tecnico" },
+                new UserEntity { Username = "Maritza Bonilla" , Position = "Gerente de Ventas" },
+                new UserEntity { Username = "Ricardo Cogley" , Position = "Asistente de Ventas" },
+                new UserEntity { Username = "Massiel Moreno" , Position = "Soporte Tecnico" },
+                new UserEntity { Username = "Ariadni Cerrud" , Position = "Soporte Tecnico" },
+                new UserEntity { Username = "Jose Hernandez" , Position = "Soporte Tecnico" },
+                new UserEntity { Username = "Lourine Troncoso" , Position = "Gerente de Atencion al Cliente" },
+                new UserEntity { Username = "Christopher Vanegas" , Position = "Director de Operaciones e Infraestructura" },
+                new UserEntity { Username = "Luz Pedrosa" , Position = "Gerente Administrativa" },
+                new UserEntity { Username = "Adrian Valor" , Position = "Analista Programador" },
+                new UserEntity { Username = "Edwin Delgado" , Position = "Analista Programador" },
+                new UserEntity { Username = "Jose Sieiro" , Position = "Analista Programador" },
+                new UserEntity { Username = "Alcides Sanches" , Position = "Director de Desarrollo e Innovacion" },
+                new UserEntity { Username = "Alejandro Sosa" , Position = "Analista Programador" },
+                new UserEntity { Username = "Erick Hernandez" , Position = "Gerente General" }
             );
 
             // Esta tabla debe ser modificada para 1 tipo de cotizacion el cual le llamaremos cotizacion principal

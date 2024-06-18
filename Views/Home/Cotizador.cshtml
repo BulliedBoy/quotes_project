@@ -72,7 +72,7 @@
                 <span asp-validation-for="DDate" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="mb-3">
                 <label for="UserId" class="form-label">Usuario</label>
                 <select id="UserId" name="UserId" class="form-select" required>
@@ -85,6 +85,12 @@
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="Position" class="form-label">Cargo</label>
+                <input type="text" id="Position" name="Position" class="form-control" readonly />
+            </div>
+        </div>
         <div class="col-12 text-center">
             <button type="submit" class="btn btn-primary">Guardar</button>
         </div>
@@ -95,9 +101,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            function actualizarClienteYMontos() {
+            function actualizarClienteMontosCargos() {
                 var customerId = $('#CustomerId').val();
                 var productId = $('#ProductId').val();
+                var userId = $('#UserId').val();
 
                 if (customerId !== '') {
                     $.ajax({
@@ -141,6 +148,26 @@
                     $('#ProductDescription').val('');
                 }
 
+                if (userId !== '') {
+                    $.ajax({
+                        url: '@Url.Action("ObtenerCargoUsuario", "Cotizador")',
+                        type: 'POST',
+                        data: { userId: userId },
+                        success: function (response) {
+                            if (response.success) {
+                                $('#Position').val(response.position);
+                            } else {
+                                console.error(response.message);
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error('Error al obtener el cargo del usuario: ' + textStatus + " " + errorThrown);
+                        }
+                    });
+                } else {
+                    $('#Position').val('');
+                }
+
                 if (customerId !== '' && productId !== '') {
                     $.ajax({
                         url: '@Url.Action("ObtenerMontoCliente", "Cotizador")',
@@ -163,7 +190,7 @@
                 }
             }
 
-            $('#CustomerId, #ProductId').change(actualizarClienteYMontos);
+            $('#CustomerId, #ProductId, #UserId').change(actualizarClienteMontosCargos);
 
             $('#Amount').change(function () {
                 var monto = parseFloat($(this).val());
