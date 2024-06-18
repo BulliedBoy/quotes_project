@@ -8,4 +8,5 @@ public partial class UserEntity
     public int IdUser { get; set; }
 
     public string? Username { get; set; }
+    public string?  { get; set; }
 }
