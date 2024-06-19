@@ -1,16 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Web;
 using quotes_project.Views.Home.Data;
 using quotes_project.Views.Home.Data.Entities;
-using System.Collections.Generic;
 
 namespace quotes_project.Models
 {
     public class ListadoModel
     {
-        public string HtmlTable { get; set; } = string.Empty;
+        public List<QuoteDto> Quotes { get; set; } = new List<QuoteDto>();
 
         private readonly ApplicationDbContext _context;
 
@@ -23,68 +21,38 @@ namespace quotes_project.Models
         {
             try
             {
-                var quotes = _context.QuoteEntity.ToList(); // Obtiene las cotizaciones desde la base de datos
+                var quotes = _context.QuoteEntity.ToList();
                 if (quotes == null || !quotes.Any())
                 {
-                    HtmlTable = "<p>No se encontraron cotizaciones en la base de datos.</p>";
+                    Quotes = new List<QuoteDto>();
                     return;
                 }
 
-                HTMLQuoteTable htmlQuoteTable = new HTMLQuoteTable();
-                HtmlTable = htmlQuoteTable.GenerateHTMLTable(quotes);
+                Quotes = quotes.Select(q => new QuoteDto
+                {
+                    IdQuote = q.IdQuote,
+                    CustomerName = q.CustomerName,
+                    Product = q.Product,
+                    User = q.User,
+                    Amount = q.Amount,
+                    DDate = q.DDate
+                }).ToList();
             }
             catch (Exception ex)
             {
-                // Manejar excepciones y asignar un mensaje de error
-                HtmlTable = $"<p>Error al cargar los datos: {HttpUtility.HtmlEncode(ex.Message)}</p>";
+                // Manejar excepciones según sea necesario
+                throw new Exception($"Error al cargar los datos: {ex.Message}", ex);
             }
         }
+    }
 
-        public class HTMLQuoteTable
-        {
-            public string GenerateHTMLTable(List<QuoteEntity> quotes)
-            {
-                if (quotes == null || !quotes.Any())
-                {
-                    return "<p>No hay datos disponibles para mostrar.</p>";
-                }
-
-                var html = new StringBuilder();
-                html.Append("<table class='table table-bordered table-striped text-center align-middle'>");
-                html.Append("<thead>");
-                html.Append("<tr>");
-                html.Append("<th>No. de Cotización</th>");
-                html.Append("<th>Cliente</th>");
-                html.Append("<th>Tipo de Producto</th>");
-                html.Append("<th>Usuario</th>");
-                html.Append("<th>Monto</th>");
-                html.Append("<th>Fecha</th>");
-                html.Append("<th>Acciones</th>");
-                html.Append("</tr>");
-                html.Append("</thead>");
-                html.Append("<tbody>");
-
-                foreach (var quote in quotes)
-                {
-                    html.Append("<tr>");
-                    html.Append($"<td class='align-middle'>{quote.IdQuote}</td>");
-                    html.Append($"<td class='align-middle'>{quote.CustomerName}</td>");
-                    html.Append($"<td class='align-middle'>{quote.Product}</td>");
-                    html.Append($"<td class='align-middle'>{quote.User}</td>");
-                    html.Append($"<td class='align-middle'>{quote.Amount.ToString("F2")}</td>");
-                    html.Append($"<td class='align-middle'>{quote.DDate.ToString("dd/MM/yyyy")}</td>");
-                    html.Append("<td class='d-flex justify-content-center align-items-center'>");
-                    html.Append("<button class='btn btn-primary btn-sm fixed-size-button'>Editar</button>");
-                    html.Append("<button class='btn btn-success btn-sm fixed-size-button'>Descargar</button>");
-                    html.Append("</td>");
-                    html.Append("</tr>");
-                }
-
-                html.Append("</tbody>");
-                html.Append("</table>");
-
-                return html.ToString();
-            }
-        }
+    public class QuoteDto
+    {
+        public int IdQuote { get; set; }
+        public string? CustomerName { get; set; }
+        public string? Product { get; set; }
+        public string? User { get; set; }
+        public decimal Amount { get; set; }
+        public DateTime DDate { get; set; }
     }
 }

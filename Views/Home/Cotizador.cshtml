@@ -2,18 +2,18 @@
 
 @{
     ViewData["Title"] = "Cotizador";
-    Model.LoadData(); // Asegúrate de que los datos estén cargados correctamente
 }
 
 <div class="container mt-5">
-    <h2 class="text-center">Crear Cotización</h2>
-    <form id="cotizacionForm" asp-action="Guardar" method="post" class="row g-3 formulario-cotizacion p-4">
+    <h2 class="text-center">@ViewData["Title"]</h2>
+    <form id="cotizacionForm" asp-controller="Cotizador" asp-action="@(Model.Id == 0 ? "Guardar" : "Edit")" method="post" class="row g-3 formulario-cotizacion p-4">
+        <input type="hidden" asp-for="Id" />
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="CustomerId" class="form-label">Cliente</label>
                 <select id="CustomerId" name="CustomerId" class="form-select" required>
                     <option value="">Seleccione un cliente</option>
-                    @foreach (var customer in Model.CustomerEntity)
+                    @foreach (var customer in Model.Customers)
                     {
                         <option value="@customer.IdCustomer">@customer.CustomerName</option>
                     }
@@ -38,7 +38,7 @@
                 <label for="ProductId" class="form-label">Tipo de Producto</label>
                 <select id="ProductId" name="ProductId" class="form-select" required>
                     <option value="">Seleccione un producto</option>
-                    @foreach (var product in Model.LocalProductEntity)
+                    @foreach (var product in Model.Products)
                     {
                         <option value="@product.IdProduct">@product.ProductName</option>
                     }
@@ -68,7 +68,8 @@
         <div class="col-md-12">
             <div class="mb-3">
                 <label for="ProductDescription" class="form-label">Descripción del Producto</label>
-                <textarea id="ProductDescription" class="form-control" rows="8" required></textarea>
+                <textarea id="ProductDescription" name="ProductDescription" class="form-control" rows="8" required></textarea>
+                <span asp-validation-for="ProductDescription" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-12">
@@ -89,7 +90,7 @@
                 <label for="UserId" class="form-label">Usuario</label>
                 <select id="UserId" name="UserId" class="form-select" required>
                     <option value="">Seleccione un usuario</option>
-                    @foreach (var user in Model.UserEntity)
+                    @foreach (var user in Model.Users)
                     {
                         <option value="@user.IdUser">@user.Username</option>
                     }
@@ -206,39 +207,19 @@
 
             function calcularITBMSTotal() {
                 var monto = parseFloat($('#Amount').val());
-                if (!isNaN(monto)) {
-                    var itbms = monto * 0.07;
-                    $('#Tax').val(itbms.toFixed(2));
-                    var total = monto + itbms;
-                    $('#Total').val(total.toFixed(2));
-                } else {
-                    $('#Tax').val('');
-                    $('#Total').val('');
-                }
+                var itbms = monto * 0.07; // Suponiendo que el ITBMS es el 7%
+                var total = monto + itbms;
+
+                $('#Tax').val(itbms.toFixed(2));
+                $('#Total').val(total.toFixed(2));
             }
 
-            $('#CustomerId, #ProductId, #UserId').change(actualizarClienteMontosCargos);
-
-            $('#Amount').on('input', function () {
-                var monto = parseFloat($(this).val());
-                if (!isNaN(monto)) {
-                    $(this).val(monto.toFixed(2));
-                    calcularITBMSTotal();
-                } else {
-                    $('#Tax').val('');
-                    $('#Total').val('');
-                }
+            $('#CustomerId, #ProductId, #UserId').change(function () {
+                actualizarClienteMontosCargos();
             });
 
-            $('#Tax').on('input', function () {
-                var itbms = parseFloat($(this).val());
-                var monto = parseFloat($('#Amount').val());
-                if (!isNaN(itbms) && !isNaN(monto)) {
-                    var total = monto + itbms;
-                    $('#Total').val(total.toFixed(2));
-                } else {
-                    $('#Total').val('');
-                }
+            $('#Amount').on('input', function () {
+                calcularITBMSTotal();
             });
         });
     </script>

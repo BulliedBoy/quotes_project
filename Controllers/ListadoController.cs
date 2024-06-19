@@ -12,10 +12,5 @@ namespace quotes_project.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
-        {
-            var quotes = _context.QuoteEntity.ToList();
-            return View(quotes); // Retorna una vista que muestra la lista de cotizaciones
-        }
     }
 }
