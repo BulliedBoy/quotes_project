@@ -7,7 +7,7 @@
 
 <div class="container mt-5">
     <h2 class="text-center">Crear Cotización</h2>
-    <form id="cotizacionForm" asp-action="Guardar" method="post" class="row g-3 formulario-cotizacion border border-primary rounded p-4">
+    <form id="cotizacionForm" asp-action="Guardar" method="post" class="row g-3 formulario-cotizacion p-4">
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="CustomerId" class="form-label">Cliente</label>
@@ -46,11 +46,23 @@
                 <span asp-validation-for="ProductId" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-4">
             <div class="mb-3">
                 <label for="Amount" class="form-label">Monto</label>
                 <input type="number" step="0.01" id="Amount" name="Amount" class="form-control" required />
                 <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="mb-3">
+                <label for="Tax" class="form-label">ITBMS</label>
+                <input type="number" step="0.01" id="Tax" name="Tax" class="form-control" required />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="mb-3">
+                <label for="Total" class="form-label">Total</label>
+                <input type="number" step="0.01" id="Total" name="Total" class="form-control" readonly />
             </div>
         </div>
         <div class="col-md-12">
@@ -177,6 +189,7 @@
                             if (response.success) {
                                 var montoFormateado = parseFloat(response.monto).toFixed(2);
                                 $('#Amount').val(montoFormateado);
+                                calcularITBMSTotal(); // Llama a la función para actualizar ITBMS y Total
                             } else {
                                 console.error(response.message);
                             }
@@ -187,15 +200,44 @@
                     });
                 } else {
                     $('#Amount').val('');
+                    calcularITBMSTotal(); // Llama a la función para actualizar ITBMS y Total
+                }
+            }
+
+            function calcularITBMSTotal() {
+                var monto = parseFloat($('#Amount').val());
+                if (!isNaN(monto)) {
+                    var itbms = monto * 0.07;
+                    $('#Tax').val(itbms.toFixed(2));
+                    var total = monto + itbms;
+                    $('#Total').val(total.toFixed(2));
+                } else {
+                    $('#Tax').val('');
+                    $('#Total').val('');
                 }
             }
 
             $('#CustomerId, #ProductId, #UserId').change(actualizarClienteMontosCargos);
 
-            $('#Amount').change(function () {
+            $('#Amount').on('input', function () {
                 var monto = parseFloat($(this).val());
                 if (!isNaN(monto)) {
                     $(this).val(monto.toFixed(2));
+                    calcularITBMSTotal();
+                } else {
+                    $('#Tax').val('');
+                    $('#Total').val('');
+                }
+            });
+
+            $('#Tax').on('input', function () {
+                var itbms = parseFloat($(this).val());
+                var monto = parseFloat($('#Amount').val());
+                if (!isNaN(itbms) && !isNaN(monto)) {
+                    var total = monto + itbms;
+                    $('#Total').val(total.toFixed(2));
+                } else {
+                    $('#Total').val('');
                 }
             });
         });
