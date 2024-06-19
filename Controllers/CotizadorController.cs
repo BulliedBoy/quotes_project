@@ -109,18 +109,58 @@ namespace quotes_project.Controllers
             }
         }
 
-        [HttpPost] //Post para guardar la cotizacion realizada
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Guardar(CotizadorModel model)
         {
+            Console.WriteLine("Entrando en el método Guardar.");
+
+            if (!ModelState.IsValid)
+            {
+                Console.WriteLine("Datos de formulario inválidos.");
+                ModelState.AddModelError("", "Datos de formulario inválidos.");
+                await RecargarListasParaFormulario(model);
+                return View("Cotizador", model);
+            }
+
             try
             {
+                Console.WriteLine($"Buscando cliente con ID: {model.CustomerId}");
                 var customer = await _context.CustomerEntity.FirstOrDefaultAsync(c => c.IdCustomer == model.CustomerId);
+                if (customer != null)
+                {
+                    Console.WriteLine($"Cliente encontrado: {customer.CustomerName}");
+                }
+                else
+                {
+                    Console.WriteLine("Cliente no encontrado.");
+                }
+
+                Console.WriteLine($"Buscando producto con ID: {model.ProductId}");
                 var product = await _context.LocalProductEntity.FirstOrDefaultAsync(p => p.IdProduct == model.ProductId);
+                if (product != null)
+                {
+                    Console.WriteLine($"Producto encontrado: {product.ProductName}");
+                }
+                else
+                {
+                    Console.WriteLine("Producto no encontrado.");
+                }
+
+                Console.WriteLine($"Buscando usuario con ID: {model.UserId}");
                 var user = await _context.UserEntity.FirstOrDefaultAsync(u => u.IdUser == model.UserId);
+                if (user != null)
+                {
+                    Console.WriteLine($"Usuario encontrado: {user.Username}");
+                }
+                else
+                {
+                    Console.WriteLine("Usuario no encontrado.");
+                }
 
                 if (customer != null && product != null && user != null)
                 {
+                    Console.WriteLine("Entidades encontradas, creando nueva cotización.");
                     var quote = new QuoteEntity
                     {
                         CustomerName = customer.CustomerName,
@@ -133,26 +173,32 @@ namespace quotes_project.Controllers
                     _context.QuoteEntity.Add(quote);
                     await _context.SaveChangesAsync();
 
+                    Console.WriteLine("Cotización guardada exitosamente.");
                     return RedirectToAction("Index", "Listado");
                 }
                 else
                 {
+                    Console.WriteLine("No se encontró alguna de las entidades necesarias para guardar la cotización.");
                     ModelState.AddModelError("", "No se encontró alguna de las entidades necesarias para guardar la cotización.");
                 }
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error al intentar guardar la cotización: {ex.Message}");
                 ModelState.AddModelError("", $"Error al intentar guardar la cotización: {ex.Message}");
             }
 
-            // Recargar listas necesarias para el formulario
-            model.CustomerEntity = await _context.CustomerEntity.ToListAsync();
-            model.LocalProductEntity = await _context.LocalProductEntity.ToListAsync();
-            model.UserEntity = await _context.UserEntity.ToListAsync();
-
+            await RecargarListasParaFormulario(model);
             return View("Cotizador", model);
         }
 
-
+        private async Task RecargarListasParaFormulario(CotizadorModel model)
+        {
+            Console.WriteLine("Recargando listas para el formulario.");
+            model.CustomerEntity = await _context.CustomerEntity.ToListAsync();
+            model.LocalProductEntity = await _context.LocalProductEntity.ToListAsync();
+            model.UserEntity = await _context.UserEntity.ToListAsync();
+            Console.WriteLine("Listas recargadas.");
+        }
     }
 }

@@ -12,8 +12,6 @@ namespace quotes_project.Controllers
         {
             _context = context;
         }
-
-        // GET: Listado
         public IActionResult Index()
         {
             var quotes = _context.QuoteEntity.ToList();

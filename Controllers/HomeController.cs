@@ -16,13 +16,10 @@ namespace quotes_project.Controllers
 		{
 			return View();
 		}
-
-		// Acción para la página Main
 		public IActionResult Main()
 		{
 			return View();
 		}
-
 		public IActionResult Listado()
 		{
 			var model = new ListadoModel(_context);
@@ -30,7 +27,6 @@ namespace quotes_project.Controllers
 			ViewData["Title"] = "Listado";
 			return View(model);
 		}
-
 		public IActionResult Cotizador()
 		{
             var model = new CotizadorModel(_context);
@@ -38,7 +34,6 @@ namespace quotes_project.Controllers
             ViewData["Title"] = "Cotizador";
             return View(model);
         }
-
 		public IActionResult Privacy()
 		{
 			return View();
