@@ -20,11 +20,8 @@ namespace quotes_project.Controllers
         {
             try
             {
-                var customer = await _context.CustomerEntity
-                    .FirstOrDefaultAsync(c => c.IdCustomer == customerId);
-
-                var product = await _context.LocalProductEntity
-                    .FirstOrDefaultAsync(p => p.IdProduct == productId);
+                var customer = await _context.CustomerEntity.FindAsync(customerId);
+                var product = await _context.LocalProductEntity.FindAsync(productId);
 
                 if (customer != null && product != null)
                 {
@@ -38,11 +35,11 @@ namespace quotes_project.Controllers
                     return Json(new { success = true, monto = amount });
                 }
 
-                return Json(new { success = false, message = "Error al obtener el monto del cliente o el producto." });
+                return Json(new { success = false, message = "Cliente o producto no encontrado." });
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = $"Error al obtener el monto: {ex.Message}" });
             }
         }
 
@@ -51,19 +48,18 @@ namespace quotes_project.Controllers
         {
             try
             {
-                var user = await _context.UserEntity
-                    .FirstOrDefaultAsync(p => p.IdUser == userId);
+                var user = await _context.UserEntity.FindAsync(userId);
 
                 if (user != null)
                 {
                     return Json(new { success = true, position = user.Position });
                 }
 
-                return Json(new { success = false, message = "Cargo no asignado." });
+                return Json(new { success = false, message = "Usuario no encontrado." });
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = $"Error al obtener el cargo: {ex.Message}" });
             }
         }
 
@@ -72,8 +68,7 @@ namespace quotes_project.Controllers
         {
             try
             {
-                var product = await _context.LocalProductEntity
-                    .FirstOrDefaultAsync(p => p.IdProduct == productId);
+                var product = await _context.LocalProductEntity.FindAsync(productId);
 
                 if (product != null)
                 {
@@ -84,7 +79,7 @@ namespace quotes_project.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = $"Error al obtener la descripción del producto: {ex.Message}" });
             }
         }
 
@@ -93,8 +88,7 @@ namespace quotes_project.Controllers
         {
             try
             {
-                var customer = await _context.CustomerEntity
-                    .FirstOrDefaultAsync(c => c.IdCustomer == customerId);
+                var customer = await _context.CustomerEntity.FindAsync(customerId);
 
                 if (customer != null)
                 {
@@ -105,7 +99,7 @@ namespace quotes_project.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = $"Error al obtener los detalles del cliente: {ex.Message}" });
             }
         }
 
@@ -113,54 +107,23 @@ namespace quotes_project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Guardar(CotizadorModel model)
         {
-            Console.WriteLine("Entrando en el método Guardar.");
-
             if (!ModelState.IsValid)
             {
-                Console.WriteLine("Datos de formulario inválidos.");
-                ModelState.AddModelError("", "Datos de formulario inválidos.");
-                await RecargarListasParaFormulario(model);
+                // Recarga los datos necesarios para la vista si hay errores de validación
+                model.Customers = await _context.CustomerEntity.ToListAsync();
+                model.Products = await _context.LocalProductEntity.ToListAsync();
+                model.Users = await _context.UserEntity.ToListAsync();
                 return View("Cotizador", model);
             }
 
             try
             {
-                Console.WriteLine($"Buscando cliente con ID: {model.CustomerId}");
-                var customer = await _context.CustomerEntity.FirstOrDefaultAsync(c => c.IdCustomer == model.CustomerId);
-                if (customer != null)
-                {
-                    Console.WriteLine($"Cliente encontrado: {customer.CustomerName}");
-                }
-                else
-                {
-                    Console.WriteLine("Cliente no encontrado.");
-                }
-
-                Console.WriteLine($"Buscando producto con ID: {model.ProductId}");
-                var product = await _context.LocalProductEntity.FirstOrDefaultAsync(p => p.IdProduct == model.ProductId);
-                if (product != null)
-                {
-                    Console.WriteLine($"Producto encontrado: {product.ProductName}");
-                }
-                else
-                {
-                    Console.WriteLine("Producto no encontrado.");
-                }
-
-                Console.WriteLine($"Buscando usuario con ID: {model.UserId}");
-                var user = await _context.UserEntity.FirstOrDefaultAsync(u => u.IdUser == model.UserId);
-                if (user != null)
-                {
-                    Console.WriteLine($"Usuario encontrado: {user.Username}");
-                }
-                else
-                {
-                    Console.WriteLine("Usuario no encontrado.");
-                }
+                var customer = await _context.CustomerEntity.FindAsync(model.CustomerId);
+                var product = await _context.LocalProductEntity.FindAsync(model.ProductId);
+                var user = await _context.UserEntity.FindAsync(model.UserId);
 
                 if (customer != null && product != null && user != null)
                 {
-                    Console.WriteLine("Entidades encontradas, creando nueva cotización.");
                     var quote = new QuoteEntity
                     {
                         CustomerName = customer.CustomerName,
@@ -173,32 +136,21 @@ namespace quotes_project.Controllers
                     _context.QuoteEntity.Add(quote);
                     await _context.SaveChangesAsync();
 
-                    Console.WriteLine("Cotización guardada exitosamente.");
-                    return RedirectToAction("Index", "Listado");
+                    return RedirectToAction("Listado", "Home");
                 }
-                else
-                {
-                    Console.WriteLine("No se encontró alguna de las entidades necesarias para guardar la cotización.");
-                    ModelState.AddModelError("", "No se encontró alguna de las entidades necesarias para guardar la cotización.");
-                }
+
+                ModelState.AddModelError("", "No se encontró alguna de las entidades necesarias para guardar la cotización.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al intentar guardar la cotización: {ex.Message}");
                 ModelState.AddModelError("", $"Error al intentar guardar la cotización: {ex.Message}");
             }
 
-            await RecargarListasParaFormulario(model);
+            // Recarga los datos necesarios para la vista si hay un error al guardar
+            model.Customers = await _context.CustomerEntity.ToListAsync();
+            model.Products = await _context.LocalProductEntity.ToListAsync();
+            model.Users = await _context.UserEntity.ToListAsync();
             return View("Cotizador", model);
-        }
-
-        private async Task RecargarListasParaFormulario(CotizadorModel model)
-        {
-            Console.WriteLine("Recargando listas para el formulario.");
-            model.CustomerEntity = await _context.CustomerEntity.ToListAsync();
-            model.LocalProductEntity = await _context.LocalProductEntity.ToListAsync();
-            model.UserEntity = await _context.UserEntity.ToListAsync();
-            Console.WriteLine("Listas recargadas.");
         }
     }
 }

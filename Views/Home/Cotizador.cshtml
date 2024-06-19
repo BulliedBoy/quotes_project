@@ -2,18 +2,17 @@
 
 @{
     ViewData["Title"] = "Cotizador";
-    Model.LoadData(); // Asegúrate de que los datos estén cargados correctamente
 }
 
 <div class="container mt-5">
     <h2 class="text-center">Crear Cotización</h2>
-    <form id="cotizacionForm" asp-action="Guardar" method="post" class="row g-3 formulario-cotizacion p-4">
+    <form id="cotizacionForm" asp-controller="Cotizador" asp-action="Guardar" method="post" class="row g-3 formulario-cotizacion p-4">
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="CustomerId" class="form-label">Cliente</label>
                 <select id="CustomerId" name="CustomerId" class="form-select" required>
                     <option value="">Seleccione un cliente</option>
-                    @foreach (var customer in Model.CustomerEntity)
+                    @foreach (var customer in Model.Customers)
                     {
                         <option value="@customer.IdCustomer">@customer.CustomerName</option>
                     }
@@ -38,7 +37,7 @@
                 <label for="ProductId" class="form-label">Tipo de Producto</label>
                 <select id="ProductId" name="ProductId" class="form-select" required>
                     <option value="">Seleccione un producto</option>
-                    @foreach (var product in Model.LocalProductEntity)
+                    @foreach (var product in Model.Products)
                     {
                         <option value="@product.IdProduct">@product.ProductName</option>
                     }
@@ -68,7 +67,8 @@
         <div class="col-md-12">
             <div class="mb-3">
                 <label for="ProductDescription" class="form-label">Descripción del Producto</label>
-                <textarea id="ProductDescription" class="form-control" rows="8" required></textarea>
+                <textarea id="ProductDescription" name="ProductDescription" class="form-control" rows="8" required></textarea>
+                <span asp-validation-for="ProductDescription" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-12">
@@ -89,7 +89,7 @@
                 <label for="UserId" class="form-label">Usuario</label>
                 <select id="UserId" name="UserId" class="form-select" required>
                     <option value="">Seleccione un usuario</option>
-                    @foreach (var user in Model.UserEntity)
+                    @foreach (var user in Model.Users)
                     {
                         <option value="@user.IdUser">@user.Username</option>
                     }
