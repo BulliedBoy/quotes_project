@@ -33,6 +33,23 @@ namespace quotes_project.Models
             ProductDescription = ""; // Inicializa ProductDescription con una cadena vacía
         }
 
+        // Constructor que recibe ApplicationDbContext y una entidad de cotización como argumento
+        public CotizadorModel(ApplicationDbContext context, QuoteEntity quote)
+        {
+            _context = context;
+            Customers = context.CustomerEntity.ToList();
+            Products = context.LocalProductEntity.ToList();
+            Users = context.UserEntity.ToList();
+
+            // Inicializa las propiedades del modelo con los datos de la cotización
+            CustomerId = quote.CustomerId;
+            ProductId = quote.ProductId;
+            Amount = quote.Amount;
+            DDate = quote.DDate;
+            UserId = quote.UserId;
+            ProductDescription = quote.ProductDescription;
+        }
+
         // Propiedades para los datos del formulario de cotización
         [Required(ErrorMessage = "El campo Cliente es obligatorio.")]
         public int CustomerId { get; set; }
