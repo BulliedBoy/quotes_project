@@ -117,41 +117,39 @@ namespace quotes_project.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, CotizadorModel model)
+        [ValidateAntiForgeryToken] // Asegura que el token anti-forgery esté presente para prevenir ataques CSRF
+        public async Task<IActionResult> Guardar(CotizadorModel model)
         {
             if (!ModelState.IsValid)
             {
-                // Recarga los datos necesarios para la vista si hay errores de validación
-                model.LoadData();
+                // Si el modelo no es válido, recargamos los datos necesarios y mostramos la vista con errores
+                model.LoadData(); // Método para cargar datos como clientes, productos, etc.
                 return View("Cotizador", model);
             }
 
             try
             {
-                var quote = await _context.QuoteEntity.FindAsync(id);
-                if (quote == null)
+                // Crear una nueva entidad de cotización y asignar valores del modelo
+                var quote = new QuoteEntity
                 {
-                    return NotFound();
-                }
+                    CustomerId = model.CustomerId,
+                    ProductId = model.ProductId,
+                    Amount = model.Amount,
+                    DDate = model.DDate,
+                    UserId = model.UserId,
+                    ProductDescription = model.ProductDescription,
+                    // Asegúrate de asignar otros campos necesarios según tu modelo de datos
+                };
 
-                // Actualizar los valores de la cotización
-                quote.CustomerId = model.CustomerId;
-                quote.ProductId = model.ProductId;
-                quote.Amount = model.Amount;
-                quote.DDate = model.DDate;
-                quote.UserId = model.UserId;
-                quote.ProductDescription = model.ProductDescription;
-
-                _context.QuoteEntity.Update(quote);
+                _context.QuoteEntity.Add(quote);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Listado", "Home");
+                return RedirectToAction("Listado", "Home"); // Redirecciona a la acción de listado o a donde sea necesario
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", $"Error al intentar guardar la cotización: {ex.Message}");
-                model.LoadData();
+                model.LoadData(); // Recargar datos en caso de error
                 return View("Cotizador", model);
             }
         }
