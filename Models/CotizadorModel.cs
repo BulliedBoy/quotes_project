@@ -42,6 +42,7 @@ namespace quotes_project.Models
             Users = context.UserEntity.ToList();
 
             // Inicializa las propiedades del modelo con los datos de la cotización
+            Id = quote.IdQuote; // Aquí añadimos la propiedad Id
             CustomerId = quote.CustomerId;
             ProductId = quote.ProductId;
             Amount = quote.Amount;
@@ -51,6 +52,8 @@ namespace quotes_project.Models
         }
 
         // Propiedades para los datos del formulario de cotización
+        public int Id { get; set; } // Añadimos la propiedad Id
+
         [Required(ErrorMessage = "El campo Cliente es obligatorio.")]
         public int CustomerId { get; set; }
 

@@ -15,12 +15,13 @@
                     <option value="">Seleccione un cliente</option>
                     @foreach (var customer in Model.Customers)
                     {
-                        <option value="@customer.IdCustomer" @(Model.CustomerId == customer.IdCustomer ? "selected" : "")>@customer.CustomerName</option>
+                        <option value="@customer.IdCustomer">@customer.CustomerName</option>
                     }
                 </select>
                 <span asp-validation-for="CustomerId" class="text-danger"></span>
             </div>
         </div>
+        <div class="col-md-4">
             <div class="mb-3">
                 <label for="CustomerType" class="form-label">Tipo de Cliente</label>
                 <input type="text" id="CustomerType" name="CustomerType" class="form-control" readonly />
@@ -108,6 +109,7 @@
         </div>
     </form>
 </div>
+
 @section scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -205,39 +207,19 @@
 
             function calcularITBMSTotal() {
                 var monto = parseFloat($('#Amount').val());
-                if (!isNaN(monto)) {
-                    var itbms = monto * 0.07;
-                    $('#Tax').val(itbms.toFixed(2));
-                    var total = monto + itbms;
-                    $('#Total').val(total.toFixed(2));
-                } else {
-                    $('#Tax').val('');
-                    $('#Total').val('');
-                }
+                var itbms = monto * 0.07; // Suponiendo que el ITBMS es el 7%
+                var total = monto + itbms;
+
+                $('#Tax').val(itbms.toFixed(2));
+                $('#Total').val(total.toFixed(2));
             }
 
-            $('#CustomerId, #ProductId, #UserId').change(actualizarClienteMontosCargos);
-
-            $('#Amount').on('input', function () {
-                var monto = parseFloat($(this).val());
-                if (!isNaN(monto)) {
-                    $(this).val(monto.toFixed(2));
-                    calcularITBMSTotal();
-                } else {
-                    $('#Tax').val('');
-                    $('#Total').val('');
-                }
+            $('#CustomerId, #ProductId, #UserId').change(function () {
+                actualizarClienteMontosCargos();
             });
 
-            $('#Tax').on('input', function () {
-                var itbms = parseFloat($(this).val());
-                var monto = parseFloat($('#Amount').val());
-                if (!isNaN(itbms) && !isNaN(monto)) {
-                    var total = monto + itbms;
-                    $('#Total').val(total.toFixed(2));
-                } else {
-                    $('#Total').val('');
-                }
+            $('#Amount').on('input', function () {
+                calcularITBMSTotal();
             });
         });
     </script>
