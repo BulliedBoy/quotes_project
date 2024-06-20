@@ -32,6 +32,7 @@ namespace quotes_project.Models
                 {
                     IdQuote = q.IdQuote,
                     CustomerName = q.CustomerName,
+                    Customer = q.Customer,
                     Product = q.Product,
                     User = q.User,
                     Amount = q.Amount,
