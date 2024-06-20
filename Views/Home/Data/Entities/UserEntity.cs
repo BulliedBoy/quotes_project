@@ -5,8 +5,7 @@ namespace quotes_project.Views.Home.Data.Entities;
 
 public partial class UserEntity
 {
-    public int IdUser { get; set; }
-
-    public string? Username { get; set; }
+    public int Id { get; set; }
+    public string? Name { get; set; }
     public string? Position { get; set; }
 }
