@@ -30,8 +30,8 @@ namespace quotes_project.Models
 
                 Quotes = quotes.Select(q => new QuoteDto
                 {
-                    Id = q.Id,
-                    Name = q.Name,
+                    IdQuote = q.IdQuote,
+                    CustomerName = q.CustomerName,
                     Product = q.Product,
                     User = q.User,
                     Amount = q.Amount,
@@ -48,8 +48,8 @@ namespace quotes_project.Models
 
     public class QuoteDto
     {
-        public int Id { get; set; }
-        public string? Name { get; set; }
+        public int IdQuote { get; set; }
+        public string? CustomerName { get; set; }
         public string? Product { get; set; }
         public string? User { get; set; }
         public decimal Amount { get; set; }
