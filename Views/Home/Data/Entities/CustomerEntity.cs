@@ -9,5 +9,4 @@ public partial class CustomerEntity
     public string? CustomerType { get; set; }
 
     public string? LicenceType { get; set; }
-
 }
