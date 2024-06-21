@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using quotes_project.Models;
 using quotes_project.Views.Home.Data;
 
@@ -13,4 +14,4 @@ namespace quotes_project.Controllers
             _context = context;
         }
     }
-}
+}.
