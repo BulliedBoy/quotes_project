@@ -14,10 +14,10 @@
                     <option value="">Seleccione un cliente</option>
                     @foreach (var customer in Model.Customers)
                     {
-                        <option value="@customer.Id">@customer.Name</option>
+                        <option value="@customer.IdCustomer">@customer.CustomerName</option>
                     }
                 </select>
-                <span asp-validation-for="@customer.Id" class="text-danger"></span>
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-4">
@@ -73,7 +73,7 @@
         </div>
         <div class="col-md-12">
             <div class="mb-3">
-                <label for="ImportantNotes" class="form-label">Notas:</label>
+                <label for="ImportantNotes" class="form-label">Notas Importantes</label>
                 <textarea id="ImportantNotes" class="form-control" rows="1" required></textarea>
             </div>
         </div>
