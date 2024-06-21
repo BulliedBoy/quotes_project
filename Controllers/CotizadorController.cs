@@ -25,7 +25,7 @@ namespace quotes_project.Controllers
 
                 if (customer != null && product != null)
                 {
-                    decimal amount = customer.ClientType switch
+                    decimal amount = customer.CustomerType switch
                     {
                         "Normal" => product.AmountNormal,
                         "Outsourcing" => product.AmountOutsourcing,
@@ -72,7 +72,7 @@ namespace quotes_project.Controllers
 
                 if (product != null)
                 {
-                    return Json(new { success = true, productDescription = product.Description });
+                    return Json(new { success = true, productDescription = product.ProductDescription });
                 }
 
                 return Json(new { success = false, message = "Producto no encontrado." });
@@ -92,7 +92,7 @@ namespace quotes_project.Controllers
 
                 if (customer != null)
                 {
-                    return Json(new { success = true, customerType = customer.ClientType, licenceType = customer.LicenceType });
+                    return Json(new { success = true, customerType = customer.CustomerType, licenceType = customer.LicenceType });
                 }
 
                 return Json(new { success = false, message = "Cliente no encontrado." });
@@ -103,56 +103,54 @@ namespace quotes_project.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Edit(int id)
-        {
-            var quote = await _context.QuoteEntity.FindAsync(id);
-            if (quote == null)
-            {
-                return NotFound();
-            }
-
-            var model = new CotizadorModel(_context, quote);
-            return View("Cotizador", model); // Reutilizar la vista Cotizador.cshtml
-        }
-
         [HttpPost]
-        [ValidateAntiForgeryToken] // Asegura que el token anti-forgery esté presente para prevenir ataques CSRF
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Guardar(CotizadorModel model)
         {
             if (!ModelState.IsValid)
             {
-                // Si el modelo no es válido, recargamos los datos necesarios y mostramos la vista con errores
-                model.LoadData(); // Método para cargar datos como clientes, productos, etc.
+                // Recarga los datos necesarios para la vista si hay errores de validación
+                model.Customers = await _context.CustomerEntity.ToListAsync();
+                model.Products = await _context.LocalProductEntity.ToListAsync();
+                model.Users = await _context.UserEntity.ToListAsync();
                 return View("Cotizador", model);
             }
 
             try
             {
-                // Crear una nueva entidad de cotización y asignar valores del modelo
-                var quote = new QuoteEntity
+                var customer = await _context.CustomerEntity.FindAsync(model.CustomerId);
+                var product = await _context.LocalProductEntity.FindAsync(model.ProductId);
+                var user = await _context.UserEntity.FindAsync(model.UserId);
+
+                if (customer != null && product != null && user != null)
                 {
-                    Id = model.Id,
-                    Id = model.Id,
-                    Amount = model.Amount,
-                    DDate = model.DDate,
-                    Id = model.Id,
-                    Description = model.Id,
-                    // Asegúrate de asignar otros campos necesarios según tu modelo de datos
-                };
+                    var quote = new QuoteEntity
+                    {
+                        CustomerName = customer.CustomerName,
+                        Product = product.ProductName,
+                        User = user.Username,
+                        Amount = model.Amount,
+                        DDate = model.DDate
+                    };
 
-                _context.QuoteEntity.Add(quote);
-                await _context.SaveChangesAsync();
+                    _context.QuoteEntity.Add(quote);
+                    await _context.SaveChangesAsync();
 
-                return RedirectToAction("Listado", "Home"); // Redirecciona a la acción de listado o a donde sea necesario
+                    return RedirectToAction("Listado", "Home");
+                }
+
+                ModelState.AddModelError("", "No se encontró alguna de las entidades necesarias para guardar la cotización.");
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", $"Error al intentar guardar la cotización: {ex.Message}");
-                model.LoadData(); // Recargar datos en caso de error
-                return View("Cotizador", model);
             }
-        }
 
+            // Recarga los datos necesarios para la vista si hay un error al guardar
+            model.Customers = await _context.CustomerEntity.ToListAsync();
+            model.Products = await _context.LocalProductEntity.ToListAsync();
+            model.Users = await _context.UserEntity.ToListAsync();
+            return View("Cotizador", model);
+        }
     }
 }
