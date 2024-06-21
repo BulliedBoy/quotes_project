@@ -14,4 +14,4 @@ namespace quotes_project.Controllers
             _context = context;
         }
     }
-}.
+}
