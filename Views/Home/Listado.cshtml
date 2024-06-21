@@ -32,15 +32,15 @@
                             @foreach (var quote in Model.Quotes)
                             {
                                 <tr>
-                                    <td class="align-middle">@quote.IdQuote</td>
-                                    <td class="align-middle">@quote.CustomerName</td>
+                                    <td class="align-middle">@quote.Id</td>
+                                    <td class="align-middle">@quote.Client</td>
                                     <td class="align-middle">@quote.Product</td>
                                     <td class="align-middle">@quote.User</td>
                                     <td class="align-middle">@quote.Amount.ToString("F2")</td>
                                     <td class="align-middle">@quote.DDate.ToString("dd/MM/yyyy")</td>
                                     <td class="d-flex justify-content-center align-items-center">
-                                        <a href="@Url.Action("Edit", "Cotizador", new { id = quote.IdQuote })" class="btn btn-primary btn-sm fixed-size-button">Editar</a>
-                                        <a href="@Url.Action("Visualizer", "Cotizador", new { id = quote.IdQuote })" class="btn btn-success btn-sm fixed-size-button">Visualizar</a>
+                                        <a href="@Url.Action("Edit", "Cotizador", new { id = quote.Id })" class="btn btn-primary btn-sm fixed-size-button">Editar</a>
+                                        <a href="@Url.Action("Visualizer", "Cotizador", new { id = quote.Id })" class="btn btn-success btn-sm fixed-size-button">Visualizar</a>
                                     </td>
                                 </tr>
                             }

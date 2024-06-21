@@ -25,7 +25,7 @@ namespace quotes_project.Controllers
 
                 if (customer != null && product != null)
                 {
-                    decimal amount = customer.CustomerType switch
+                    decimal amount = customer.ClientType switch
                     {
                         "Normal" => product.AmountNormal,
                         "Outsourcing" => product.AmountOutsourcing,
@@ -72,7 +72,7 @@ namespace quotes_project.Controllers
 
                 if (product != null)
                 {
-                    return Json(new { success = true, productDescription = product.ProductDescription });
+                    return Json(new { success = true, productDescription = product.Description });
                 }
 
                 return Json(new { success = false, message = "Producto no encontrado." });
@@ -92,7 +92,7 @@ namespace quotes_project.Controllers
 
                 if (customer != null)
                 {
-                    return Json(new { success = true, customerType = customer.CustomerType, licenceType = customer.LicenceType });
+                    return Json(new { success = true, customerType = customer.ClientType, licenceType = customer.LicenceType });
                 }
 
                 return Json(new { success = false, message = "Cliente no encontrado." });
@@ -126,9 +126,9 @@ namespace quotes_project.Controllers
                 {
                     var quote = new QuoteEntity
                     {
-                        CustomerName = customer.CustomerName,
-                        Product = product.ProductName,
-                        User = user.Username,
+                        Client = customer.Client,
+                        Product = product.Product,
+                        User = user.User,
                         Amount = model.Amount,
                         DDate = model.DDate
                     };

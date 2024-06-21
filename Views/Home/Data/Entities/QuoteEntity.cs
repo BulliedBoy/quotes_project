@@ -2,9 +2,9 @@
 {
     public class QuoteEntity
     {
-        public int IdQuote { get; set; }
+        public int Id { get; set; }
 
-        public string? CustomerName { get; set; }
+        public string? Client { get; set; }
 
         public string? Product { get; set; }
 
