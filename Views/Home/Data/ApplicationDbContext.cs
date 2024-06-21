@@ -39,6 +39,8 @@ namespace quotes_project.Views.Home.Data
                 entity.Property(e => e.Amount).HasColumnType("money");
                 entity.Property(e => e.DDate).HasColumnType("DateTime");
                 entity.Property(e => e.Client).HasMaxLength(50).IsUnicode(false);
+                entity.Property(e => e.QDescription).HasMaxLength(1000).IsUnicode(false);
+                entity.Property(e => e.Notes).HasMaxLength(500).IsUnicode(false);
             });
 
             modelBuilder.Entity<CustomerEntity>(entity =>
@@ -58,7 +60,7 @@ namespace quotes_project.Views.Home.Data
 
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.Property(e => e.Product).HasMaxLength(100).IsUnicode(false);
-                entity.Property(e => e.Description).HasMaxLength(1000).IsUnicode(false);
+                entity.Property(e => e.PDescription).HasMaxLength(1000).IsUnicode(false);
             });
 
             modelBuilder.Entity<UserEntity>(entity =>

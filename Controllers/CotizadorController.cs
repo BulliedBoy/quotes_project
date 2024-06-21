@@ -72,7 +72,7 @@ namespace quotes_project.Controllers
 
                 if (product != null)
                 {
-                    return Json(new { success = true, productDescription = product.Description });
+                    return Json(new { success = true, pDescription = product.PDescription });
                 }
 
                 return Json(new { success = false, message = "Producto no encontrado." });
@@ -113,7 +113,7 @@ namespace quotes_project.Controllers
                 model.Customers = await _context.CustomerEntity.ToListAsync();
                 model.Products = await _context.LocalProductEntity.ToListAsync();
                 model.Users = await _context.UserEntity.ToListAsync();
-                return View("Cotizador", model);
+                return View("~/Views/Home/Cotizador.cshtml", model); // Especifica la ruta completa
             }
 
             try
@@ -130,7 +130,9 @@ namespace quotes_project.Controllers
                         Product = product.Product,
                         User = user.User,
                         Amount = model.Amount,
-                        DDate = model.DDate
+                        DDate = model.DDate,
+                        QDescription = model.PDescription,
+                        Notes = model.Notes
                     };
 
                     _context.QuoteEntity.Add(quote);
@@ -150,7 +152,7 @@ namespace quotes_project.Controllers
             model.Customers = await _context.CustomerEntity.ToListAsync();
             model.Products = await _context.LocalProductEntity.ToListAsync();
             model.Users = await _context.UserEntity.ToListAsync();
-            return View("Cotizador", model);
+            return View("~/Views/Home/Cotizador.cshtml", model); // Especifica la ruta completa
         }
     }
 }

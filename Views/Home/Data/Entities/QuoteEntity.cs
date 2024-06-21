@@ -13,5 +13,9 @@
         public decimal Amount { get; set; }
 
         public DateTime DDate { get; set; }
+
+        public string? QDescription { get; set; }
+
+        public string? Notes { get; set; }
     }
 }

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace quotes_project.Views.Home.Data.Entities;
 
-namespace quotes_project.Views.Home.Data.Entities;
-
-public partial class UserEntity
+public class UserEntity
 {
     public int Id { get; set; }
 

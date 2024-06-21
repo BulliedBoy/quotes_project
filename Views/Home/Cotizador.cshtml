@@ -22,8 +22,8 @@
         </div>
         <div class="col-md-4">
             <div class="mb-3">
-                <label for="CustomerType" class="form-label">Tipo de Cliente</label>
-                <input type="text" id="CustomerType" name="CustomerType" class="form-control" readonly />
+                <label for="ClientType" class="form-label">Tipo de Cliente</label>
+                <input type="text" id="ClientType" name="ClientType" class="form-control" readonly />
             </div>
         </div>
         <div class="col-md-4">
@@ -66,15 +66,16 @@
         </div>
         <div class="col-md-12">
             <div class="mb-3">
-                <label for="ProductDescription" class="form-label">Descripción del Producto</label>
-                <textarea id="ProductDescription" name="ProductDescription" class="form-control" rows="8" required></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <label for="PDescription" class="form-label">Descripción del Producto</label>
+                <textarea id="PDescription" name="PDescription" class="form-control" rows="8" required></textarea>
+                <span asp-validation-for="PDescription" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-12">
             <div class="mb-3">
-                <label for="ImportantNotes" class="form-label">Notas Importantes</label>
-                <textarea id="ImportantNotes" class="form-control" rows="1" required></textarea>
+                <label for="Notes" class="form-label">Notas Importantes</label>
+                <textarea id="Notes" name="Notes" class="form-control" rows="1" required></textarea>
+                <span asp-validation-for="Notes" class="texta-danger"></span>
             </div>
         </div>
         <div class="col-md-12">
@@ -125,7 +126,7 @@
                         data: { customerId: customerId },
                         success: function (response) {
                             if (response.success) {
-                                $('#CustomerType').val(response.customerType);
+                                $('#ClientType').val(response.customerType);
                                 $('#LicenceType').val(response.licenceType);
                             } else {
                                 console.error(response.message);
@@ -136,29 +137,36 @@
                         }
                     });
                 } else {
-                    $('#CustomerType').val('');
+                    $('#ClientType').val('');
                     $('#LicenceType').val('');
                 }
 
-                if (productId !== '') {
-                    $.ajax({
-                        url: '@Url.Action("ObtenerProductoDescripcion", "Cotizador")',
-                        type: 'POST',
-                        data: { productId: productId },
-                        success: function (response) {
-                            if (response.success) {
-                                $('#ProductDescription').val(response.productDescription);
-                            } else {
-                                console.error(response.message);
+                // Función para obtener la descripción del producto
+                function obtenerDescripcionProducto() {
+                    var productId = $('#ProductId').val();
+
+                    if (productId !== '') {
+                        $.ajax({
+                            url: '@Url.Action("ObtenerProductoDescripcion", "Cotizador")',
+                            type: 'POST',
+                            data: { productId: productId },
+                            success: function (response) {
+                                if (response.success) {
+                                    $('#PDescription').val(response.pDescription);
+                                } else {
+                                    console.error(response.message);
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.error('Error al obtener la descripción del producto: ' + textStatus + " " + errorThrown);
                             }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.error('Error al obtener la descripción del producto: ' + textStatus + " " + errorThrown);
-                        }
-                    });
-                } else {
-                    $('#ProductDescription').val('');
+                        });
+                    } else {
+                        $('#PDescription').val('');
+                    }
                 }
+
+                $('#ProductId').change(obtenerDescripcionProducto);
 
                 if (userId !== '') {
                     $.ajax({

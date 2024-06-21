@@ -19,8 +19,6 @@ namespace quotes_project.Models
             Customers = new List<CustomerEntity>();
             Products = new List<LocalProductEntity>();
             Users = new List<UserEntity>();
-
-            Description = ""; // Inicializa ProductDescription con una cadena vacía
         }
 
         // Constructor que recibe ApplicationDbContext como argumento
@@ -30,32 +28,34 @@ namespace quotes_project.Models
             Customers = new List<CustomerEntity>(); // Inicializa las listas
             Products = new List<LocalProductEntity>();
             Users = new List<UserEntity>();
-
-            Description = ""; // Inicializa ProductDescription con una cadena vacía
         }
 
         // Propiedades para los datos del formulario de cotización
-        [Required(ErrorMessage = "El campo Cliente es obligatorio.")]
+        [Required(ErrorMessage = "El campo 'Cliente' es obligatorio.")]
         public int CustomerId { get; set; }
 
-        [Required(ErrorMessage = "El campo Tipo de Producto es obligatorio.")]
+        [Required(ErrorMessage = "El campo 'Tipo de Producto' es obligatorio.")]
         public int ProductId { get; set; }
 
-        [Required(ErrorMessage = "El campo Monto es obligatorio.")]
+        [Required(ErrorMessage = "El campo 'Monto' es obligatorio.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "El Monto debe ser mayor que cero.")]
         [DisplayFormat(DataFormatString = "{0:F2}")]
         public decimal Amount { get; set; }
 
-        [Required(ErrorMessage = "El campo Fecha es obligatorio.")]
+        [Required(ErrorMessage = "El campo 'Fecha' es obligatorio.")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DDate { get; set; }
 
-        [Required(ErrorMessage = "El campo Usuario es obligatorio.")]
-        [ForeignKey("Id")]
-        public UserEntity UserId { get; set; }
+        [Required(ErrorMessage = "El campo 'Usuario' es obligatorio.")]
+        public int UserId { get; set; }
 
-        [Required(ErrorMessage = "El campo Descripción es obligatorio.")]
-        public string? Description { get; set; }
+        [Required(ErrorMessage = "El campo 'Descripción' es obligatorio.")]
+        public string? PDescription { get; set; }
+
+        [Required(ErrorMessage = "El campo 'Notas' es obligatorio.")]
+        public string? Notes { get; set; }
+
+        public string? QDescription { get; set; }
 
         // Propiedades para llenar los dropdowns en la vista
         public List<CustomerEntity> Customers { get; set; }

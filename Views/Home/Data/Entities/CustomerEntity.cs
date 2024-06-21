@@ -1,6 +1,6 @@
 ﻿namespace quotes_project.Views.Home.Data.Entities;
 
-public partial class CustomerEntity
+public class CustomerEntity
 {
     public int Id { get; set; }
 
