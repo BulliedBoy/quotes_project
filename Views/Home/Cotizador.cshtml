@@ -14,7 +14,7 @@
                     <option value="">Seleccione un cliente</option>
                     @foreach (var customer in Model.Customers)
                     {
-                        <option value="@customer.IdCustomer">@customer.CustomerName</option>
+                        <option value="@customer.Id">@customer.Client</option>
                     }
                 </select>
                 <span asp-validation-for="CustomerId" class="text-danger"></span>
@@ -39,7 +39,7 @@
                     <option value="">Seleccione un producto</option>
                     @foreach (var product in Model.Products)
                     {
-                        <option value="@product.IdProduct">@product.ProductName</option>
+                        <option value="@product.Id">@product.Product</option>
                     }
                 </select>
                 <span asp-validation-for="ProductId" class="text-danger"></span>
@@ -68,7 +68,7 @@
             <div class="mb-3">
                 <label for="ProductDescription" class="form-label">Descripción del Producto</label>
                 <textarea id="ProductDescription" name="ProductDescription" class="form-control" rows="8" required></textarea>
-                <span asp-validation-for="ProductDescription" class="text-danger"></span>
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-12">
@@ -91,7 +91,7 @@
                     <option value="">Seleccione un usuario</option>
                     @foreach (var user in Model.Users)
                     {
-                        <option value="@user.IdUser">@user.Username</option>
+                        <option value="@user.Id">@user.User</option>
                     }
                 </select>
                 <span asp-validation-for="UserId" class="text-danger"></span>

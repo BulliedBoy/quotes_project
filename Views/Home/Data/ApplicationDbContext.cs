@@ -32,42 +32,42 @@ namespace quotes_project.Views.Home.Data
         {
             modelBuilder.Entity<QuoteEntity>(entity =>
             {
-                entity.HasKey(e => e.IdQuote);
+                entity.HasKey(e => e.Id);
                 entity.ToTable("QuoteEntity");
 
-                entity.Property(e => e.IdQuote).ValueGeneratedOnAdd();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.Property(e => e.Amount).HasColumnType("money");
                 entity.Property(e => e.DDate).HasColumnType("DateTime");
-                entity.Property(e => e.CustomerName).HasMaxLength(50).IsUnicode(false);
+                entity.Property(e => e.ClientName).HasMaxLength(50).IsUnicode(false);
             });
 
             modelBuilder.Entity<CustomerEntity>(entity =>
             {
-                entity.HasKey(e => e.IdCustomer);
+                entity.HasKey(e => e.Id);
                 entity.ToTable("CustomerEntity");
 
-                entity.Property(e => e.IdCustomer).ValueGeneratedOnAdd();
-                entity.Property(e => e.CustomerName).HasMaxLength(50).IsUnicode(false);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.Property(e => e.Client).HasMaxLength(50).IsUnicode(false);
                 entity.Property(e => e.LicenceType).HasMaxLength(50).IsUnicode(false);
             });
 
             modelBuilder.Entity<LocalProductEntity>(entity =>
             {
-                entity.HasKey(e => e.IdProduct);
+                entity.HasKey(e => e.Id);
                 entity.ToTable("LocalProductEntity");
 
-                entity.Property(e => e.IdProduct).ValueGeneratedOnAdd();
-                entity.Property(e => e.ProductName).HasMaxLength(100).IsUnicode(false);
-                entity.Property(e => e.ProductDescription).HasMaxLength(1000).IsUnicode(false);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.Property(e => e.Product).HasMaxLength(100).IsUnicode(false);
+                entity.Property(e => e.Description).HasMaxLength(1000).IsUnicode(false);
             });
 
             modelBuilder.Entity<UserEntity>(entity =>
             {
-                entity.HasKey(e => e.IdUser);
+                entity.HasKey(e => e.Id);
                 entity.ToTable("UserEntity");
 
-                entity.Property(e => e.IdUser).ValueGeneratedOnAdd();
-                entity.Property(e => e.Username).HasMaxLength(50).IsUnicode(false);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.Property(e => e.User).HasMaxLength(50).IsUnicode(false);
             });
         }
     }

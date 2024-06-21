@@ -3,6 +3,7 @@ using quotes_project.Views.Home.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace quotes_project.Models
@@ -19,7 +20,7 @@ namespace quotes_project.Models
             Products = new List<LocalProductEntity>();
             Users = new List<UserEntity>();
 
-            ProductDescription = ""; // Inicializa ProductDescription con una cadena vacía
+            Description = ""; // Inicializa ProductDescription con una cadena vacía
         }
 
         // Constructor que recibe ApplicationDbContext como argumento
@@ -30,7 +31,7 @@ namespace quotes_project.Models
             Products = new List<LocalProductEntity>();
             Users = new List<UserEntity>();
 
-            ProductDescription = ""; // Inicializa ProductDescription con una cadena vacía
+            Description = ""; // Inicializa ProductDescription con una cadena vacía
         }
 
         // Propiedades para los datos del formulario de cotización
@@ -50,14 +51,17 @@ namespace quotes_project.Models
         public DateTime DDate { get; set; }
 
         [Required(ErrorMessage = "El campo Usuario es obligatorio.")]
-        public int UserId { get; set; }
+        [ForeignKey("Id")]
+        public UserEntity UserId { get; set; }
 
         [Required(ErrorMessage = "El campo Descripción es obligatorio.")]
-        public string? ProductDescription { get; set; }
+        public string? Description { get; set; }
 
         // Propiedades para llenar los dropdowns en la vista
         public List<CustomerEntity> Customers { get; set; }
+
         public List<LocalProductEntity> Products { get; set; }
+
         public List<UserEntity> Users { get; set; }
 
         // Método para cargar los datos necesarios para el formulario
